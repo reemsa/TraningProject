@@ -5,20 +5,24 @@ import useStyles from "./FooterStyles";
 const Footer = () => {
   const classes = useStyles();
   return (
-    <div className={classes.footer}>
+    <div>
+              <div className={classes.div}></div>
+              <div className={classes.footer}>
       <div className={classes.container}>
         <br />
         <a
           href="https://github.com/gothinkster/angularjs-realworld-example-app"
           target="_blank"
         >
-          <Typography className={classes.logo_font} variant="h6" gutterBottom>
+          <Typography className={classes.logoFont} variant="h6" gutterBottom>
             <IoLogoGithub></IoLogoGithub> Fork on GitHub
           </Typography>
         </a>
         <br />
       </div>
     </div>
+    </div>
+
   );
 };
 

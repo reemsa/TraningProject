@@ -44309,6 +44309,9 @@ var styles_1 = require("@material-ui/core/styles");
 
 var useStyles = styles_1.makeStyles(function (theme) {
   return {
+    mainContainer: {
+      height: "200px"
+    },
     banner: {
       textAlign: "center",
       left: "0",
@@ -44353,19 +44356,13 @@ var Container_1 = __importDefault(require("@material-ui/core/Container"));
 var BannerStyles_1 = __importDefault(require("./BannerStyles"));
 
 var Banner = function Banner(_ref) {
-  var appName = _ref.appName,
-      token = _ref.token;
-  var classes = BannerStyles_1.default();
-
-  if (token) {
-    return null;
-  }
+  var title = _ref.title;
+  var classes = BannerStyles_1.default(); // if (token) {
+  //   return null;
+  // }
 
   return react_1.default.createElement(Container_1.default, {
-    fixed: true,
-    style: {
-      height: "200px"
-    }
+    className: classes.mainContainer
   }, react_1.default.createElement("div", {
     className: classes.banner
   }, react_1.default.createElement("div", {
@@ -44374,7 +44371,7 @@ var Banner = function Banner(_ref) {
     className: classes.logo_font,
     variant: "h3",
     gutterBottom: true
-  }, appName.toLowerCase()), react_1.default.createElement(Typography_1.default, {
+  }, title.toLowerCase()), react_1.default.createElement(Typography_1.default, {
     className: classes.para,
     variant: "h6",
     gutterBottom: true
@@ -44382,7 +44379,38 @@ var Banner = function Banner(_ref) {
 };
 
 exports.default = Banner;
-},{"react":"../node_modules/react/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/Container":"../node_modules/@material-ui/core/esm/Container/index.js","./BannerStyles":"Component/Banner/BannerStyles.tsx"}],"../node_modules/@material-ui/core/esm/utils/requirePropFactory.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/Container":"../node_modules/@material-ui/core/esm/Container/index.js","./BannerStyles":"Component/Banner/BannerStyles.tsx"}],"pages/Bannnerpage.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var react_1 = __importDefault(require("react"));
+
+var Banner_1 = __importDefault(require("../Component/Banner/Banner"));
+
+var BannerPage = function BannerPage(_ref) {
+  var title = _ref.title,
+      token = _ref.token;
+
+  if (token) {
+    return null;
+  }
+
+  return react_1.default.createElement(Banner_1.default, {
+    title: title
+  });
+};
+
+exports.default = BannerPage;
+},{"react":"../node_modules/react/index.js","../Component/Banner/Banner":"Component/Banner/Banner.tsx"}],"../node_modules/@material-ui/core/esm/utils/requirePropFactory.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -44846,7 +44874,253 @@ Object.defineProperty(exports, "default", {
 var _Grid = _interopRequireDefault(require("./Grid"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./Grid":"../node_modules/@material-ui/core/esm/Grid/Grid.js"}],"../node_modules/@material-ui/core/esm/colors/purple.js":[function(require,module,exports) {
+},{"./Grid":"../node_modules/@material-ui/core/esm/Grid/Grid.js"}],"../node_modules/@material-ui/core/esm/Toolbar/Toolbar.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectWithoutProperties"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/defineProperty"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _clsx = _interopRequireDefault(require("clsx"));
+
+var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var styles = function styles(theme) {
+  return {
+    /* Styles applied to the root element. */
+    root: {
+      position: 'relative',
+      display: 'flex',
+      alignItems: 'center'
+    },
+
+    /* Styles applied to the root element if `disableGutters={false}`. */
+    gutters: (0, _defineProperty2.default)({
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2)
+    }, theme.breakpoints.up('sm'), {
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3)
+    }),
+
+    /* Styles applied to the root element if `variant="regular"`. */
+    regular: theme.mixins.toolbar,
+
+    /* Styles applied to the root element if `variant="dense"`. */
+    dense: {
+      minHeight: 48
+    }
+  };
+};
+
+exports.styles = styles;
+
+var Toolbar = _react.default.forwardRef(function Toolbar(props, ref) {
+  var classes = props.classes,
+      classNameProp = props.className,
+      _props$component = props.component,
+      Component = _props$component === void 0 ? 'div' : _props$component,
+      _props$disableGutters = props.disableGutters,
+      disableGutters = _props$disableGutters === void 0 ? false : _props$disableGutters,
+      _props$variant = props.variant,
+      variant = _props$variant === void 0 ? 'regular' : _props$variant,
+      other = (0, _objectWithoutProperties2.default)(props, ["classes", "className", "component", "disableGutters", "variant"]);
+  var className = (0, _clsx.default)(classes.root, classes[variant], classNameProp, !disableGutters && classes.gutters);
+  return _react.default.createElement(Component, (0, _extends2.default)({
+    className: className,
+    ref: ref
+  }, other));
+});
+
+"development" !== "production" ? Toolbar.propTypes = {
+  /**
+   * Toolbar children, usually a mixture of `IconButton`, `Button` and `Typography`.
+   */
+  children: _propTypes.default.node,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The component used for the root node.
+   * Either a string to use a DOM element or a component.
+   */
+  component: _propTypes.default.elementType,
+
+  /**
+   * If `true`, disables gutter padding.
+   */
+  disableGutters: _propTypes.default.bool,
+
+  /**
+   * The variant to use.
+   */
+  variant: _propTypes.default.oneOf(['regular', 'dense'])
+} : void 0;
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiToolbar'
+})(Toolbar);
+
+exports.default = _default;
+},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutProperties":"../node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js","@babel/runtime/helpers/esm/defineProperty":"../node_modules/@babel/runtime/helpers/esm/defineProperty.js","react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","clsx":"../node_modules/clsx/dist/clsx.m.js","../styles/withStyles":"../node_modules/@material-ui/core/esm/styles/withStyles.js"}],"../node_modules/@material-ui/core/esm/Toolbar/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _Toolbar.default;
+  }
+});
+
+var _Toolbar = _interopRequireDefault(require("./Toolbar"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./Toolbar":"../node_modules/@material-ui/core/esm/Toolbar/Toolbar.js"}],"Component/ToolBar/ToolBarStyles.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var styles_1 = require("@material-ui/core/styles");
+
+var useStyles = styles_1.makeStyles(function (theme) {
+  return {
+    title: {
+      paddingBottom: "20px",
+      paddingTop: "20px",
+      paddingRight: "25px",
+      color: "#5CB85C",
+      borderBottom: "2px solid #5CB85C"
+    },
+    toolBar: {
+      borderBottom: "1px solid rgba(0, 0, 0, 0.1)"
+    },
+    disabledTitle: {
+      paddingBottom: "20px",
+      paddingTop: "20px",
+      paddingRight: "25px",
+      color: "#aaa"
+    },
+    content: {
+      paddingLeft: "25px",
+      paddingTop: "20px"
+    }
+  };
+});
+exports.default = useStyles;
+},{"@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js"}],"Component/ToolBar/ToolBar.tsx":[function(require,module,exports) {
+"use strict";
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var react_1 = __importStar(require("react"));
+
+var Toolbar_1 = __importDefault(require("@material-ui/core/Toolbar"));
+
+var Typography_1 = __importDefault(require("@material-ui/core/Typography"));
+
+var ToolBarStyles_1 = __importDefault(require("./ToolBarStyles"));
+
+var ToolBar = function ToolBar(_ref) {
+  var contentData = _ref.contentData;
+  var classes = ToolBarStyles_1.default();
+
+  var _react_1$useState = react_1.useState(classes.title),
+      _react_1$useState2 = _slicedToArray(_react_1$useState, 2),
+      yourStyle = _react_1$useState2[0],
+      setyourStyle = _react_1$useState2[1];
+
+  var _react_1$useState3 = react_1.useState(classes.disabledTitle),
+      _react_1$useState4 = _slicedToArray(_react_1$useState3, 2),
+      globalStyle = _react_1$useState4[0],
+      setglobalStyle = _react_1$useState4[1];
+
+  var _react_1$useState5 = react_1.useState(contentData),
+      _react_1$useState6 = _slicedToArray(_react_1$useState5, 2),
+      data = _react_1$useState6[0],
+      setData = _react_1$useState6[1];
+
+  var yourFeedhandelclick = function yourFeedhandelclick() {
+    setyourStyle(classes.title);
+    setglobalStyle(classes.disabledTitle);
+    setData(contentData);
+  };
+
+  var globalFeedhandelclick = function globalFeedhandelclick() {
+    setyourStyle(classes.disabledTitle);
+    setglobalStyle(classes.title);
+    setData("bye");
+  };
+
+  return react_1.default.createElement("div", null, react_1.default.createElement("div", null, react_1.default.createElement(Toolbar_1.default, {
+    className: classes.toolBar
+  }, react_1.default.createElement(Typography_1.default, {
+    variant: "body2",
+    className: yourStyle,
+    onClick: yourFeedhandelclick
+  }, "Your feed"), react_1.default.createElement(Typography_1.default, {
+    variant: "body2",
+    className: globalStyle,
+    onClick: globalFeedhandelclick
+  }, "Global feed"))), react_1.default.createElement("div", {
+    className: classes.content
+  }, data));
+};
+
+exports.default = ToolBar;
+},{"react":"../node_modules/react/index.js","@material-ui/core/Toolbar":"../node_modules/@material-ui/core/esm/Toolbar/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","./ToolBarStyles":"Component/ToolBar/ToolBarStyles.tsx"}],"../node_modules/@material-ui/core/esm/colors/purple.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -77597,133 +77871,7 @@ Object.defineProperty(exports, "default", {
 var _TableHead = _interopRequireDefault(require("./TableHead"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./TableHead":"../node_modules/@material-ui/core/esm/TableHead/TableHead.js"}],"../node_modules/@material-ui/core/esm/Toolbar/Toolbar.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = exports.styles = void 0;
-
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
-
-var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectWithoutProperties"));
-
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/defineProperty"));
-
-var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _clsx = _interopRequireDefault(require("clsx"));
-
-var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var styles = function styles(theme) {
-  return {
-    /* Styles applied to the root element. */
-    root: {
-      position: 'relative',
-      display: 'flex',
-      alignItems: 'center'
-    },
-
-    /* Styles applied to the root element if `disableGutters={false}`. */
-    gutters: (0, _defineProperty2.default)({
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2)
-    }, theme.breakpoints.up('sm'), {
-      paddingLeft: theme.spacing(3),
-      paddingRight: theme.spacing(3)
-    }),
-
-    /* Styles applied to the root element if `variant="regular"`. */
-    regular: theme.mixins.toolbar,
-
-    /* Styles applied to the root element if `variant="dense"`. */
-    dense: {
-      minHeight: 48
-    }
-  };
-};
-
-exports.styles = styles;
-
-var Toolbar = _react.default.forwardRef(function Toolbar(props, ref) {
-  var classes = props.classes,
-      classNameProp = props.className,
-      _props$component = props.component,
-      Component = _props$component === void 0 ? 'div' : _props$component,
-      _props$disableGutters = props.disableGutters,
-      disableGutters = _props$disableGutters === void 0 ? false : _props$disableGutters,
-      _props$variant = props.variant,
-      variant = _props$variant === void 0 ? 'regular' : _props$variant,
-      other = (0, _objectWithoutProperties2.default)(props, ["classes", "className", "component", "disableGutters", "variant"]);
-  var className = (0, _clsx.default)(classes.root, classes[variant], classNameProp, !disableGutters && classes.gutters);
-  return _react.default.createElement(Component, (0, _extends2.default)({
-    className: className,
-    ref: ref
-  }, other));
-});
-
-"development" !== "production" ? Toolbar.propTypes = {
-  /**
-   * Toolbar children, usually a mixture of `IconButton`, `Button` and `Typography`.
-   */
-  children: _propTypes.default.node,
-
-  /**
-   * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
-   */
-  classes: _propTypes.default.object.isRequired,
-
-  /**
-   * @ignore
-   */
-  className: _propTypes.default.string,
-
-  /**
-   * The component used for the root node.
-   * Either a string to use a DOM element or a component.
-   */
-  component: _propTypes.default.elementType,
-
-  /**
-   * If `true`, disables gutter padding.
-   */
-  disableGutters: _propTypes.default.bool,
-
-  /**
-   * The variant to use.
-   */
-  variant: _propTypes.default.oneOf(['regular', 'dense'])
-} : void 0;
-
-var _default = (0, _withStyles.default)(styles, {
-  name: 'MuiToolbar'
-})(Toolbar);
-
-exports.default = _default;
-},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutProperties":"../node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js","@babel/runtime/helpers/esm/defineProperty":"../node_modules/@babel/runtime/helpers/esm/defineProperty.js","react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","clsx":"../node_modules/clsx/dist/clsx.m.js","../styles/withStyles":"../node_modules/@material-ui/core/esm/styles/withStyles.js"}],"../node_modules/@material-ui/core/esm/Toolbar/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "default", {
-  enumerable: true,
-  get: function () {
-    return _Toolbar.default;
-  }
-});
-
-var _Toolbar = _interopRequireDefault(require("./Toolbar"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./Toolbar":"../node_modules/@material-ui/core/esm/Toolbar/Toolbar.js"}],"../node_modules/@material-ui/core/esm/internal/svg-icons/KeyboardArrowLeft.js":[function(require,module,exports) {
+},{"./TableHead":"../node_modules/@material-ui/core/esm/TableHead/TableHead.js"}],"../node_modules/@material-ui/core/esm/internal/svg-icons/KeyboardArrowLeft.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -81833,127 +81981,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-},{"./colors":"../node_modules/@material-ui/core/esm/colors/index.js","./styles":"../node_modules/@material-ui/core/esm/styles/index.js","./AppBar":"../node_modules/@material-ui/core/esm/AppBar/index.js","./Avatar":"../node_modules/@material-ui/core/esm/Avatar/index.js","./Backdrop":"../node_modules/@material-ui/core/esm/Backdrop/index.js","./Badge":"../node_modules/@material-ui/core/esm/Badge/index.js","./BottomNavigation":"../node_modules/@material-ui/core/esm/BottomNavigation/index.js","./BottomNavigationAction":"../node_modules/@material-ui/core/esm/BottomNavigationAction/index.js","./Box":"../node_modules/@material-ui/core/esm/Box/index.js","./Breadcrumbs":"../node_modules/@material-ui/core/esm/Breadcrumbs/index.js","./Button":"../node_modules/@material-ui/core/esm/Button/index.js","./ButtonBase":"../node_modules/@material-ui/core/esm/ButtonBase/index.js","./ButtonGroup":"../node_modules/@material-ui/core/esm/ButtonGroup/index.js","./Card":"../node_modules/@material-ui/core/esm/Card/index.js","./CardActionArea":"../node_modules/@material-ui/core/esm/CardActionArea/index.js","./CardActions":"../node_modules/@material-ui/core/esm/CardActions/index.js","./CardContent":"../node_modules/@material-ui/core/esm/CardContent/index.js","./CardHeader":"../node_modules/@material-ui/core/esm/CardHeader/index.js","./CardMedia":"../node_modules/@material-ui/core/esm/CardMedia/index.js","./Checkbox":"../node_modules/@material-ui/core/esm/Checkbox/index.js","./Chip":"../node_modules/@material-ui/core/esm/Chip/index.js","./CircularProgress":"../node_modules/@material-ui/core/esm/CircularProgress/index.js","./ClickAwayListener":"../node_modules/@material-ui/core/esm/ClickAwayListener/index.js","./Collapse":"../node_modules/@material-ui/core/esm/Collapse/index.js","./Container":"../node_modules/@material-ui/core/esm/Container/index.js","./CssBaseline":"../node_modules/@material-ui/core/esm/CssBaseline/index.js","./Dialog":"../node_modules/@material-ui/core/esm/Dialog/index.js","./DialogActions":"../node_modules/@material-ui/core/esm/DialogActions/index.js","./DialogContent":"../node_modules/@material-ui/core/esm/DialogContent/index.js","./DialogContentText":"../node_modules/@material-ui/core/esm/DialogContentText/index.js","./DialogTitle":"../node_modules/@material-ui/core/esm/DialogTitle/index.js","./Divider":"../node_modules/@material-ui/core/esm/Divider/index.js","./Drawer":"../node_modules/@material-ui/core/esm/Drawer/index.js","./ExpansionPanel":"../node_modules/@material-ui/core/esm/ExpansionPanel/index.js","./ExpansionPanelActions":"../node_modules/@material-ui/core/esm/ExpansionPanelActions/index.js","./ExpansionPanelDetails":"../node_modules/@material-ui/core/esm/ExpansionPanelDetails/index.js","./ExpansionPanelSummary":"../node_modules/@material-ui/core/esm/ExpansionPanelSummary/index.js","./Fab":"../node_modules/@material-ui/core/esm/Fab/index.js","./Fade":"../node_modules/@material-ui/core/esm/Fade/index.js","./FilledInput":"../node_modules/@material-ui/core/esm/FilledInput/index.js","./FormControl":"../node_modules/@material-ui/core/esm/FormControl/index.js","./FormControlLabel":"../node_modules/@material-ui/core/esm/FormControlLabel/index.js","./FormGroup":"../node_modules/@material-ui/core/esm/FormGroup/index.js","./FormHelperText":"../node_modules/@material-ui/core/esm/FormHelperText/index.js","./FormLabel":"../node_modules/@material-ui/core/esm/FormLabel/index.js","./Grid":"../node_modules/@material-ui/core/esm/Grid/index.js","./GridList":"../node_modules/@material-ui/core/esm/GridList/index.js","./GridListTile":"../node_modules/@material-ui/core/esm/GridListTile/index.js","./GridListTileBar":"../node_modules/@material-ui/core/esm/GridListTileBar/index.js","./Grow":"../node_modules/@material-ui/core/esm/Grow/index.js","./Hidden":"../node_modules/@material-ui/core/esm/Hidden/index.js","./Icon":"../node_modules/@material-ui/core/esm/Icon/index.js","./IconButton":"../node_modules/@material-ui/core/esm/IconButton/index.js","./Input":"../node_modules/@material-ui/core/esm/Input/index.js","./InputAdornment":"../node_modules/@material-ui/core/esm/InputAdornment/index.js","./InputBase":"../node_modules/@material-ui/core/esm/InputBase/index.js","./InputLabel":"../node_modules/@material-ui/core/esm/InputLabel/index.js","./LinearProgress":"../node_modules/@material-ui/core/esm/LinearProgress/index.js","./Link":"../node_modules/@material-ui/core/esm/Link/index.js","./List":"../node_modules/@material-ui/core/esm/List/index.js","./ListItem":"../node_modules/@material-ui/core/esm/ListItem/index.js","./ListItemAvatar":"../node_modules/@material-ui/core/esm/ListItemAvatar/index.js","./ListItemIcon":"../node_modules/@material-ui/core/esm/ListItemIcon/index.js","./ListItemSecondaryAction":"../node_modules/@material-ui/core/esm/ListItemSecondaryAction/index.js","./ListItemText":"../node_modules/@material-ui/core/esm/ListItemText/index.js","./ListSubheader":"../node_modules/@material-ui/core/esm/ListSubheader/index.js","./Menu":"../node_modules/@material-ui/core/esm/Menu/index.js","./MenuItem":"../node_modules/@material-ui/core/esm/MenuItem/index.js","./MenuList":"../node_modules/@material-ui/core/esm/MenuList/index.js","./MobileStepper":"../node_modules/@material-ui/core/esm/MobileStepper/index.js","./Modal":"../node_modules/@material-ui/core/esm/Modal/index.js","./NativeSelect":"../node_modules/@material-ui/core/esm/NativeSelect/index.js","./NoSsr":"../node_modules/@material-ui/core/esm/NoSsr/index.js","./OutlinedInput":"../node_modules/@material-ui/core/esm/OutlinedInput/index.js","./Paper":"../node_modules/@material-ui/core/esm/Paper/index.js","./Popover":"../node_modules/@material-ui/core/esm/Popover/index.js","./Popper":"../node_modules/@material-ui/core/esm/Popper/index.js","./Portal":"../node_modules/@material-ui/core/esm/Portal/index.js","./Radio":"../node_modules/@material-ui/core/esm/Radio/index.js","./RadioGroup":"../node_modules/@material-ui/core/esm/RadioGroup/index.js","./RootRef":"../node_modules/@material-ui/core/esm/RootRef/index.js","./Select":"../node_modules/@material-ui/core/esm/Select/index.js","./Slide":"../node_modules/@material-ui/core/esm/Slide/index.js","./Slider":"../node_modules/@material-ui/core/esm/Slider/index.js","./Snackbar":"../node_modules/@material-ui/core/esm/Snackbar/index.js","./SnackbarContent":"../node_modules/@material-ui/core/esm/SnackbarContent/index.js","./Step":"../node_modules/@material-ui/core/esm/Step/index.js","./StepButton":"../node_modules/@material-ui/core/esm/StepButton/index.js","./StepConnector":"../node_modules/@material-ui/core/esm/StepConnector/index.js","./StepContent":"../node_modules/@material-ui/core/esm/StepContent/index.js","./StepIcon":"../node_modules/@material-ui/core/esm/StepIcon/index.js","./StepLabel":"../node_modules/@material-ui/core/esm/StepLabel/index.js","./Stepper":"../node_modules/@material-ui/core/esm/Stepper/index.js","./SvgIcon":"../node_modules/@material-ui/core/esm/SvgIcon/index.js","./SwipeableDrawer":"../node_modules/@material-ui/core/esm/SwipeableDrawer/index.js","./Switch":"../node_modules/@material-ui/core/esm/Switch/index.js","./Tab":"../node_modules/@material-ui/core/esm/Tab/index.js","./Table":"../node_modules/@material-ui/core/esm/Table/index.js","./TableBody":"../node_modules/@material-ui/core/esm/TableBody/index.js","./TableCell":"../node_modules/@material-ui/core/esm/TableCell/index.js","./TableFooter":"../node_modules/@material-ui/core/esm/TableFooter/index.js","./TableHead":"../node_modules/@material-ui/core/esm/TableHead/index.js","./TablePagination":"../node_modules/@material-ui/core/esm/TablePagination/index.js","./TableRow":"../node_modules/@material-ui/core/esm/TableRow/index.js","./TableSortLabel":"../node_modules/@material-ui/core/esm/TableSortLabel/index.js","./Tabs":"../node_modules/@material-ui/core/esm/Tabs/index.js","./TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","./TextareaAutosize":"../node_modules/@material-ui/core/esm/TextareaAutosize/index.js","./Toolbar":"../node_modules/@material-ui/core/esm/Toolbar/index.js","./Tooltip":"../node_modules/@material-ui/core/esm/Tooltip/index.js","./Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","./useMediaQuery":"../node_modules/@material-ui/core/esm/useMediaQuery/index.js","./useScrollTrigger":"../node_modules/@material-ui/core/esm/useScrollTrigger/index.js","./withMobileDialog":"../node_modules/@material-ui/core/esm/withMobileDialog/index.js","./withWidth":"../node_modules/@material-ui/core/esm/withWidth/index.js","./Zoom":"../node_modules/@material-ui/core/esm/Zoom/index.js"}],"Component/ToolBar/ToolBarStyles.tsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var styles_1 = require("@material-ui/core/styles");
-
-var useStyles = styles_1.makeStyles(function (theme) {
-  return {
-    title: {
-      paddingBottom: "20px",
-      paddingTop: "20px",
-      paddingRight: "25px",
-      color: "#5CB85C",
-      borderBottom: "2px solid #5CB85C"
-    },
-    toolBar: {
-      borderBottom: "1px solid rgba(0, 0, 0, 0.1)"
-    },
-    disabledTitle: {
-      paddingBottom: "20px",
-      paddingTop: "20px",
-      paddingRight: "25px",
-      color: "#aaa"
-    },
-    content: {
-      paddingLeft: "25px",
-      paddingTop: "20px"
-    }
-  };
-});
-exports.default = useStyles;
-},{"@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js"}],"Component/ToolBar/ToolBar.tsx":[function(require,module,exports) {
-"use strict";
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  }
-  result["default"] = mod;
-  return result;
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var react_1 = __importStar(require("react"));
-
-var Toolbar_1 = __importDefault(require("@material-ui/core/Toolbar"));
-
-var Typography_1 = __importDefault(require("@material-ui/core/Typography"));
-
-var ToolBarStyles_1 = __importDefault(require("./ToolBarStyles"));
-
-function ToolBar(_ref) {
-  var propsdata = _ref.propsdata;
-  var classes = ToolBarStyles_1.default();
-
-  var _react_1$useState = react_1.useState(classes.title),
-      _react_1$useState2 = _slicedToArray(_react_1$useState, 2),
-      yourStyle = _react_1$useState2[0],
-      setyourStyle = _react_1$useState2[1];
-
-  var _react_1$useState3 = react_1.useState(classes.disabledTitle),
-      _react_1$useState4 = _slicedToArray(_react_1$useState3, 2),
-      globalStyle = _react_1$useState4[0],
-      setglobalStyle = _react_1$useState4[1];
-
-  var _react_1$useState5 = react_1.useState(propsdata),
-      _react_1$useState6 = _slicedToArray(_react_1$useState5, 2),
-      data = _react_1$useState6[0],
-      setData = _react_1$useState6[1];
-
-  var yourFeedhandelclick = function yourFeedhandelclick() {
-    setyourStyle(classes.title);
-    setglobalStyle(classes.disabledTitle);
-    setData(propsdata);
-  };
-
-  var globalFeedhandelclick = function globalFeedhandelclick() {
-    setyourStyle(classes.disabledTitle);
-    setglobalStyle(classes.title);
-    setData("bye");
-  };
-
-  return react_1.default.createElement("div", null, react_1.default.createElement("div", null, react_1.default.createElement(Toolbar_1.default, {
-    className: classes.toolBar
-  }, react_1.default.createElement(Typography_1.default, {
-    variant: "body2",
-    className: yourStyle,
-    onClick: yourFeedhandelclick
-  }, "Your feed"), react_1.default.createElement(Typography_1.default, {
-    variant: "body2",
-    className: globalStyle,
-    onClick: globalFeedhandelclick
-  }, "Global feed"))), react_1.default.createElement("div", {
-    className: classes.content
-  }, data));
-}
-
-exports.default = ToolBar;
-},{"react":"../node_modules/react/index.js","@material-ui/core/Toolbar":"../node_modules/@material-ui/core/esm/Toolbar/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","./ToolBarStyles":"Component/ToolBar/ToolBarStyles.tsx"}],"Component/PageNumber/PageNumbersStyles.tsx":[function(require,module,exports) {
+},{"./colors":"../node_modules/@material-ui/core/esm/colors/index.js","./styles":"../node_modules/@material-ui/core/esm/styles/index.js","./AppBar":"../node_modules/@material-ui/core/esm/AppBar/index.js","./Avatar":"../node_modules/@material-ui/core/esm/Avatar/index.js","./Backdrop":"../node_modules/@material-ui/core/esm/Backdrop/index.js","./Badge":"../node_modules/@material-ui/core/esm/Badge/index.js","./BottomNavigation":"../node_modules/@material-ui/core/esm/BottomNavigation/index.js","./BottomNavigationAction":"../node_modules/@material-ui/core/esm/BottomNavigationAction/index.js","./Box":"../node_modules/@material-ui/core/esm/Box/index.js","./Breadcrumbs":"../node_modules/@material-ui/core/esm/Breadcrumbs/index.js","./Button":"../node_modules/@material-ui/core/esm/Button/index.js","./ButtonBase":"../node_modules/@material-ui/core/esm/ButtonBase/index.js","./ButtonGroup":"../node_modules/@material-ui/core/esm/ButtonGroup/index.js","./Card":"../node_modules/@material-ui/core/esm/Card/index.js","./CardActionArea":"../node_modules/@material-ui/core/esm/CardActionArea/index.js","./CardActions":"../node_modules/@material-ui/core/esm/CardActions/index.js","./CardContent":"../node_modules/@material-ui/core/esm/CardContent/index.js","./CardHeader":"../node_modules/@material-ui/core/esm/CardHeader/index.js","./CardMedia":"../node_modules/@material-ui/core/esm/CardMedia/index.js","./Checkbox":"../node_modules/@material-ui/core/esm/Checkbox/index.js","./Chip":"../node_modules/@material-ui/core/esm/Chip/index.js","./CircularProgress":"../node_modules/@material-ui/core/esm/CircularProgress/index.js","./ClickAwayListener":"../node_modules/@material-ui/core/esm/ClickAwayListener/index.js","./Collapse":"../node_modules/@material-ui/core/esm/Collapse/index.js","./Container":"../node_modules/@material-ui/core/esm/Container/index.js","./CssBaseline":"../node_modules/@material-ui/core/esm/CssBaseline/index.js","./Dialog":"../node_modules/@material-ui/core/esm/Dialog/index.js","./DialogActions":"../node_modules/@material-ui/core/esm/DialogActions/index.js","./DialogContent":"../node_modules/@material-ui/core/esm/DialogContent/index.js","./DialogContentText":"../node_modules/@material-ui/core/esm/DialogContentText/index.js","./DialogTitle":"../node_modules/@material-ui/core/esm/DialogTitle/index.js","./Divider":"../node_modules/@material-ui/core/esm/Divider/index.js","./Drawer":"../node_modules/@material-ui/core/esm/Drawer/index.js","./ExpansionPanel":"../node_modules/@material-ui/core/esm/ExpansionPanel/index.js","./ExpansionPanelActions":"../node_modules/@material-ui/core/esm/ExpansionPanelActions/index.js","./ExpansionPanelDetails":"../node_modules/@material-ui/core/esm/ExpansionPanelDetails/index.js","./ExpansionPanelSummary":"../node_modules/@material-ui/core/esm/ExpansionPanelSummary/index.js","./Fab":"../node_modules/@material-ui/core/esm/Fab/index.js","./Fade":"../node_modules/@material-ui/core/esm/Fade/index.js","./FilledInput":"../node_modules/@material-ui/core/esm/FilledInput/index.js","./FormControl":"../node_modules/@material-ui/core/esm/FormControl/index.js","./FormControlLabel":"../node_modules/@material-ui/core/esm/FormControlLabel/index.js","./FormGroup":"../node_modules/@material-ui/core/esm/FormGroup/index.js","./FormHelperText":"../node_modules/@material-ui/core/esm/FormHelperText/index.js","./FormLabel":"../node_modules/@material-ui/core/esm/FormLabel/index.js","./Grid":"../node_modules/@material-ui/core/esm/Grid/index.js","./GridList":"../node_modules/@material-ui/core/esm/GridList/index.js","./GridListTile":"../node_modules/@material-ui/core/esm/GridListTile/index.js","./GridListTileBar":"../node_modules/@material-ui/core/esm/GridListTileBar/index.js","./Grow":"../node_modules/@material-ui/core/esm/Grow/index.js","./Hidden":"../node_modules/@material-ui/core/esm/Hidden/index.js","./Icon":"../node_modules/@material-ui/core/esm/Icon/index.js","./IconButton":"../node_modules/@material-ui/core/esm/IconButton/index.js","./Input":"../node_modules/@material-ui/core/esm/Input/index.js","./InputAdornment":"../node_modules/@material-ui/core/esm/InputAdornment/index.js","./InputBase":"../node_modules/@material-ui/core/esm/InputBase/index.js","./InputLabel":"../node_modules/@material-ui/core/esm/InputLabel/index.js","./LinearProgress":"../node_modules/@material-ui/core/esm/LinearProgress/index.js","./Link":"../node_modules/@material-ui/core/esm/Link/index.js","./List":"../node_modules/@material-ui/core/esm/List/index.js","./ListItem":"../node_modules/@material-ui/core/esm/ListItem/index.js","./ListItemAvatar":"../node_modules/@material-ui/core/esm/ListItemAvatar/index.js","./ListItemIcon":"../node_modules/@material-ui/core/esm/ListItemIcon/index.js","./ListItemSecondaryAction":"../node_modules/@material-ui/core/esm/ListItemSecondaryAction/index.js","./ListItemText":"../node_modules/@material-ui/core/esm/ListItemText/index.js","./ListSubheader":"../node_modules/@material-ui/core/esm/ListSubheader/index.js","./Menu":"../node_modules/@material-ui/core/esm/Menu/index.js","./MenuItem":"../node_modules/@material-ui/core/esm/MenuItem/index.js","./MenuList":"../node_modules/@material-ui/core/esm/MenuList/index.js","./MobileStepper":"../node_modules/@material-ui/core/esm/MobileStepper/index.js","./Modal":"../node_modules/@material-ui/core/esm/Modal/index.js","./NativeSelect":"../node_modules/@material-ui/core/esm/NativeSelect/index.js","./NoSsr":"../node_modules/@material-ui/core/esm/NoSsr/index.js","./OutlinedInput":"../node_modules/@material-ui/core/esm/OutlinedInput/index.js","./Paper":"../node_modules/@material-ui/core/esm/Paper/index.js","./Popover":"../node_modules/@material-ui/core/esm/Popover/index.js","./Popper":"../node_modules/@material-ui/core/esm/Popper/index.js","./Portal":"../node_modules/@material-ui/core/esm/Portal/index.js","./Radio":"../node_modules/@material-ui/core/esm/Radio/index.js","./RadioGroup":"../node_modules/@material-ui/core/esm/RadioGroup/index.js","./RootRef":"../node_modules/@material-ui/core/esm/RootRef/index.js","./Select":"../node_modules/@material-ui/core/esm/Select/index.js","./Slide":"../node_modules/@material-ui/core/esm/Slide/index.js","./Slider":"../node_modules/@material-ui/core/esm/Slider/index.js","./Snackbar":"../node_modules/@material-ui/core/esm/Snackbar/index.js","./SnackbarContent":"../node_modules/@material-ui/core/esm/SnackbarContent/index.js","./Step":"../node_modules/@material-ui/core/esm/Step/index.js","./StepButton":"../node_modules/@material-ui/core/esm/StepButton/index.js","./StepConnector":"../node_modules/@material-ui/core/esm/StepConnector/index.js","./StepContent":"../node_modules/@material-ui/core/esm/StepContent/index.js","./StepIcon":"../node_modules/@material-ui/core/esm/StepIcon/index.js","./StepLabel":"../node_modules/@material-ui/core/esm/StepLabel/index.js","./Stepper":"../node_modules/@material-ui/core/esm/Stepper/index.js","./SvgIcon":"../node_modules/@material-ui/core/esm/SvgIcon/index.js","./SwipeableDrawer":"../node_modules/@material-ui/core/esm/SwipeableDrawer/index.js","./Switch":"../node_modules/@material-ui/core/esm/Switch/index.js","./Tab":"../node_modules/@material-ui/core/esm/Tab/index.js","./Table":"../node_modules/@material-ui/core/esm/Table/index.js","./TableBody":"../node_modules/@material-ui/core/esm/TableBody/index.js","./TableCell":"../node_modules/@material-ui/core/esm/TableCell/index.js","./TableFooter":"../node_modules/@material-ui/core/esm/TableFooter/index.js","./TableHead":"../node_modules/@material-ui/core/esm/TableHead/index.js","./TablePagination":"../node_modules/@material-ui/core/esm/TablePagination/index.js","./TableRow":"../node_modules/@material-ui/core/esm/TableRow/index.js","./TableSortLabel":"../node_modules/@material-ui/core/esm/TableSortLabel/index.js","./Tabs":"../node_modules/@material-ui/core/esm/Tabs/index.js","./TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","./TextareaAutosize":"../node_modules/@material-ui/core/esm/TextareaAutosize/index.js","./Toolbar":"../node_modules/@material-ui/core/esm/Toolbar/index.js","./Tooltip":"../node_modules/@material-ui/core/esm/Tooltip/index.js","./Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","./useMediaQuery":"../node_modules/@material-ui/core/esm/useMediaQuery/index.js","./useScrollTrigger":"../node_modules/@material-ui/core/esm/useScrollTrigger/index.js","./withMobileDialog":"../node_modules/@material-ui/core/esm/withMobileDialog/index.js","./withWidth":"../node_modules/@material-ui/core/esm/withWidth/index.js","./Zoom":"../node_modules/@material-ui/core/esm/Zoom/index.js"}],"Component/PageNumber/PageNumbersStyles.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -82010,7 +82038,7 @@ var react_1 = __importDefault(require("react"));
 
 var PageNumbersStyles_1 = __importDefault(require("./PageNumbersStyles"));
 
-function PageNumbers() {
+var PageNumbers = function PageNumbers() {
   var classes = PageNumbersStyles_1.default();
   var pageNumer = 50;
   var arrButtons = [];
@@ -82046,7 +82074,7 @@ function PageNumbers() {
   return react_1.default.createElement("div", {
     className: classes.div
   }, arrButtons);
-}
+};
 
 exports.default = PageNumbers;
 },{"react":"../node_modules/react/index.js","./PageNumbersStyles":"Component/PageNumber/PageNumbersStyles.tsx"}],"../node_modules/classnames/index.js":[function(require,module,exports) {
@@ -107401,46 +107429,32 @@ var styles_1 = require("@material-ui/styles");
 
 var useStyles = styles_1.makeStyles(function (themes) {
   return {
-    like: {
+    button: {
       backgroundColor: "transparent",
       color: "#5CB85C",
       border: "solid",
-      borderRightColor: "#5CB85C",
-      borderLeftColor: "#5CB85C",
-      borderTopColor: "#5CB85C",
-      borderBottomColor: "#5CB85C",
-      fontSize: " 0.875rem"
-    },
-    onHover: {
-      backgroundColor: "#5CB85C",
-      color: "#fff",
-      border: "solid",
       borderColor: "#5CB85C",
-      fontSize: " 0.875rem"
+      fontSize: " 0.875rem",
+      '&:hover': {
+        backgroundColor: "#5CB85C",
+        color: "#fff",
+        border: "solid",
+        borderColor: "#5CB85C",
+        fontSize: " 0.875rem"
+      },
+      '&:focus': {
+        backgroundColor: "#5CB85C",
+        color: "#fff",
+        border: "solid",
+        borderColor: "#5CB85C",
+        fontSize: " 0.875rem"
+      }
     }
   };
 });
 exports.default = useStyles;
 },{"@material-ui/styles":"../node_modules/@material-ui/styles/esm/index.js"}],"Component/Buttons/LikeButton.tsx":[function(require,module,exports) {
 "use strict";
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  }
-  result["default"] = mod;
-  return result;
-};
 
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
@@ -107452,7 +107466,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var react_1 = __importStar(require("react"));
+var react_1 = __importDefault(require("react"));
 
 var reactstrap_1 = require("reactstrap");
 
@@ -107463,24 +107477,8 @@ var LikeButtonStyles_1 = __importDefault(require("./LikeButtonStyles"));
 var LikeButton = function LikeButton(_ref) {
   var number = _ref.number;
   var classes = LikeButtonStyles_1.default();
-
-  var _react_1$useState = react_1.useState(classes.like),
-      _react_1$useState2 = _slicedToArray(_react_1$useState, 2),
-      style = _react_1$useState2[0],
-      setStyle = _react_1$useState2[1];
-
-  var handelhover = function handelhover() {
-    setStyle(classes.onHover);
-  };
-
-  var handelout = function handelout() {
-    setStyle(classes.like);
-  };
-
   return react_1.default.createElement("div", null, react_1.default.createElement(reactstrap_1.Button, {
-    className: style,
-    onMouseEnter: handelhover,
-    onMouseOut: handelout
+    className: classes.button
   }, react_1.default.createElement(io_1.IoIosHeart, null), number));
 };
 
@@ -107542,12 +107540,8 @@ var LikeButton_1 = __importDefault(require("../Buttons/LikeButton"));
 
 var ArticleCardStyles_1 = __importDefault(require("./ArticleCardStyles"));
 
-function ArticleCard() {
+var ArticleCard = function ArticleCard(props) {
   var classes = ArticleCardStyles_1.default();
-  var userName = "reem";
-  var title = "it is about good person";
-  var articleName = "reem article";
-  var date = "September 14, 2016";
   return react_1.default.createElement(Card_1.default, {
     className: classes.card
   }, react_1.default.createElement(CardHeader_1.default, {
@@ -107560,23 +107554,23 @@ function ArticleCard() {
     }, react_1.default.createElement(LikeButton_1.default, {
       number: 0
     })),
-    title: userName,
-    subheader: date
+    title: props.userName,
+    subheader: props.date
   }), react_1.default.createElement(CardContent_1.default, null, react_1.default.createElement(Typography_1.default, {
     variant: "h5",
     color: "textPrimary",
     component: "p"
-  }, articleName), react_1.default.createElement(Typography_1.default, {
+  }, props.articleName), react_1.default.createElement(Typography_1.default, {
     variant: "body2",
     color: "textSecondary",
     component: "p"
-  }, title)), react_1.default.createElement(CardActions_1.default, {
+  }, props.title)), react_1.default.createElement(CardActions_1.default, {
     disableSpacing: true
   }, react_1.default.createElement(Typography_1.default, {
     variant: "caption",
     color: "textSecondary"
   }, "read more...")));
-}
+};
 
 exports.default = ArticleCard;
 },{"react":"../node_modules/react/index.js","@material-ui/core/Card":"../node_modules/@material-ui/core/esm/Card/index.js","@material-ui/core/CardHeader":"../node_modules/@material-ui/core/esm/CardHeader/index.js","@material-ui/core/CardContent":"../node_modules/@material-ui/core/esm/CardContent/index.js","@material-ui/core/CardActions":"../node_modules/@material-ui/core/esm/CardActions/index.js","@material-ui/core/Avatar":"../node_modules/@material-ui/core/esm/Avatar/index.js","@material-ui/core/IconButton":"../node_modules/@material-ui/core/esm/IconButton/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","../Buttons/LikeButton":"Component/Buttons/LikeButton.tsx","./ArticleCardStyles":"Component/Artical/ArticleCardStyles.tsx"}],"Component/Buttons/TagButtonStyles.tsx":[function(require,module,exports) {
@@ -107624,14 +107618,14 @@ var Button_1 = __importDefault(require("@material-ui/core/Button"));
 
 var TagButtonStyles_1 = __importDefault(require("./TagButtonStyles"));
 
-function TagButton(_ref) {
+var TagButton = function TagButton(_ref) {
   var name = _ref.name;
   var classes = TagButtonStyles_1.default();
-  return react_1.default.createElement("div", null, react_1.default.createElement(Button_1.default, {
+  return react_1.default.createElement(Button_1.default, {
     className: classes.button,
     size: "small"
-  }, name));
-}
+  }, name);
+};
 
 exports.default = TagButton;
 },{"react":"../node_modules/react/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","./TagButtonStyles":"Component/Buttons/TagButtonStyles.tsx"}],"Component/PopularTags/PopularTagsStyles.tsx":[function(require,module,exports) {
@@ -107748,34 +107742,14 @@ function PopularTags() {
 }
 
 exports.default = PopularTags;
-},{"react":"../node_modules/react/index.js","@material-ui/core/Card":"../node_modules/@material-ui/core/esm/Card/index.js","@material-ui/core/CardActions":"../node_modules/@material-ui/core/esm/CardActions/index.js","@material-ui/core/CardContent":"../node_modules/@material-ui/core/esm/CardContent/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","../Buttons/TagButton":"Component/Buttons/TagButton.tsx","./PopularTagsStyles":"Component/PopularTags/PopularTagsStyles.tsx"}],"pages/Home.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@material-ui/core/Card":"../node_modules/@material-ui/core/esm/Card/index.js","@material-ui/core/CardActions":"../node_modules/@material-ui/core/esm/CardActions/index.js","@material-ui/core/CardContent":"../node_modules/@material-ui/core/esm/CardContent/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","../Buttons/TagButton":"Component/Buttons/TagButton.tsx","./PopularTagsStyles":"Component/PopularTags/PopularTagsStyles.tsx"}],"pages/HomeStyle.tsx":[function(require,module,exports) {
 "use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var react_1 = __importDefault(require("react"));
-
-var Banner_1 = __importDefault(require("../Component/Banner/Banner"));
-
-var Grid_1 = __importDefault(require("@material-ui/core/Grid"));
-
 var core_1 = require("@material-ui/core");
-
-var ToolBar_1 = __importDefault(require("../Component/ToolBar/ToolBar"));
-
-var PageNumbers_1 = __importDefault(require("../Component/PageNumber/PageNumbers"));
-
-var ArticleCard_1 = __importDefault(require("../Component/Artical/ArticleCard"));
-
-var PopularTags_1 = __importDefault(require("../Component/PopularTags/PopularTags"));
 
 var useStyles = core_1.makeStyles(function (theme) {
   return {
@@ -107792,16 +107766,43 @@ var useStyles = core_1.makeStyles(function (theme) {
     }
   };
 });
+exports.default = useStyles;
+},{"@material-ui/core":"../node_modules/@material-ui/core/esm/index.js"}],"pages/Home.tsx":[function(require,module,exports) {
+"use strict";
 
-function Home(_ref) {
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var react_1 = __importDefault(require("react"));
+
+var Bannnerpage_1 = __importDefault(require("./Bannnerpage"));
+
+var Grid_1 = __importDefault(require("@material-ui/core/Grid"));
+
+var ToolBar_1 = __importDefault(require("../Component/ToolBar/ToolBar"));
+
+var PageNumbers_1 = __importDefault(require("../Component/PageNumber/PageNumbers"));
+
+var ArticleCard_1 = __importDefault(require("../Component/Artical/ArticleCard"));
+
+var PopularTags_1 = __importDefault(require("../Component/PopularTags/PopularTags"));
+
+var HomeStyle_1 = __importDefault(require("./HomeStyle"));
+
+var Home = function Home(_ref) {
   var user = _ref.user;
-  var flage = false;
-  var classes = useStyles();
-  return react_1.default.createElement("div", {
-    className: classes.root
-  }, react_1.default.createElement(Banner_1.default, {
-    token: flage,
-    appName: "conduit"
+  var flag = false;
+  var classes = HomeStyle_1.default();
+  return react_1.default.createElement(react_1.default.Fragment, null, react_1.default.createElement(Bannnerpage_1.default, {
+    token: flag,
+    title: "conduit"
   }), react_1.default.createElement(Grid_1.default, {
     container: true,
     spacing: 3,
@@ -107810,15 +107811,20 @@ function Home(_ref) {
     item: true,
     xs: 6
   }, react_1.default.createElement(ToolBar_1.default, {
-    propsdata: react_1.default.createElement(ArticleCard_1.default, null)
+    contentData: react_1.default.createElement(ArticleCard_1.default, {
+      userName: "reem",
+      title: "it is about good person",
+      articleName: "reem article",
+      date: "September 14, 2016"
+    })
   }), react_1.default.createElement(PageNumbers_1.default, null)), react_1.default.createElement(Grid_1.default, {
     item: true,
     xs: 6
   }, react_1.default.createElement(PopularTags_1.default, null))));
-}
+};
 
 exports.default = Home;
-},{"react":"../node_modules/react/index.js","../Component/Banner/Banner":"Component/Banner/Banner.tsx","@material-ui/core/Grid":"../node_modules/@material-ui/core/esm/Grid/index.js","@material-ui/core":"../node_modules/@material-ui/core/esm/index.js","../Component/ToolBar/ToolBar":"Component/ToolBar/ToolBar.tsx","../Component/PageNumber/PageNumbers":"Component/PageNumber/PageNumbers.tsx","../Component/Artical/ArticleCard":"Component/Artical/ArticleCard.tsx","../Component/PopularTags/PopularTags":"Component/PopularTags/PopularTags.tsx"}],"../node_modules/@material-ui/icons/utils/createSvgIcon.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./Bannnerpage":"pages/Bannnerpage.tsx","@material-ui/core/Grid":"../node_modules/@material-ui/core/esm/Grid/index.js","../Component/ToolBar/ToolBar":"Component/ToolBar/ToolBar.tsx","../Component/PageNumber/PageNumbers":"Component/PageNumber/PageNumbers.tsx","../Component/Artical/ArticleCard":"Component/Artical/ArticleCard.tsx","../Component/PopularTags/PopularTags":"Component/PopularTags/PopularTags.tsx","./HomeStyle":"pages/HomeStyle.tsx"}],"../node_modules/@material-ui/icons/utils/createSvgIcon.js":[function(require,module,exports) {
 "use strict";
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
@@ -107867,7 +107873,73 @@ var _default = (0, _createSvgIcon.default)(_react.default.createElement("path", 
 }), 'ErrorOutline');
 
 exports.default = _default;
-},{"@babel/runtime/helpers/interopRequireDefault":"../node_modules/@babel/runtime/helpers/interopRequireDefault.js","react":"../node_modules/react/index.js","./utils/createSvgIcon":"../node_modules/@material-ui/icons/utils/createSvgIcon.js"}],"../node_modules/axios/lib/helpers/bind.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/interopRequireDefault":"../node_modules/@babel/runtime/helpers/interopRequireDefault.js","react":"../node_modules/react/index.js","./utils/createSvgIcon":"../node_modules/@material-ui/icons/utils/createSvgIcon.js"}],"Component/ToolTip/ToolTipStyles.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var core_1 = require("@material-ui/core");
+
+var useStyles = core_1.makeStyles(function (theme) {
+  return {
+    typography: {
+      padding: theme.spacing(2)
+    }
+  };
+});
+exports.default = useStyles;
+},{"@material-ui/core":"../node_modules/@material-ui/core/esm/index.js"}],"Component/ToolTip/ToolTip.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var react_1 = __importDefault(require("react"));
+
+var Popover_1 = __importDefault(require("@material-ui/core/Popover"));
+
+var core_1 = require("@material-ui/core");
+
+var ErrorOutline_1 = __importDefault(require("@material-ui/icons/ErrorOutline"));
+
+var ToolTipStyles_1 = __importDefault(require("./ToolTipStyles"));
+
+var ToolTip = function ToolTip(_ref) {
+  var id = _ref.id,
+      email = _ref.email,
+      onClose = _ref.onClose,
+      anchorEl = _ref.anchorEl,
+      open = _ref.open;
+  var classes = ToolTipStyles_1.default();
+  return react_1.default.createElement(Popover_1.default, {
+    id: id,
+    open: open,
+    anchorEl: anchorEl,
+    onClose: onClose,
+    anchorOrigin: {
+      vertical: "bottom",
+      horizontal: "center"
+    },
+    transformOrigin: {
+      vertical: "top",
+      horizontal: "center"
+    }
+  }, react_1.default.createElement(core_1.Typography, {
+    className: classes.typography
+  }, " ", react_1.default.createElement(ErrorOutline_1.default, null), " please include an @ in the email. ", email, " is missing @", " "));
+};
+
+exports.default = ToolTip;
+},{"react":"../node_modules/react/index.js","@material-ui/core/Popover":"../node_modules/@material-ui/core/esm/Popover/index.js","@material-ui/core":"../node_modules/@material-ui/core/esm/index.js","@material-ui/icons/ErrorOutline":"../node_modules/@material-ui/icons/ErrorOutline.js","./ToolTipStyles":"Component/ToolTip/ToolTipStyles.tsx"}],"../node_modules/axios/lib/helpers/bind.js":[function(require,module,exports) {
 'use strict';
 
 module.exports = function bind(fn, thisArg) {
@@ -108843,7 +108915,7 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-},{"./../utils":"../node_modules/axios/lib/utils.js","./../core/settle":"../node_modules/axios/lib/core/settle.js","./../helpers/buildURL":"../node_modules/axios/lib/helpers/buildURL.js","./../helpers/parseHeaders":"../node_modules/axios/lib/helpers/parseHeaders.js","./../helpers/isURLSameOrigin":"../node_modules/axios/lib/helpers/isURLSameOrigin.js","../core/createError":"../node_modules/axios/lib/core/createError.js","./../helpers/cookies":"../node_modules/axios/lib/helpers/cookies.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/process/browser.js":[function(require,module,exports) {
+},{"./../utils":"../node_modules/axios/lib/utils.js","./../core/settle":"../node_modules/axios/lib/core/settle.js","./../helpers/buildURL":"../node_modules/axios/lib/helpers/buildURL.js","./../helpers/parseHeaders":"../node_modules/axios/lib/helpers/parseHeaders.js","./../helpers/isURLSameOrigin":"../node_modules/axios/lib/helpers/isURLSameOrigin.js","../core/createError":"../node_modules/axios/lib/core/createError.js","./../helpers/cookies":"../node_modules/axios/lib/helpers/cookies.js"}],"../../../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/process/browser.js":[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {}; // cached from whatever global is present so that test runners that stub it
@@ -109153,7 +109225,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-},{"./utils":"../node_modules/axios/lib/utils.js","./helpers/normalizeHeaderName":"../node_modules/axios/lib/helpers/normalizeHeaderName.js","./adapters/http":"../node_modules/axios/lib/adapters/xhr.js","./adapters/xhr":"../node_modules/axios/lib/adapters/xhr.js","process":"../../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/process/browser.js"}],"../node_modules/axios/lib/helpers/isAbsoluteURL.js":[function(require,module,exports) {
+},{"./utils":"../node_modules/axios/lib/utils.js","./helpers/normalizeHeaderName":"../node_modules/axios/lib/helpers/normalizeHeaderName.js","./adapters/http":"../node_modules/axios/lib/adapters/xhr.js","./adapters/xhr":"../node_modules/axios/lib/adapters/xhr.js","process":"../../../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/process/browser.js"}],"../node_modules/axios/lib/helpers/isAbsoluteURL.js":[function(require,module,exports) {
 'use strict';
 
 /**
@@ -109580,7 +109652,62 @@ module.exports.default = axios;
 
 },{"./utils":"../node_modules/axios/lib/utils.js","./helpers/bind":"../node_modules/axios/lib/helpers/bind.js","./core/Axios":"../node_modules/axios/lib/core/Axios.js","./core/mergeConfig":"../node_modules/axios/lib/core/mergeConfig.js","./defaults":"../node_modules/axios/lib/defaults.js","./cancel/Cancel":"../node_modules/axios/lib/cancel/Cancel.js","./cancel/CancelToken":"../node_modules/axios/lib/cancel/CancelToken.js","./cancel/isCancel":"../node_modules/axios/lib/cancel/isCancel.js","./helpers/spread":"../node_modules/axios/lib/helpers/spread.js"}],"../node_modules/axios/index.js":[function(require,module,exports) {
 module.exports = require('./lib/axios');
-},{"./lib/axios":"../node_modules/axios/lib/axios.js"}],"pages/Login.tsx":[function(require,module,exports) {
+},{"./lib/axios":"../node_modules/axios/lib/axios.js"}],"pages/LoginStyle.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var core_1 = require("@material-ui/core");
+
+var useStyles = core_1.makeStyles(function (theme) {
+  return {
+    root: {
+      flexGrow: 1,
+      textAlign: "center"
+    },
+    appBar: {
+      backgroundColor: "#ffffff",
+      maxWidth: "100^%",
+      boxShadow: "none"
+    },
+    menuButton: {
+      marginRight: theme.spacing(2)
+    },
+    abeld: {
+      color: "0d0d0d"
+    },
+    disabeld: {
+      color: "#b2aaaa"
+    },
+    title: {
+      flexGrow: 1,
+      fontFamily: "Titillium Web",
+      fontSize: 50
+    },
+    subTitle: {
+      color: "#5CB85C"
+    },
+    textField: {
+      width: "400px"
+    },
+    signIn: {
+      backgroundColor: "#5CB85C",
+      color: "white",
+      width: "100px",
+      height: "50px"
+    },
+    error: {
+      color: "red"
+    },
+    typography: {
+      padding: theme.spacing(2)
+    }
+  };
+});
+exports.default = useStyles;
+},{"@material-ui/core":"../node_modules/@material-ui/core/esm/index.js"}],"pages/Login.tsx":[function(require,module,exports) {
 "use strict";
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
@@ -109615,73 +109742,25 @@ var react_1 = __importStar(require("react"));
 
 var react_router_dom_1 = require("react-router-dom");
 
-var core_1 = require("@material-ui/core");
-
 var TextField_1 = __importDefault(require("@material-ui/core/TextField"));
 
 var Button_1 = __importDefault(require("@material-ui/core/Button"));
 
-var ErrorOutline_1 = __importDefault(require("@material-ui/icons/ErrorOutline"));
-
-var Popover_1 = __importDefault(require("@material-ui/core/Popover"));
+var ToolTip_1 = __importDefault(require("../Component/ToolTip/ToolTip"));
 
 var axios_1 = __importDefault(require("axios"));
 
-var useStyles = core_1.makeStyles(function (theme) {
-  return {
-    root: {
-      flexGrow: 1,
-      textAlign: "center"
-    },
-    appBar: {
-      backgroundColor: "#ffffff",
-      maxWidth: "100^%",
-      boxShadow: "none"
-    },
-    menuButton: {
-      marginRight: theme.spacing(2)
-    },
-    abeld: {
-      color: "0d0d0d"
-    },
-    disabeld: {
-      color: "#b2aaaa"
-    },
-    title: {
-      flexGrow: 1,
-      fontFamily: "Titillium Web",
-      fontSize: 50
-    },
-    subTitle: {
-      color: "#5CB85C"
-    },
-    textField: {
-      width: "400px"
-    },
-    submitButton: {
-      backgroundColor: "#5CB85C",
-      color: "white",
-      width: "100px",
-      height: "50px"
-    },
-    error: {
-      color: "red"
-    },
-    typography: {
-      padding: theme.spacing(2)
-    }
-  };
-});
+var LoginStyle_1 = __importDefault(require("./LoginStyle"));
 
-function Login() {
-  var classes = useStyles();
+var Login = function Login() {
+  var classes = LoginStyle_1.default();
 
   var _react_1$useState = react_1.useState({}),
       _react_1$useState2 = _slicedToArray(_react_1$useState, 2),
       user = _react_1$useState2[0],
       setUser = _react_1$useState2[1];
 
-  var _react_1$default$useS = react_1.default.useState(null),
+  var _react_1$default$useS = react_1.default.useState(),
       _react_1$default$useS2 = _slicedToArray(_react_1$default$useS, 2),
       anchorEl = _react_1$default$useS2[0],
       setAnchorEl = _react_1$default$useS2[1];
@@ -109698,11 +109777,12 @@ function Login() {
 
   var _react_1$useState7 = react_1.useState(""),
       _react_1$useState8 = _slicedToArray(_react_1$useState7, 2),
-      errorMas = _react_1$useState8[0],
-      setErrorMas = _react_1$useState8[1];
+      errorMessage = _react_1$useState8[0],
+      setErrorMessage = _react_1$useState8[1];
 
   var open = Boolean(anchorEl);
   var id = open ? "simple-popover" : undefined;
+  localStorage.setItem("user", "null");
 
   var handelLogin = function handelLogin(event) {
     var body = {
@@ -109711,25 +109791,20 @@ function Login() {
         password: password
       }
     };
-    console.log("email=" + email);
-    console.log("password=" + password);
     axios_1.default.post("https://conduit.productionready.io/api/users/login", body).then(function (res) {
       setUser(res.data.user);
-      console.log("res=" + res);
-      console.log(res.data.user); // <Redirect to="/register"/>
-
+      localStorage.setItem("user", JSON.stringify(res.data.user));
       window.location.href = "/";
     });
 
     if (!email.includes("@")) {
       setAnchorEl(event.currentTarget);
-      console.log("sdah");
     } else {
-      setErrorMas("email or password are invalid");
+      setErrorMessage("email or password are invalid");
     }
   };
 
-  var handleClose = function handleClose() {
+  var handleClosePopover = function handleClosePopover() {
     setAnchorEl(null);
   };
 
@@ -109742,7 +109817,7 @@ function Login() {
     to: "/register"
   }, "Need an acount?")), react_1.default.createElement("div", {
     className: classes.error
-  }, errorMas), react_1.default.createElement("div", null, react_1.default.createElement(TextField_1.default, {
+  }, errorMessage), react_1.default.createElement("div", null, react_1.default.createElement(TextField_1.default, {
     className: classes.textField,
     id: "outlined-email-input",
     label: "Email",
@@ -109755,22 +109830,13 @@ function Login() {
     onChange: function onChange(event) {
       setEmail(event.target.value);
     }
-  })), react_1.default.createElement(Popover_1.default, {
+  })), react_1.default.createElement(ToolTip_1.default, {
     id: id,
     open: open,
     anchorEl: anchorEl,
-    onClose: handleClose,
-    anchorOrigin: {
-      vertical: "bottom",
-      horizontal: "center"
-    },
-    transformOrigin: {
-      vertical: "top",
-      horizontal: "center"
-    }
-  }, react_1.default.createElement(core_1.Typography, {
-    className: classes.typography
-  }, " ", react_1.default.createElement(ErrorOutline_1.default, null), " please include an @ in the email. ", email, " is missing @", " ")), react_1.default.createElement("div", null, react_1.default.createElement(TextField_1.default, {
+    onClose: handleClosePopover,
+    email: email
+  }), react_1.default.createElement("div", null, react_1.default.createElement(TextField_1.default, {
     className: classes.textField,
     id: "outlined-password-input",
     label: "Password",
@@ -109783,13 +109849,13 @@ function Login() {
       setPassword(event.target.value);
     }
   })), react_1.default.createElement("br", null), react_1.default.createElement("div", null, react_1.default.createElement(Button_1.default, {
-    className: classes.submitButton,
+    className: classes.signIn,
     onClick: handelLogin
-  }, "sing in")));
-}
+  }, "sign in")));
+};
 
 exports.default = Login;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","@material-ui/core":"../node_modules/@material-ui/core/esm/index.js","@material-ui/core/TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","@material-ui/icons/ErrorOutline":"../node_modules/@material-ui/icons/ErrorOutline.js","@material-ui/core/Popover":"../node_modules/@material-ui/core/esm/Popover/index.js","axios":"../node_modules/axios/index.js"}],"Component/Header/HeaderStyles.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","@material-ui/core/TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","../Component/ToolTip/ToolTip":"Component/ToolTip/ToolTip.tsx","axios":"../node_modules/axios/index.js","./LoginStyle":"pages/LoginStyle.tsx"}],"Component/Header/HeaderStyles.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -109805,47 +109871,45 @@ var useStyles = styles_1.makeStyles(function (theme) {
     },
     appBar: {
       backgroundColor: "#ffffff",
-      maxWidth: "100^%",
       boxShadow: "none"
     },
     menuButton: {
       marginRight: theme.spacing(2)
     },
-    abeld: {
-      color: "0d0d0d"
-    },
-    disabeld: {
-      color: "#b2aaaa"
-    },
     title: {
       flexGrow: 1,
       color: "#5CB85C",
       fontWeight: "bolder",
-      fontFamily: "Titillium Web"
+      fontFamily: "Titillium Web",
+      textDecoration: "none"
+    },
+    createIcon: {
+      height: "20px",
+      width: "20px",
+      color: "#5CB85C"
+    },
+    media: {
+      borderRadius: "20px",
+      width: "20px",
+      height: "20px"
+    },
+    link: {
+      color: "gray",
+      textDecoration: "none",
+      fontSize: "1.25rem",
+      padding: "5px"
+    },
+    abled: {
+      color: "black",
+      textDecoration: "none",
+      fontSize: "1.25rem",
+      padding: "5px"
     }
   };
 });
 exports.default = useStyles;
 },{"@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js"}],"Component/Header/Header.tsx":[function(require,module,exports) {
 "use strict";
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  }
-  result["default"] = mod;
-  return result;
-};
 
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
@@ -109857,7 +109921,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var react_1 = __importStar(require("react"));
+var react_1 = __importDefault(require("react"));
 
 var AppBar_1 = __importDefault(require("@material-ui/core/AppBar"));
 
@@ -109865,68 +109929,59 @@ var Toolbar_1 = __importDefault(require("@material-ui/core/Toolbar"));
 
 var Typography_1 = __importDefault(require("@material-ui/core/Typography"));
 
-var Button_1 = __importDefault(require("@material-ui/core/Button"));
-
 var react_router_dom_1 = require("react-router-dom");
 
 var HeaderStyles_1 = __importDefault(require("./HeaderStyles"));
 
-function Header(_ref) {
-  var loginFlage = _ref.loginFlage,
-      userName = _ref.userName;
-  var flage = loginFlage;
-  var classes = HeaderStyles_1.default();
+var io_1 = require("react-icons/io");
 
-  var _react_1$useState = react_1.useState(classes.abeld),
-      _react_1$useState2 = _slicedToArray(_react_1$useState, 2),
-      Homestyle = _react_1$useState2[0],
-      setHomestyle = _react_1$useState2[1];
+var CardMedia_1 = __importDefault(require("@material-ui/core/CardMedia"));
 
-  var _react_1$useState3 = react_1.useState(classes.disabeld),
-      _react_1$useState4 = _slicedToArray(_react_1$useState3, 2),
-      Singinstyle = _react_1$useState4[0],
-      setSinginstyle = _react_1$useState4[1];
+var core_1 = require("@material-ui/core");
 
-  var _react_1$useState5 = react_1.useState(classes.disabeld),
-      _react_1$useState6 = _slicedToArray(_react_1$useState5, 2),
-      Singupstyle = _react_1$useState6[0],
-      setSingupstyle = _react_1$useState6[1];
+var Header = function Header() {
+  var user = localStorage.getItem("user");
+  var userName = "";
+  var image = "https://static.productionready.io/images/smiley-cyrus.jpg";
 
-  var _react_1$useState7 = react_1.useState(classes.disabeld),
-      _react_1$useState8 = _slicedToArray(_react_1$useState7, 2),
-      RegisterStyle = _react_1$useState8[0],
-      setRegisterStyle = _react_1$useState8[1];
+  if (user != "null" && user != null) {
+    userName = JSON.parse(localStorage.getItem("user")).username;
 
-  var Homehandelclick = function Homehandelclick(event) {
-    setHomestyle(classes.abeld);
-    setSinginstyle(classes.disabeld);
-    setSingupstyle(classes.disabeld);
-    setRegisterStyle(classes.disabeld);
+    if (JSON.parse(localStorage.getItem("user")).image != null) {
+      image = JSON.parse(localStorage.getItem("user")).image;
+    }
+  }
+
+  var ids = ['home', 'signIn', 'signUp', 'newArticle', 'settings', 'photo'];
+
+  var handler = function handler(event) {
+    var id = event.target.id;
+    var element = document.getElementById(id);
+    console.log("id=" + id);
+
+    for (var i = 0; i < ids.length; i++) {
+      console.log("ids[i]=" + ids[i]);
+
+      if (ids[i] == id) {
+        console.log("equal");
+
+        if (element != null) {
+          element.className = classes.abled;
+        }
+      } else {
+        var el = document.getElementById(ids[i]);
+        console.log("not equal");
+
+        if (el != null) {
+          el.className = classes.link;
+        }
+      }
+    }
   };
 
-  var Singinhandelclick = function Singinhandelclick(event) {
-    setHomestyle(classes.disabeld);
-    setSinginstyle(classes.abeld);
-    setSingupstyle(classes.disabeld);
-    setRegisterStyle(classes.disabeld);
-  };
+  var classes = HeaderStyles_1.default(); //loged in succsecfully
 
-  var Singuphandelclick = function Singuphandelclick(event) {
-    setHomestyle(classes.disabeld);
-    setSinginstyle(classes.disabeld);
-    setSingupstyle(classes.abeld);
-    setRegisterStyle(classes.disabeld);
-  };
-
-  var Registerhandlerclick = function Registerhandlerclick() {
-    setHomestyle(classes.disabeld);
-    setSinginstyle(classes.disabeld);
-    setSingupstyle(classes.disabeld);
-    setRegisterStyle(classes.abeld);
-  }; //loged in succsecfully
-
-
-  if (!flage) {
+  if (user == "null") {
     return react_1.default.createElement("div", {
       className: classes.root
     }, react_1.default.createElement(AppBar_1.default, {
@@ -109936,37 +109991,24 @@ function Header(_ref) {
       variant: "h5",
       className: classes.title
     }, react_1.default.createElement(react_router_dom_1.Link, {
-      style: {
-        textDecoration: "none"
-      },
+      className: classes.title,
       to: "/"
-    }, react_1.default.createElement(Button_1.default, {
-      className: classes.title
-    }, "conduit"))), react_1.default.createElement(react_router_dom_1.Link, {
-      style: {
-        textDecoration: "none"
-      },
+    }, "conduit")), react_1.default.createElement(react_router_dom_1.Link, {
+      onClick: handler,
+      id: "home",
+      className: classes.link,
       to: "/"
-    }, react_1.default.createElement(Button_1.default, {
-      className: Homestyle,
-      onClick: Homehandelclick
-    }, "Home")), react_1.default.createElement(react_router_dom_1.Link, {
-      style: {
-        textDecoration: "none"
-      },
+    }, "Home"), react_1.default.createElement(react_router_dom_1.Link, {
+      onClick: handler,
+      id: 'signIn',
+      className: classes.link,
       to: "/login"
-    }, react_1.default.createElement(Button_1.default, {
-      className: Singinstyle,
-      onClick: Singinhandelclick
-    }, "Sing in")), react_1.default.createElement(react_router_dom_1.Link, {
-      style: {
-        textDecoration: "none"
-      },
+    }, "Sing in"), react_1.default.createElement(react_router_dom_1.Link, {
+      onClick: handler,
+      id: 'signUp',
+      className: classes.link,
       to: "/register"
-    }, react_1.default.createElement(Button_1.default, {
-      className: Singupstyle,
-      onClick: Singuphandelclick
-    }, "Sing up")))));
+    }, "Sing up"))));
   } //wihout log in
   else {
       return react_1.default.createElement("div", {
@@ -109978,95 +110020,48 @@ function Header(_ref) {
         variant: "h5",
         className: classes.title
       }, react_1.default.createElement(react_router_dom_1.Link, {
-        style: {
-          textDecoration: "none"
-        },
+        className: classes.title,
         to: "/"
-      }, react_1.default.createElement(Button_1.default, {
-        className: classes.title
-      }, "conduit"))), react_1.default.createElement(react_router_dom_1.Link, {
-        style: {
-          textDecoration: "none"
-        },
+      }, "conduit")), react_1.default.createElement(react_router_dom_1.Link, {
+        onClick: handler,
+        id: "home",
+        className: classes.link,
         to: "/"
-      }, react_1.default.createElement(Button_1.default, {
-        className: Homestyle,
-        onClick: Homehandelclick
-      }, "Home")), react_1.default.createElement(react_router_dom_1.Link, {
-        style: {
-          textDecoration: "none"
-        },
+      }, "Home"), react_1.default.createElement(react_router_dom_1.Link, {
+        onClick: handler,
+        id: "newArticle",
+        className: classes.link,
         to: "/article"
-      }, react_1.default.createElement(Button_1.default, {
-        className: Singinstyle,
-        onClick: Singinhandelclick
-      }, "New Article")), react_1.default.createElement(react_router_dom_1.Link, {
-        style: {
-          textDecoration: "none"
-        },
+      }, react_1.default.createElement(io_1.IoIosCreate, {
+        className: classes.createIcon
+      }), "New Article"), react_1.default.createElement(react_router_dom_1.Link, {
+        onClick: handler,
+        id: "settings",
+        className: classes.link,
         to: "/settings"
-      }, react_1.default.createElement(Button_1.default, {
-        className: Singupstyle,
-        onClick: Singuphandelclick
-      }, "Settings")), react_1.default.createElement(react_router_dom_1.Link, {
-        style: {
-          textDecoration: "none"
-        },
-        to: "/register"
-      }, react_1.default.createElement(Button_1.default, {
-        className: RegisterStyle,
-        onClick: Registerhandlerclick
-      }, userName)))));
+      }, react_1.default.createElement(io_1.IoIosSettings, {
+        className: classes.createIcon
+      }), " Settings"), react_1.default.createElement(react_router_dom_1.Link, {
+        onClick: handler,
+        id: "photo",
+        className: classes.link,
+        to: "/profile"
+      }, react_1.default.createElement(core_1.Button, null, react_1.default.createElement(CardMedia_1.default, {
+        className: classes.media,
+        image: image
+      }), userName)))));
     }
-}
+};
 
 exports.default = Header;
-},{"react":"../node_modules/react/index.js","@material-ui/core/AppBar":"../node_modules/@material-ui/core/esm/AppBar/index.js","@material-ui/core/Toolbar":"../node_modules/@material-ui/core/esm/Toolbar/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./HeaderStyles":"Component/Header/HeaderStyles.tsx"}],"pages/Register.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@material-ui/core/AppBar":"../node_modules/@material-ui/core/esm/AppBar/index.js","@material-ui/core/Toolbar":"../node_modules/@material-ui/core/esm/Toolbar/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./HeaderStyles":"Component/Header/HeaderStyles.tsx","react-icons/io":"../node_modules/react-icons/io/index.esm.js","@material-ui/core/CardMedia":"../node_modules/@material-ui/core/esm/CardMedia/index.js","@material-ui/core":"../node_modules/@material-ui/core/esm/index.js"}],"pages/RegisterStyle.tsx":[function(require,module,exports) {
 "use strict";
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  }
-  result["default"] = mod;
-  return result;
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var react_1 = __importStar(require("react"));
-
-var react_router_dom_1 = require("react-router-dom");
-
 var core_1 = require("@material-ui/core");
-
-var TextField_1 = __importDefault(require("@material-ui/core/TextField"));
-
-var Button_1 = __importDefault(require("@material-ui/core/Button"));
-
-var ErrorOutline_1 = __importDefault(require("@material-ui/icons/ErrorOutline"));
-
-var Popover_1 = __importDefault(require("@material-ui/core/Popover"));
-
-var axios_1 = __importDefault(require("axios"));
 
 var useStyles = core_1.makeStyles(function (theme) {
   return {
@@ -110076,17 +110071,10 @@ var useStyles = core_1.makeStyles(function (theme) {
     },
     appBar: {
       backgroundColor: "#ffffff",
-      maxWidth: "100^%",
       boxShadow: "none"
     },
     menuButton: {
       marginRight: theme.spacing(2)
-    },
-    abeld: {
-      color: "0d0d0d"
-    },
-    disabeld: {
-      color: "#b2aaaa"
     },
     title: {
       flexGrow: 1,
@@ -110099,7 +110087,7 @@ var useStyles = core_1.makeStyles(function (theme) {
     textField: {
       width: "400px"
     },
-    submitButton: {
+    signUp: {
       backgroundColor: "#5CB85C",
       color: "white",
       width: "100px",
@@ -110113,11 +110101,56 @@ var useStyles = core_1.makeStyles(function (theme) {
     }
   };
 });
+exports.default = useStyles;
+},{"@material-ui/core":"../node_modules/@material-ui/core/esm/index.js"}],"pages/Register.tsx":[function(require,module,exports) {
+"use strict";
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var react_1 = __importStar(require("react"));
+
+var react_router_dom_1 = require("react-router-dom");
+
+var TextField_1 = __importDefault(require("@material-ui/core/TextField"));
+
+var Button_1 = __importDefault(require("@material-ui/core/Button"));
+
+var axios_1 = __importDefault(require("axios"));
+
+var RegisterStyle_1 = __importDefault(require("./RegisterStyle"));
+
+var ToolTip_1 = __importDefault(require("../Component/ToolTip/ToolTip"));
 
 function Register() {
-  var classes = useStyles();
+  var classes = RegisterStyle_1.default();
 
-  var _react_1$default$useS = react_1.default.useState(null),
+  var _react_1$default$useS = react_1.default.useState(),
       _react_1$default$useS2 = _slicedToArray(_react_1$default$useS, 2),
       anchorEl = _react_1$default$useS2[0],
       setAnchorEl = _react_1$default$useS2[1];
@@ -110140,10 +110173,9 @@ function Register() {
   var open = Boolean(anchorEl);
   var id = open ? "simple-popover" : undefined;
 
-  var handelsignup = function handelsignup(event) {
+  var handelSignup = function handelSignup(event) {
     if (!email.includes("@")) {
       setAnchorEl(event.currentTarget);
-      console.log("sdah");
     }
 
     var body = {
@@ -110153,16 +110185,13 @@ function Register() {
         password: password
       }
     };
-    console.log("name=" + username);
-    console.log("email=" + email);
-    console.log("password=" + password);
     axios_1.default.post("https://conduit.productionready.io/api/users", body).then(function (res) {
-      console.log("res=" + res);
-      console.log(res.data);
-    }); //callbackFromParent({flage:false,userName:"reem"});
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      window.location.href = "/";
+    });
   };
 
-  var handleClose = function handleClose() {
+  var handleClosePopover = function handleClosePopover() {
     setAnchorEl(null);
   };
 
@@ -110199,22 +110228,13 @@ function Register() {
     onChange: function onChange(event) {
       setEmail(event.target.value);
     }
-  })), react_1.default.createElement(Popover_1.default, {
+  })), react_1.default.createElement(ToolTip_1.default, {
     id: id,
     open: open,
     anchorEl: anchorEl,
-    onClose: handleClose,
-    anchorOrigin: {
-      vertical: "bottom",
-      horizontal: "center"
-    },
-    transformOrigin: {
-      vertical: "top",
-      horizontal: "center"
-    }
-  }, react_1.default.createElement(core_1.Typography, {
-    className: classes.typography
-  }, " ", react_1.default.createElement(ErrorOutline_1.default, null), " please include an @ in the email. ", email, " is missing @", " ")), react_1.default.createElement("div", null, react_1.default.createElement(TextField_1.default, {
+    onClose: handleClosePopover,
+    email: email
+  }), react_1.default.createElement("div", null, react_1.default.createElement(TextField_1.default, {
     className: classes.textField,
     id: "outlined-password-input",
     label: "Password",
@@ -110227,13 +110247,13 @@ function Register() {
       setPassword(event.target.value);
     }
   })), react_1.default.createElement("br", null), react_1.default.createElement("div", null, react_1.default.createElement(Button_1.default, {
-    className: classes.submitButton,
-    onClick: handelsignup
-  }, "sing up")));
+    className: classes.signUp,
+    onClick: handelSignup
+  }, "sign up")));
 }
 
 exports.default = Register;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","@material-ui/core":"../node_modules/@material-ui/core/esm/index.js","@material-ui/core/TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","@material-ui/icons/ErrorOutline":"../node_modules/@material-ui/icons/ErrorOutline.js","@material-ui/core/Popover":"../node_modules/@material-ui/core/esm/Popover/index.js","axios":"../node_modules/axios/index.js"}],"Component/Footer/FooterStyles.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","@material-ui/core/TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","axios":"../node_modules/axios/index.js","./RegisterStyle":"pages/RegisterStyle.tsx","../Component/ToolTip/ToolTip":"Component/ToolTip/ToolTip.tsx"}],"Component/Footer/FooterStyles.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -110258,10 +110278,13 @@ var useStyles = styles_1.makeStyles(function (theme) {
     container: {
       backgroundColor: "#485563"
     },
-    logo_font: {
+    logoFont: {
       fontFamily: "Source Sans Pro",
       color: "#fff",
       fontWeight: "lighter"
+    },
+    div: {
+      paddingTop: "100px"
     }
   };
 });
@@ -110289,7 +110312,9 @@ var FooterStyles_1 = __importDefault(require("./FooterStyles"));
 
 var Footer = function Footer() {
   var classes = FooterStyles_1.default();
-  return react_1.default.createElement("div", {
+  return react_1.default.createElement("div", null, react_1.default.createElement("div", {
+    className: classes.div
+  }), react_1.default.createElement("div", {
     className: classes.footer
   }, react_1.default.createElement("div", {
     className: classes.container
@@ -110297,10 +110322,10 @@ var Footer = function Footer() {
     href: "https://github.com/gothinkster/angularjs-realworld-example-app",
     target: "_blank"
   }, react_1.default.createElement(Typography_1.default, {
-    className: classes.logo_font,
+    className: classes.logoFont,
     variant: "h6",
     gutterBottom: true
-  }, react_1.default.createElement(io_1.IoLogoGithub, null), " Fork on GitHub")), react_1.default.createElement("br", null)));
+  }, react_1.default.createElement(io_1.IoLogoGithub, null), " Fork on GitHub")), react_1.default.createElement("br", null))));
 };
 
 exports.default = Footer;
@@ -110512,14 +110537,26 @@ var SettingsStyles_1 = __importDefault(require("./SettingsStyles"));
 var core_1 = require("@material-ui/core");
 
 var Settings = function Settings() {
-  var classes = SettingsStyles_1.default();
-  var username = "reem";
-  var email = "reem2gmail.com";
+  var classes = SettingsStyles_1.default(); //let username=localStorage.getItem("user")
+
+  var user = localStorage.getItem("user");
+  var username = "";
+  var email = "";
+
+  if (user != "null" && user != null) {
+    username = JSON.parse(localStorage.getItem("user")).username;
+    email = JSON.parse(localStorage.getItem("user")).email;
+  }
 
   var _react_1$default$useS = react_1.default.useState(""),
       _react_1$default$useS2 = _slicedToArray(_react_1$default$useS, 2),
       name = _react_1$default$useS2[0],
       setName = _react_1$default$useS2[1];
+
+  var handelcloseclick = function handelcloseclick() {
+    localStorage.setItem("user", "null");
+    window.location.href = "/";
+  };
 
   return react_1.default.createElement("div", {
     className: classes.container
@@ -110573,7 +110610,8 @@ var Settings = function Settings() {
   }, react_1.default.createElement("div", {
     className: classes.logOutDiv
   }, react_1.default.createElement(core_1.Button, {
-    className: classes.logOutButton
+    className: classes.logOutButton,
+    onClick: handelcloseclick
   }, "or click here to logout"))));
 };
 
@@ -110634,12 +110672,8 @@ var Article_1 = __importDefault(require("./pages/Article"));
 var SettingsPage_1 = __importDefault(require("./pages/SettingsPage"));
 
 function App() {
-  // const myCallback = ({flage,userName}:{flage:boolean,userName:string}) => {
-  //     console.log(flage+","+userName)
-  // }
-  // <Login callbackFromParent={myCallback}></Login>
   return react_1.default.createElement("div", null, react_1.default.createElement(react_router_dom_1.BrowserRouter, null, react_1.default.createElement(Header_1.default, {
-    loginFlage: true,
+    loginFlage: false,
     userName: "reem"
   }), react_1.default.createElement(react_router_dom_1.Route, {
     exact: true,
@@ -110657,11 +110691,11 @@ function App() {
   }), react_1.default.createElement(react_router_dom_1.Route, {
     path: "/settings",
     component: SettingsPage_1.default
-  }), react_1.default.createElement("div", null), react_1.default.createElement(Footer_1.default, null)));
+  }), react_1.default.createElement(Footer_1.default, null)));
 }
 
 react_dom_1.default.render(react_1.default.createElement(App, null), document.getElementById("root"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./pages/Home":"pages/Home.tsx","./pages/Login":"pages/Login.tsx","./Component/Header/Header":"Component/Header/Header.tsx","./pages/Register":"pages/Register.tsx","./Component/Footer/Footer":"Component/Footer/Footer.tsx","./pages/Article":"pages/Article.tsx","./pages/SettingsPage":"pages/SettingsPage.tsx"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./pages/Home":"pages/Home.tsx","./pages/Login":"pages/Login.tsx","./Component/Header/Header":"Component/Header/Header.tsx","./pages/Register":"pages/Register.tsx","./Component/Footer/Footer":"Component/Footer/Footer.tsx","./pages/Article":"pages/Article.tsx","./pages/SettingsPage":"pages/SettingsPage.tsx"}],"../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -110689,7 +110723,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51726" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60862" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -110864,5 +110898,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","App.tsx"], null)
+},{}]},{},["../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","App.tsx"], null)
 //# sourceMappingURL=/App.04586683.js.map

@@ -3,21 +3,21 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import useStyles from "./BannerStyles";
 interface IProps {
-  appName: string;
-  token: boolean;
+  title: string;
+  //token: boolean;
 }
-const Banner = ({ appName, token }: IProps) => {
+const Banner:React.FC<IProps> = ({ title}) => {
   const classes = useStyles();
-  if (token) {
-    return null;
-  }
+  // if (token) {
+  //   return null;
+  // }
   return (
-    <Container fixed style={{ height: "200px" }}>
+    <Container className={classes.mainContainer} >
       <div className={classes.banner}>
         <div className={classes.container}>
           <br />
           <Typography className={classes.logo_font} variant="h3" gutterBottom>
-            {appName.toLowerCase()}
+            {title.toLowerCase()}
           </Typography>
           <Typography className={classes.para} variant="h6" gutterBottom>
             A place to share your knowledge.

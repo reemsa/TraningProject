@@ -1,92 +1,40 @@
 import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
-import { makeStyles, Typography } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
-import Tooltip from "@material-ui/core/Tooltip";
-import Popover from "@material-ui/core/Popover";
+import ToolTip from "../Component/ToolTip/ToolTip";
 import axios from "axios";
-import USER from '../GlobalData/user';
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-    textAlign: "center"
-  },
-  appBar: {
-    backgroundColor: "#ffffff",
-    maxWidth: "100^%",
-    boxShadow: "none"
-  },
-  menuButton: {
-    marginRight: theme.spacing(2)
-  },
-  abeld: {
-    color: "0d0d0d"
-  },
-  disabeld: {
-    color: "#b2aaaa"
-  },
-  title: {
-    flexGrow: 1,
-    fontFamily: "Titillium Web",
-    fontSize: 50
-  },
-  subTitle: {
-    color: "#5CB85C"
-  },
-  textField: {
-    width: "400px"
-  },
-  submitButton: {
-    backgroundColor: "#5CB85C",
-    color: "white",
-    width: "100px",
-    height: "50px"
-  },
-  error: {
-    color: "red"
-  },
-  typography: {
-    padding: theme.spacing(2)
-  }
-}));
-function Login() {
-  const userobj= new USER()
+import useStyles from './LoginStyle'
+const Login:React.FC=()=>{
   const classes = useStyles();
   const [user,setUser]=useState({})
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMas, setErrorMas] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-  const handelLogin = (event: any) => {
+  localStorage.setItem("user", "null");
+  const handelLogin = (event:React.MouseEvent<HTMLElement>) => {
     const body = {
       user: {
         email: email,
         password: password
       }
     };
-    console.log("email=" + email);
-    console.log("password=" + password);
-    axios
-      .post(`https://conduit.productionready.io/api/users/login`, body)
+    axios.post(`https://conduit.productionready.io/api/users/login`, body)
       .then(res => {
         setUser(res.data.user)
-        console.log("res=" + res);
-        console.log(res.data.user);
-        userobj.setUSER(res.data.user);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
         window.location.href = "/";
       });
     if (!email.includes("@")) {
       setAnchorEl(event.currentTarget);
-      console.log("sdah");
     } else {
-      setErrorMas("email or password are invalid");
+      setErrorMessage("email or password are invalid");
     }
   };
-  const handleClose = () => {
+  const handleClosePopover = () => {
     setAnchorEl(null);
   };
   return (
@@ -97,7 +45,7 @@ function Login() {
           Need an acount?
         </Link>
       </div>
-      <div className={classes.error}>{errorMas}</div>
+      <div className={classes.error}>{errorMessage}</div>
       <div>
         <TextField
           className={classes.textField}
@@ -114,26 +62,7 @@ function Login() {
           }}
         />
       </div>
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center"
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "center"
-        }}
-      >
-        <Typography className={classes.typography}>
-          {" "}
-          <ErrorOutlineIcon /> please include an @ in the email. {email} is
-          missing @{" "}
-        </Typography>
-      </Popover>
+      <ToolTip id={id} open={open} anchorEl={anchorEl}onClose={handleClosePopover} email={email}></ToolTip>
       <div>
         <TextField
           className={classes.textField}
@@ -151,8 +80,8 @@ function Login() {
       </div>
       <br />
       <div>
-        <Button className={classes.submitButton} onClick={handelLogin}>
-          sing in
+        <Button className={classes.signIn} onClick={handelLogin}>
+          sign in
         </Button>
       </div>
     </div>

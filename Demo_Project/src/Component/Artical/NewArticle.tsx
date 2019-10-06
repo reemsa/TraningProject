@@ -2,7 +2,7 @@ import React from 'react';
 import useStyles from './NewArticleStyles'
 import { TextField, Button } from '@material-ui/core';
 function NewArticle(){
-    let classes=useStyles()
+    const classes=useStyles()
     const [name, setName] = React.useState("");
     return(
         <div className={classes.container}>
@@ -13,7 +13,6 @@ function NewArticle(){
                     className={classes.textField}
                     value={name}
                     //onChange={handleChange('name')}
-                    // margin="normal"
                 />
             </div>
             <div className={classes.div}>
@@ -23,7 +22,6 @@ function NewArticle(){
                     className={classes.textField}
                     value={name}
                     //onChange={handleChange('name')}
-                    // margin="normal"
                 />
             </div>
             <div className={classes.div}>
@@ -33,7 +31,6 @@ function NewArticle(){
                     multiline
                     rows="8"
                     className={classes.textField}
-                    //margin="normal"
                 />
             </div>
             <div className={classes.div}>
@@ -43,7 +40,6 @@ function NewArticle(){
                     className={classes.textField}
                     value={name}
                     //onChange={handleChange('name')}
-                    // margin="normal"
                 />
             </div>
             <div className={classes.div}>

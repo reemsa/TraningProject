@@ -1,11 +1,21 @@
 import React from 'react';
 import useStyles from './SettingsStyles';
 import { TextField, Button, Typography } from '@material-ui/core';
-const Settings =()=>{
+const Settings:React.FC=()=>{
     const classes=useStyles()
-    let username="reem"
-    let email="reem2gmail.com"
+    //let username=localStorage.getItem("user")
+    const user=localStorage.getItem("user");
+    let username=""
+    let email=""
+    if(user!="null"&&user!=null){
+      username=JSON.parse(localStorage.getItem("user") as string).username;
+      email=JSON.parse(localStorage.getItem("user") as string).email
+    }
     const [name, setName] = React.useState("");
+    let handelcloseclick=()=>{
+        localStorage.setItem("user", "null");
+        window.location.href = "/";
+    }
     return(
         <div className={classes.container}>
             <Typography className={classes.text}>Your Settings</Typography>
@@ -16,7 +26,6 @@ const Settings =()=>{
                     className={classes.textField}
                     value={name}
                     //onChange={handleChange('name')}
-                    // margin="normal"
                 />
             </div>
             <div className={classes.div}>
@@ -34,7 +43,6 @@ const Settings =()=>{
                     multiline
                     rows="8"
                     className={classes.textField}
-                    //margin="normal"
                 />
             </div>
             <div className={classes.div}>
@@ -53,7 +61,6 @@ const Settings =()=>{
                     className={classes.textField}
                     value={name}
                     //onChange={handleChange('name')}
-                    // margin="normal"
                 />
             </div>
             <div className={classes.div}>
@@ -63,7 +70,7 @@ const Settings =()=>{
             </div>
             <div className={classes.div}>
                 <div className={classes.logOutDiv}>
-                    <Button className={classes.logOutButton}>or click here to logout</Button>
+                    <Button className={classes.logOutButton} onClick={handelcloseclick}>or click here to logout</Button>
                 </div>
             </div>
         </div>

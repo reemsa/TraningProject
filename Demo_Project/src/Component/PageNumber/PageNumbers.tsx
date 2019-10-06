@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import useStyles from "./PageNumbersStyles";
-function PageNumbers() {
+import { Button } from "@material-ui/core";
+const PageNumbers:React.FC=()=>{
   const classes = useStyles();
-  let pageNumer = 50;
-  var arrButtons = [];
+  const pageNumer = 50;
+  const arrButtons=[]
   const handelClick = (event: any) => {
     let id = event.target.id;
     let element = document.getElementById(id);

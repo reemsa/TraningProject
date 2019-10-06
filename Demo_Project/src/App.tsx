@@ -18,7 +18,6 @@ function App() {
         <Route path="/register" component={Register}></Route>
         <Route path="/article" component={Article}></Route>
         <Route path="/settings" component={SettingsPage}></Route>
-        <div style={{paddingTop:"50px"}}></div>
         <Footer></Footer>
       </Router>
     </div>
