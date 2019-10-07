@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import ToolTip from "../Component/ToolTip/ToolTip";
-import axios from "axios";
+import {setCurrentUser} from '../network/user'
 import useStyles from './LoginStyle'
+import {axiosPost} from '../network/AXIOS'
 const Login:React.FC=()=>{
   const classes = useStyles();
   const [user,setUser]=useState({})
@@ -14,7 +15,7 @@ const Login:React.FC=()=>{
   const [errorMessage, setErrorMessage] = useState("");
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-  localStorage.setItem("user", "null");
+  setCurrentUser(null)
   const handelLogin = (event:React.MouseEvent<HTMLElement>) => {
     const body = {
       user: {
@@ -22,10 +23,10 @@ const Login:React.FC=()=>{
         password: password
       }
     };
-    axios.post(`https://conduit.productionready.io/api/users/login`, body)
+    axiosPost('users/login',body)
       .then(res => {
         setUser(res.data.user)
-        localStorage.setItem("user", JSON.stringify(res.data.user));
+        setCurrentUser(res.data.user)
         window.location.href = "/";
       });
     if (!email.includes("@")) {

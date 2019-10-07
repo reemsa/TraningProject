@@ -4,13 +4,9 @@ import Container from "@material-ui/core/Container";
 import useStyles from "./BannerStyles";
 interface IProps {
   title: string;
-  //token: boolean;
 }
 const Banner:React.FC<IProps> = ({ title}) => {
   const classes = useStyles();
-  // if (token) {
-  //   return null;
-  // }
   return (
     <Container className={classes.mainContainer} >
       <div className={classes.banner}>

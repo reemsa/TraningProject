@@ -1,16 +1,17 @@
 import React from "react";
 import Banner from '../Component/Banner/Banner'
+import {getUser} from '../network/user'
 interface IProps {
   title: string;
-  token: boolean;
 }
-const BannerPage:React.FC<IProps> = ({ title,token}) => {
-  if (token) {
-    return null;
+const BannerPage:React.FC<IProps> = ({ title}) => {
+  let user=getUser();
+  if (user==null||user=="null") {
+    return (
+      <Banner title={title}></Banner>
+    );
   }
-  return (
-    <Banner title={title}></Banner>
-  );
+  return null;
 };
 
 export default BannerPage;

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import axios from "axios";
+import {axiosPost} from '../network/AXIOS';
+import {setCurrentUser} from '../network/user'
 import useStyles from './RegisterStyle'
 import ToolTip from "../Component/ToolTip/ToolTip";
 function Register() {
@@ -24,9 +25,8 @@ function Register() {
         password: password as string
       }
     };
-    axios.post(`https://conduit.productionready.io/api/users`, body)
-      .then(res => {
-        localStorage.setItem("user", JSON.stringify(res.data.user));
+    axiosPost("users",body).then(res => {
+      setCurrentUser(res.data.user)
         window.location.href = "/";
       });
   };

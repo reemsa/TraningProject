@@ -1,37 +1,30 @@
 import React, { useState } from "react";
 import useStyles from "./PageNumbersStyles";
 import { Button } from "@material-ui/core";
-const PageNumbers:React.FC=()=>{
+interface PageNumberProps {
+  pageNumber?: number
+}
+
+const PageNumbers:React.FC<PageNumberProps>=({pageNumber})=>{
+  const [activeIndex, setActiveIndex] = useState(0);
+  const handleClick = (index:number) => setActiveIndex(index);
   const classes = useStyles();
-  const pageNumer = 50;
-  const arrButtons=[]
-  const handelClick = (event: any) => {
-    let id = event.target.id;
-    let element = document.getElementById(id);
-    for (let i = 1; i <= pageNumer; i++) {
-      if (i != id) {
-        let el = document.getElementById(i.toString());
-        if (el) {
-          el.className = classes.button;
-        }
-      }
-    }
-    if (element != null) {
-      element.className = classes.click;
-    }
-  };
-  for (let i = 1; i <= pageNumer; i++) {
-    arrButtons.push(
+  const buttons = Array(pageNumber).fill("").map((item, index) => {
+    return (
       <button
-      key={i.toString()}
-        id={i.toString()}
-        className={classes.button}
-        onClick={handelClick}
+        key={String(index)}
+        id={String(index)}
+        onClick={()=>handleClick(index)}
+        className={activeIndex==index? classes.click:classes.button}
       >
-        {i}
+        {index+1}
       </button>
-    );
-  }
-  return <div className={classes.div}>{arrButtons}</div>;
+      )
+  });
+
+  return <div className={classes.div}>{buttons}</div>;
+}
+PageNumbers.defaultProps = {
+  pageNumber: 50
 }
 export default PageNumbers;

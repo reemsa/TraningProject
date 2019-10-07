@@ -8,6 +8,7 @@ import {IoIosCreate,IoIosSettings} from 'react-icons/io';
 import CardMedia from '@material-ui/core/CardMedia';
 import { Button } from "@material-ui/core";
 const Header:React.FC=()=>{
+  const [style,setStyle]=useState("home")
   const user=localStorage.getItem("user");
   let userName=""
   let image="https://static.productionready.io/images/smiley-cyrus.jpg"
@@ -17,28 +18,7 @@ const Header:React.FC=()=>{
     image=JSON.parse(localStorage.getItem("user") as string).image;
     }
   }
-  const ids=['home','signIn','signUp','newArticle','settings','photo']
-  const handler=(event:any)=>{
-    let id = event.target.id;
-    let element = document.getElementById(id);
-    console.log("id="+id)
-    for(let i=0;i<ids.length;i++){
-      console.log("ids[i]="+ids[i])
-        if(ids[i]==id){
-          console.log("equal")
-          if(element!=null){
-            element.className=classes.abled
-          }
-        }
-        else{
-          let el = document.getElementById(ids[i]);
-          console.log("not equal")
-          if(el!=null){
-            el.className=classes.link
-          }
-      }
-  }
-}
+  const handler=(event:any)=>setStyle(event.target.id);
   const classes = useStyles();
   //loged in succsecfully
   if (user=="null") {
@@ -51,13 +31,13 @@ const Header:React.FC=()=>{
                 conduit
               </Link>
             </Typography>
-            <Link onClick={handler}  id={"home"} className={classes.link} to="/">
+            <Link onClick={handler} id={"home"} className={style=='home'? classes.enabled:classes.link} to="/">
                 Home
             </Link>
-            <Link onClick={handler} id={'signIn'} className={classes.link} to="/login">
+            <Link onClick={handler} id={'signIn'} className={style=='signIn'? classes.enabled:classes.link} to="/login">
                 Sing in
             </Link>
-            <Link onClick={handler}  id={'signUp'} className={classes.link} to="/register">
+            <Link onClick={handler}  id={'signUp'} className={style=='signUp'? classes.enabled:classes.link} to="/register">
                 Sing up
             </Link>
           </Toolbar>
@@ -75,22 +55,22 @@ const Header:React.FC=()=>{
               <Link  className={classes.title} to="/">conduit
               </Link>
             </Typography>
-            <Link onClick={handler}  id={"home"} className={classes.link} to="/">
+            <Link onClick={handler}  id={"home"}  className={style=='home'? classes.enabled:classes.link} to="/">
               Home
             </Link>
-            <Link onClick={handler}  id={"newArticle"} className={classes.link} to="/article">
+            <Link onClick={handler}  id={"newArticle"} className={style=='newArticle'? classes.enabled:classes.link} to="/article">
                 <IoIosCreate className={classes.createIcon}/>New Article
             </Link>
-            <Link onClick={handler}  id={"settings"} className={classes.link} to="/settings">
+            <Link onClick={handler}  id={"settings"}  className={style=='settings'? classes.enabled:classes.link} to="/settings">
                 <IoIosSettings className={classes.createIcon}/> Settings
             </Link>
-            <Link onClick={handler}  id={"photo"} className={classes.link} to="/profile">
-              <Button>
+            <Link onClick={handler}  id={"profile"} className={style=="profile"? classes.enabled:classes.link} to="/profile">
+              <Button onClick={handler}  id={"profile"} className={style=="profile"? classes.enabledButton:classes.button}>
                 <CardMedia
                       className={classes.media}
                       image={image}
                 />
-                {userName}
+                {userName }
               </Button>
             </Link>
           </Toolbar>

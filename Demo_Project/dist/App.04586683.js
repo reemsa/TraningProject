@@ -44357,10 +44357,7 @@ var BannerStyles_1 = __importDefault(require("./BannerStyles"));
 
 var Banner = function Banner(_ref) {
   var title = _ref.title;
-  var classes = BannerStyles_1.default(); // if (token) {
-  //   return null;
-  // }
-
+  var classes = BannerStyles_1.default();
   return react_1.default.createElement(Container_1.default, {
     className: classes.mainContainer
   }, react_1.default.createElement("div", {
@@ -44379,7 +44376,21 @@ var Banner = function Banner(_ref) {
 };
 
 exports.default = Banner;
-},{"react":"../node_modules/react/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/Container":"../node_modules/@material-ui/core/esm/Container/index.js","./BannerStyles":"Component/Banner/BannerStyles.tsx"}],"pages/Bannnerpage.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/Container":"../node_modules/@material-ui/core/esm/Container/index.js","./BannerStyles":"Component/Banner/BannerStyles.tsx"}],"network/user.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.getUser = function () {
+  return localStorage.getItem("user");
+};
+
+exports.setCurrentUser = function (data) {
+  localStorage.setItem("user", JSON.stringify(data));
+};
+},{}],"pages/Bannnerpage.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -44396,21 +44407,23 @@ var react_1 = __importDefault(require("react"));
 
 var Banner_1 = __importDefault(require("../Component/Banner/Banner"));
 
-var BannerPage = function BannerPage(_ref) {
-  var title = _ref.title,
-      token = _ref.token;
+var user_1 = require("../network/user");
 
-  if (token) {
-    return null;
+var BannerPage = function BannerPage(_ref) {
+  var title = _ref.title;
+  var user = user_1.getUser();
+
+  if (user == null || user == "null") {
+    return react_1.default.createElement(Banner_1.default, {
+      title: title
+    });
   }
 
-  return react_1.default.createElement(Banner_1.default, {
-    title: title
-  });
+  return null;
 };
 
 exports.default = BannerPage;
-},{"react":"../node_modules/react/index.js","../Component/Banner/Banner":"Component/Banner/Banner.tsx"}],"../node_modules/@material-ui/core/esm/utils/requirePropFactory.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../Component/Banner/Banner":"Component/Banner/Banner.tsx","../network/user":"network/user.ts"}],"../node_modules/@material-ui/core/esm/utils/requirePropFactory.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -82024,6 +82037,24 @@ exports.default = useStyles;
 },{"@material-ui/core":"../node_modules/@material-ui/core/esm/index.js"}],"Component/PageNumber/PageNumbers.tsx":[function(require,module,exports) {
 "use strict";
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -82034,48 +82065,41 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var react_1 = __importDefault(require("react"));
+var react_1 = __importStar(require("react"));
 
 var PageNumbersStyles_1 = __importDefault(require("./PageNumbersStyles"));
 
-var PageNumbers = function PageNumbers() {
-  var classes = PageNumbersStyles_1.default();
-  var pageNumer = 50;
-  var arrButtons = [];
+var PageNumbers = function PageNumbers(_ref) {
+  var pageNumber = _ref.pageNumber;
 
-  var handelClick = function handelClick(event) {
-    var id = event.target.id;
-    var element = document.getElementById(id);
+  var _react_1$useState = react_1.useState(0),
+      _react_1$useState2 = _slicedToArray(_react_1$useState, 2),
+      activeIndex = _react_1$useState2[0],
+      setActiveIndex = _react_1$useState2[1];
 
-    for (var i = 1; i <= pageNumer; i++) {
-      if (i != id) {
-        var el = document.getElementById(i.toString());
-
-        if (el) {
-          el.className = classes.button;
-        }
-      }
-    }
-
-    if (element != null) {
-      element.className = classes.click;
-    }
+  var handleClick = function handleClick(index) {
+    return setActiveIndex(index);
   };
 
-  for (var i = 1; i <= pageNumer; i++) {
-    arrButtons.push(react_1.default.createElement("button", {
-      key: i.toString(),
-      id: i.toString(),
-      className: classes.button,
-      onClick: handelClick
-    }, i));
-  }
-
+  var classes = PageNumbersStyles_1.default();
+  var buttons = Array(pageNumber).fill("").map(function (item, index) {
+    return react_1.default.createElement("button", {
+      key: String(index),
+      id: String(index),
+      onClick: function onClick() {
+        return handleClick(index);
+      },
+      className: activeIndex == index ? classes.click : classes.button
+    }, index + 1);
+  });
   return react_1.default.createElement("div", {
     className: classes.div
-  }, arrButtons);
+  }, buttons);
 };
 
+PageNumbers.defaultProps = {
+  pageNumber: 50
+};
 exports.default = PageNumbers;
 },{"react":"../node_modules/react/index.js","./PageNumbersStyles":"Component/PageNumber/PageNumbersStyles.tsx"}],"../node_modules/classnames/index.js":[function(require,module,exports) {
 var define;
@@ -107798,10 +107822,8 @@ var HomeStyle_1 = __importDefault(require("./HomeStyle"));
 
 var Home = function Home(_ref) {
   var user = _ref.user;
-  var flag = false;
   var classes = HomeStyle_1.default();
   return react_1.default.createElement(react_1.default.Fragment, null, react_1.default.createElement(Bannnerpage_1.default, {
-    token: flag,
     title: "conduit"
   }), react_1.default.createElement(Grid_1.default, {
     container: true,
@@ -107939,7 +107961,62 @@ var ToolTip = function ToolTip(_ref) {
 };
 
 exports.default = ToolTip;
-},{"react":"../node_modules/react/index.js","@material-ui/core/Popover":"../node_modules/@material-ui/core/esm/Popover/index.js","@material-ui/core":"../node_modules/@material-ui/core/esm/index.js","@material-ui/icons/ErrorOutline":"../node_modules/@material-ui/icons/ErrorOutline.js","./ToolTipStyles":"Component/ToolTip/ToolTipStyles.tsx"}],"../node_modules/axios/lib/helpers/bind.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@material-ui/core/Popover":"../node_modules/@material-ui/core/esm/Popover/index.js","@material-ui/core":"../node_modules/@material-ui/core/esm/index.js","@material-ui/icons/ErrorOutline":"../node_modules/@material-ui/icons/ErrorOutline.js","./ToolTipStyles":"Component/ToolTip/ToolTipStyles.tsx"}],"pages/LoginStyle.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var core_1 = require("@material-ui/core");
+
+var useStyles = core_1.makeStyles(function (theme) {
+  return {
+    root: {
+      flexGrow: 1,
+      textAlign: "center"
+    },
+    appBar: {
+      backgroundColor: "#ffffff",
+      maxWidth: "100^%",
+      boxShadow: "none"
+    },
+    menuButton: {
+      marginRight: theme.spacing(2)
+    },
+    abeld: {
+      color: "0d0d0d"
+    },
+    disabeld: {
+      color: "#b2aaaa"
+    },
+    title: {
+      flexGrow: 1,
+      fontFamily: "Titillium Web",
+      fontSize: 50
+    },
+    subTitle: {
+      color: "#5CB85C"
+    },
+    textField: {
+      width: "400px"
+    },
+    signIn: {
+      backgroundColor: "#5CB85C",
+      color: "white",
+      width: "100px",
+      height: "50px"
+    },
+    error: {
+      color: "red"
+    },
+    typography: {
+      padding: theme.spacing(2)
+    }
+  };
+});
+exports.default = useStyles;
+},{"@material-ui/core":"../node_modules/@material-ui/core/esm/index.js"}],"../node_modules/axios/lib/helpers/bind.js":[function(require,module,exports) {
 'use strict';
 
 module.exports = function bind(fn, thisArg) {
@@ -109652,62 +109729,38 @@ module.exports.default = axios;
 
 },{"./utils":"../node_modules/axios/lib/utils.js","./helpers/bind":"../node_modules/axios/lib/helpers/bind.js","./core/Axios":"../node_modules/axios/lib/core/Axios.js","./core/mergeConfig":"../node_modules/axios/lib/core/mergeConfig.js","./defaults":"../node_modules/axios/lib/defaults.js","./cancel/Cancel":"../node_modules/axios/lib/cancel/Cancel.js","./cancel/CancelToken":"../node_modules/axios/lib/cancel/CancelToken.js","./cancel/isCancel":"../node_modules/axios/lib/cancel/isCancel.js","./helpers/spread":"../node_modules/axios/lib/helpers/spread.js"}],"../node_modules/axios/index.js":[function(require,module,exports) {
 module.exports = require('./lib/axios');
-},{"./lib/axios":"../node_modules/axios/lib/axios.js"}],"pages/LoginStyle.tsx":[function(require,module,exports) {
+},{"./lib/axios":"../node_modules/axios/lib/axios.js"}],"network/AXIOS.ts":[function(require,module,exports) {
 "use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var core_1 = require("@material-ui/core");
+var axios_1 = __importDefault(require("axios"));
 
-var useStyles = core_1.makeStyles(function (theme) {
-  return {
-    root: {
-      flexGrow: 1,
-      textAlign: "center"
-    },
-    appBar: {
-      backgroundColor: "#ffffff",
-      maxWidth: "100^%",
-      boxShadow: "none"
-    },
-    menuButton: {
-      marginRight: theme.spacing(2)
-    },
-    abeld: {
-      color: "0d0d0d"
-    },
-    disabeld: {
-      color: "#b2aaaa"
-    },
-    title: {
-      flexGrow: 1,
-      fontFamily: "Titillium Web",
-      fontSize: 50
-    },
-    subTitle: {
-      color: "#5CB85C"
-    },
-    textField: {
-      width: "400px"
-    },
-    signIn: {
-      backgroundColor: "#5CB85C",
-      color: "white",
-      width: "100px",
-      height: "50px"
-    },
-    error: {
-      color: "red"
-    },
-    typography: {
-      padding: theme.spacing(2)
-    }
-  };
-});
-exports.default = useStyles;
-},{"@material-ui/core":"../node_modules/@material-ui/core/esm/index.js"}],"pages/Login.tsx":[function(require,module,exports) {
+var URL = 'https://conduit.productionready.io/api';
+
+exports.axiosPost = function (endPoint, body) {
+  return axios_1.default.post("".concat(URL, "/").concat(endPoint), body);
+};
+
+exports.axiosGet = function () {};
+
+exports.axiosDelete = function () {}; // export const currentUser=(endPoint:string,body:{})=>{
+//         return axios.post(`${URL}/${endPoint}`, body, {
+//             headers: {
+//               Authorization: "Token " + utl.getToken(),
+//               "Content-Type": "application/json"
+//             }
+//           })
+// }
+},{"axios":"../node_modules/axios/index.js"}],"pages/Login.tsx":[function(require,module,exports) {
 "use strict";
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
@@ -109748,9 +109801,11 @@ var Button_1 = __importDefault(require("@material-ui/core/Button"));
 
 var ToolTip_1 = __importDefault(require("../Component/ToolTip/ToolTip"));
 
-var axios_1 = __importDefault(require("axios"));
+var user_1 = require("../network/user");
 
 var LoginStyle_1 = __importDefault(require("./LoginStyle"));
+
+var AXIOS_1 = require("../network/AXIOS");
 
 var Login = function Login() {
   var classes = LoginStyle_1.default();
@@ -109782,7 +109837,7 @@ var Login = function Login() {
 
   var open = Boolean(anchorEl);
   var id = open ? "simple-popover" : undefined;
-  localStorage.setItem("user", "null");
+  user_1.setCurrentUser(null);
 
   var handelLogin = function handelLogin(event) {
     var body = {
@@ -109791,9 +109846,9 @@ var Login = function Login() {
         password: password
       }
     };
-    axios_1.default.post("https://conduit.productionready.io/api/users/login", body).then(function (res) {
+    AXIOS_1.axiosPost('users/login', body).then(function (res) {
       setUser(res.data.user);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      user_1.setCurrentUser(res.data.user);
       window.location.href = "/";
     });
 
@@ -109855,7 +109910,7 @@ var Login = function Login() {
 };
 
 exports.default = Login;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","@material-ui/core/TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","../Component/ToolTip/ToolTip":"Component/ToolTip/ToolTip.tsx","axios":"../node_modules/axios/index.js","./LoginStyle":"pages/LoginStyle.tsx"}],"Component/Header/HeaderStyles.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","@material-ui/core/TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","../Component/ToolTip/ToolTip":"Component/ToolTip/ToolTip.tsx","../network/user":"network/user.ts","./LoginStyle":"pages/LoginStyle.tsx","../network/AXIOS":"network/AXIOS.ts"}],"Component/Header/HeaderStyles.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -109899,17 +109954,41 @@ var useStyles = styles_1.makeStyles(function (theme) {
       fontSize: "1.25rem",
       padding: "5px"
     },
-    abled: {
+    enabled: {
       color: "black",
       textDecoration: "none",
       fontSize: "1.25rem",
       padding: "5px"
+    },
+    button: {
+      color: "gray"
+    },
+    enabledButton: {
+      color: "black"
     }
   };
 });
 exports.default = useStyles;
 },{"@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js"}],"Component/Header/Header.tsx":[function(require,module,exports) {
 "use strict";
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
 
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
@@ -109921,7 +110000,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var react_1 = __importDefault(require("react"));
+var react_1 = __importStar(require("react"));
 
 var AppBar_1 = __importDefault(require("@material-ui/core/AppBar"));
 
@@ -109940,6 +110019,11 @@ var CardMedia_1 = __importDefault(require("@material-ui/core/CardMedia"));
 var core_1 = require("@material-ui/core");
 
 var Header = function Header() {
+  var _react_1$useState = react_1.useState("home"),
+      _react_1$useState2 = _slicedToArray(_react_1$useState, 2),
+      style = _react_1$useState2[0],
+      setStyle = _react_1$useState2[1];
+
   var user = localStorage.getItem("user");
   var userName = "";
   var image = "https://static.productionready.io/images/smiley-cyrus.jpg";
@@ -109952,31 +110036,8 @@ var Header = function Header() {
     }
   }
 
-  var ids = ['home', 'signIn', 'signUp', 'newArticle', 'settings', 'photo'];
-
   var handler = function handler(event) {
-    var id = event.target.id;
-    var element = document.getElementById(id);
-    console.log("id=" + id);
-
-    for (var i = 0; i < ids.length; i++) {
-      console.log("ids[i]=" + ids[i]);
-
-      if (ids[i] == id) {
-        console.log("equal");
-
-        if (element != null) {
-          element.className = classes.abled;
-        }
-      } else {
-        var el = document.getElementById(ids[i]);
-        console.log("not equal");
-
-        if (el != null) {
-          el.className = classes.link;
-        }
-      }
-    }
+    return setStyle(event.target.id);
   };
 
   var classes = HeaderStyles_1.default(); //loged in succsecfully
@@ -109996,17 +110057,17 @@ var Header = function Header() {
     }, "conduit")), react_1.default.createElement(react_router_dom_1.Link, {
       onClick: handler,
       id: "home",
-      className: classes.link,
+      className: style == 'home' ? classes.enabled : classes.link,
       to: "/"
     }, "Home"), react_1.default.createElement(react_router_dom_1.Link, {
       onClick: handler,
       id: 'signIn',
-      className: classes.link,
+      className: style == 'signIn' ? classes.enabled : classes.link,
       to: "/login"
     }, "Sing in"), react_1.default.createElement(react_router_dom_1.Link, {
       onClick: handler,
       id: 'signUp',
-      className: classes.link,
+      className: style == 'signUp' ? classes.enabled : classes.link,
       to: "/register"
     }, "Sing up"))));
   } //wihout log in
@@ -110025,28 +110086,32 @@ var Header = function Header() {
       }, "conduit")), react_1.default.createElement(react_router_dom_1.Link, {
         onClick: handler,
         id: "home",
-        className: classes.link,
+        className: style == 'home' ? classes.enabled : classes.link,
         to: "/"
       }, "Home"), react_1.default.createElement(react_router_dom_1.Link, {
         onClick: handler,
         id: "newArticle",
-        className: classes.link,
+        className: style == 'newArticle' ? classes.enabled : classes.link,
         to: "/article"
       }, react_1.default.createElement(io_1.IoIosCreate, {
         className: classes.createIcon
       }), "New Article"), react_1.default.createElement(react_router_dom_1.Link, {
         onClick: handler,
         id: "settings",
-        className: classes.link,
+        className: style == 'settings' ? classes.enabled : classes.link,
         to: "/settings"
       }, react_1.default.createElement(io_1.IoIosSettings, {
         className: classes.createIcon
       }), " Settings"), react_1.default.createElement(react_router_dom_1.Link, {
         onClick: handler,
-        id: "photo",
-        className: classes.link,
+        id: "profile",
+        className: style == "profile" ? classes.enabled : classes.link,
         to: "/profile"
-      }, react_1.default.createElement(core_1.Button, null, react_1.default.createElement(CardMedia_1.default, {
+      }, react_1.default.createElement(core_1.Button, {
+        onClick: handler,
+        id: "profile",
+        className: style == "profile" ? classes.enabledButton : classes.button
+      }, react_1.default.createElement(CardMedia_1.default, {
         className: classes.media,
         image: image
       }), userName)))));
@@ -110141,7 +110206,9 @@ var TextField_1 = __importDefault(require("@material-ui/core/TextField"));
 
 var Button_1 = __importDefault(require("@material-ui/core/Button"));
 
-var axios_1 = __importDefault(require("axios"));
+var AXIOS_1 = require("../network/AXIOS");
+
+var user_1 = require("../network/user");
 
 var RegisterStyle_1 = __importDefault(require("./RegisterStyle"));
 
@@ -110185,8 +110252,8 @@ function Register() {
         password: password
       }
     };
-    axios_1.default.post("https://conduit.productionready.io/api/users", body).then(function (res) {
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+    AXIOS_1.axiosPost("users", body).then(function (res) {
+      user_1.setCurrentUser(res.data.user);
       window.location.href = "/";
     });
   };
@@ -110253,7 +110320,7 @@ function Register() {
 }
 
 exports.default = Register;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","@material-ui/core/TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","axios":"../node_modules/axios/index.js","./RegisterStyle":"pages/RegisterStyle.tsx","../Component/ToolTip/ToolTip":"Component/ToolTip/ToolTip.tsx"}],"Component/Footer/FooterStyles.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","@material-ui/core/TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","../network/AXIOS":"network/AXIOS.ts","../network/user":"network/user.ts","./RegisterStyle":"pages/RegisterStyle.tsx","../Component/ToolTip/ToolTip":"Component/ToolTip/ToolTip.tsx"}],"Component/Footer/FooterStyles.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -110536,27 +110603,52 @@ var SettingsStyles_1 = __importDefault(require("./SettingsStyles"));
 
 var core_1 = require("@material-ui/core");
 
-var Settings = function Settings() {
-  var classes = SettingsStyles_1.default(); //let username=localStorage.getItem("user")
+var user_1 = require("../../network/user");
 
-  var user = localStorage.getItem("user");
+var Settings = function Settings() {
+  var classes = SettingsStyles_1.default();
+  var user = user_1.getUser();
   var username = "";
   var email = "";
+  var url = "";
 
   if (user != "null" && user != null) {
-    username = JSON.parse(localStorage.getItem("user")).username;
-    email = JSON.parse(localStorage.getItem("user")).email;
+    username = JSON.parse(user).username;
+    email = JSON.parse(user).email;
+    url = JSON.parse(user).image;
   }
 
-  var _react_1$default$useS = react_1.default.useState(""),
+  var _react_1$default$useS = react_1.default.useState(username),
       _react_1$default$useS2 = _slicedToArray(_react_1$default$useS, 2),
       name = _react_1$default$useS2[0],
       setName = _react_1$default$useS2[1];
 
-  var handelcloseclick = function handelcloseclick() {
-    localStorage.setItem("user", "null");
+  var _react_1$default$useS3 = react_1.default.useState(url),
+      _react_1$default$useS4 = _slicedToArray(_react_1$default$useS3, 2),
+      URL = _react_1$default$useS4[0],
+      setURL = _react_1$default$useS4[1];
+
+  var _react_1$default$useS5 = react_1.default.useState(email),
+      _react_1$default$useS6 = _slicedToArray(_react_1$default$useS5, 2),
+      emailaddress = _react_1$default$useS6[0],
+      setEmailaddress = _react_1$default$useS6[1];
+
+  var _react_1$default$useS7 = react_1.default.useState(""),
+      _react_1$default$useS8 = _slicedToArray(_react_1$default$useS7, 2),
+      password = _react_1$default$useS8[0],
+      setPassword = _react_1$default$useS8[1];
+
+  var _react_1$default$useS9 = react_1.default.useState(""),
+      _react_1$default$useS10 = _slicedToArray(_react_1$default$useS9, 2),
+      bio = _react_1$default$useS10[0],
+      setBio = _react_1$default$useS10[1];
+
+  var handelClose = function handelClose() {
+    user_1.setCurrentUser(null);
     window.location.href = "/";
   };
+
+  var handelUpdate = function handelUpdate() {};
 
   return react_1.default.createElement("div", {
     className: classes.container
@@ -110565,58 +110657,79 @@ var Settings = function Settings() {
   }, "Your Settings"), react_1.default.createElement("div", {
     className: classes.div
   }, react_1.default.createElement(core_1.TextField, {
-    id: "Title",
-    label: "URL of profile picture",
+    id: "URL",
+    defaultValue: url == "" ? "" : url,
+    label: url == "" ? "URL of profile picture" : '',
     className: classes.textField,
-    value: name
+    margin: "normal",
+    value: URL,
+    onChange: function onChange(event) {
+      return setURL(event.target.value);
+    }
   })), react_1.default.createElement("div", {
     className: classes.div
   }, react_1.default.createElement(core_1.TextField, {
-    id: "standard-helperText",
+    id: "USERNAME",
     defaultValue: username,
     className: classes.textField,
-    margin: "normal"
+    margin: "normal",
+    value: name,
+    onChange: function onChange(event) {
+      return setName(event.target.value);
+    }
   })), react_1.default.createElement("div", {
     className: classes.div
   }, react_1.default.createElement(core_1.TextField, {
-    id: "standard-multiline-static",
+    id: "BIO",
     label: "Short bio about you",
     multiline: true,
     rows: "8",
-    className: classes.textField
+    className: classes.textField,
+    value: bio,
+    onChange: function onChange(event) {
+      return setBio(event.target.value);
+    }
   })), react_1.default.createElement("div", {
     className: classes.div
   }, react_1.default.createElement(core_1.TextField, {
-    id: "standard-helperText",
+    id: "EMAIL",
     defaultValue: email,
     className: classes.textField,
-    margin: "normal"
+    margin: "normal",
+    value: emailaddress,
+    onChange: function onChange(event) {
+      return setEmailaddress(event.target.value);
+    }
   })), react_1.default.createElement("div", {
     className: classes.div
   }, react_1.default.createElement(core_1.TextField, {
-    id: "Title",
+    id: "PASSWORD",
     label: "New password",
     defaultValue: email,
     className: classes.textField,
-    value: name
+    value: password,
+    onChange: function onChange(event) {
+      return setPassword(event.target.value);
+    }
   })), react_1.default.createElement("div", {
     className: classes.div
   }, react_1.default.createElement("div", {
     className: classes.buttonDiv
   }, react_1.default.createElement(core_1.Button, {
-    className: classes.button
+    className: classes.button,
+    onClick: handelUpdate
   }, "Update Settings"))), react_1.default.createElement("div", {
     className: classes.div
   }, react_1.default.createElement("div", {
     className: classes.logOutDiv
   }, react_1.default.createElement(core_1.Button, {
     className: classes.logOutButton,
-    onClick: handelcloseclick
+    onClick: handelClose
   }, "or click here to logout"))));
 };
 
 exports.default = Settings;
-},{"react":"../node_modules/react/index.js","./SettingsStyles":"Component/settings/SettingsStyles.tsx","@material-ui/core":"../node_modules/@material-ui/core/esm/index.js"}],"pages/SettingsPage.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./SettingsStyles":"Component/settings/SettingsStyles.tsx","@material-ui/core":"../node_modules/@material-ui/core/esm/index.js","../../network/user":"network/user.ts"}],"pages/SettingsPage.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -110638,7 +110751,207 @@ var SettingsPage = function SettingsPage() {
 };
 
 exports.default = SettingsPage;
-},{"react":"../node_modules/react/index.js","../Component/settings/Settings":"Component/settings/Settings.tsx"}],"App.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../Component/settings/Settings":"Component/settings/Settings.tsx"}],"Component/Profile/ProfileStyles.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var styles_1 = require("@material-ui/core/styles");
+
+var useStyles = styles_1.makeStyles(function (themes) {
+  return {};
+});
+exports.default = useStyles;
+},{"@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js"}],"Component/Banner/ProfileBannerStyles.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var styles_1 = require("@material-ui/core/styles");
+
+var useStyles = styles_1.makeStyles(function (theme) {
+  return {
+    banner: {
+      textAlign: "center",
+      left: "0",
+      right: "0",
+      position: "absolute",
+      height: "200px"
+    },
+    container: {
+      backgroundColor: "#f3f3f3"
+    },
+    logo_font: {
+      fontWeight: "bolder",
+      paddingTop: "20px",
+      fontFamily: "Titillium Web",
+      textAlign: "center"
+    },
+    para: {
+      fontSize: " 1.5rem",
+      fontWeight: "bold"
+    },
+    media: {
+      borderRadius: "100px",
+      width: "100px",
+      height: "100px",
+      marginBottom: "1rem"
+    },
+    div: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    button: {
+      display: 'flex',
+      alignItems: 'flex-end',
+      justifyContent: 'flex-end',
+      paddingRight: "100px",
+      paddingBottom: "20px"
+    },
+    editButton: {
+      backgroundColor: "#f3f3f3",
+      border: "1px solid #999",
+      color: "#999",
+      fontSize: "0.875rem",
+      lineHeight: 1.25,
+      padding: "0.25rem 0.5rem",
+      borderRadius: "0.2rem"
+    },
+    sttingIcon: {
+      height: "20px",
+      width: "20px"
+    }
+  };
+});
+exports.default = useStyles;
+},{"@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js"}],"Component/Banner/ProfileBanner.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var react_1 = __importDefault(require("react"));
+
+var Typography_1 = __importDefault(require("@material-ui/core/Typography"));
+
+var Container_1 = __importDefault(require("@material-ui/core/Container"));
+
+var ProfileBannerStyles_1 = __importDefault(require("./ProfileBannerStyles"));
+
+var io_1 = require("react-icons/io");
+
+var CardMedia_1 = __importDefault(require("@material-ui/core/CardMedia"));
+
+var reactstrap_1 = require("reactstrap");
+
+var ProfileBanner = function ProfileBanner() {
+  var classes = ProfileBannerStyles_1.default();
+  var userName = JSON.parse(localStorage.getItem("user")).username;
+  var image = JSON.parse(localStorage.getItem("user")).image;
+
+  if (image == null) {
+    image = "https://static.productionready.io/images/smiley-cyrus.jpg";
+  }
+
+  var handelEdit = function handelEdit() {
+    window.location.href = "settings";
+  };
+
+  return react_1.default.createElement(Container_1.default, {
+    fixed: true,
+    style: {
+      height: "200px"
+    }
+  }, react_1.default.createElement("div", {
+    className: classes.banner
+  }, react_1.default.createElement("div", {
+    className: classes.container
+  }, react_1.default.createElement("br", null), react_1.default.createElement(Typography_1.default, {
+    className: classes.logo_font,
+    variant: "h3",
+    gutterBottom: true
+  }, react_1.default.createElement("div", {
+    className: classes.div
+  }, react_1.default.createElement(CardMedia_1.default, {
+    className: classes.media,
+    image: image
+  }))), react_1.default.createElement(Typography_1.default, {
+    className: classes.para,
+    variant: "h6",
+    gutterBottom: true
+  }, userName.toLowerCase()), react_1.default.createElement("br", null), react_1.default.createElement(Typography_1.default, {
+    className: classes.button,
+    variant: "h6",
+    gutterBottom: true
+  }, react_1.default.createElement(reactstrap_1.Button, {
+    className: classes.editButton,
+    onClick: handelEdit
+  }, react_1.default.createElement(io_1.IoIosSettings, {
+    className: classes.sttingIcon
+  }), "Edit Profile Settings")))));
+};
+
+exports.default = ProfileBanner;
+},{"react":"../node_modules/react/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/Container":"../node_modules/@material-ui/core/esm/Container/index.js","./ProfileBannerStyles":"Component/Banner/ProfileBannerStyles.tsx","react-icons/io":"../node_modules/react-icons/io/index.esm.js","@material-ui/core/CardMedia":"../node_modules/@material-ui/core/esm/CardMedia/index.js","reactstrap":"../node_modules/reactstrap/es/index.js"}],"Component/Profile/Profile.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var react_1 = __importDefault(require("react"));
+
+var ProfileStyles_1 = __importDefault(require("./ProfileStyles"));
+
+var ProfileBanner_1 = __importDefault(require("../Banner/ProfileBanner"));
+
+var Profile = function Profile() {
+  var classes = ProfileStyles_1.default();
+  return react_1.default.createElement("div", null, react_1.default.createElement(ProfileBanner_1.default, null));
+};
+
+exports.default = Profile;
+},{"react":"../node_modules/react/index.js","./ProfileStyles":"Component/Profile/ProfileStyles.tsx","../Banner/ProfileBanner":"Component/Banner/ProfileBanner.tsx"}],"pages/ProfilePage.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var react_1 = __importDefault(require("react"));
+
+var Profile_1 = __importDefault(require("../Component/Profile/Profile"));
+
+var ProfilePage = function ProfilePage() {
+  return react_1.default.createElement(Profile_1.default, null);
+};
+
+exports.default = ProfilePage;
+},{"react":"../node_modules/react/index.js","../Component/Profile/Profile":"Component/Profile/Profile.tsx"}],"App.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -110671,11 +110984,10 @@ var Article_1 = __importDefault(require("./pages/Article"));
 
 var SettingsPage_1 = __importDefault(require("./pages/SettingsPage"));
 
+var ProfilePage_1 = __importDefault(require("./pages/ProfilePage"));
+
 function App() {
-  return react_1.default.createElement("div", null, react_1.default.createElement(react_router_dom_1.BrowserRouter, null, react_1.default.createElement(Header_1.default, {
-    loginFlage: false,
-    userName: "reem"
-  }), react_1.default.createElement(react_router_dom_1.Route, {
+  return react_1.default.createElement("div", null, react_1.default.createElement(react_router_dom_1.BrowserRouter, null, react_1.default.createElement(Header_1.default, null), react_1.default.createElement(react_router_dom_1.Route, {
     exact: true,
     path: "/",
     component: Home_1.default
@@ -110691,11 +111003,14 @@ function App() {
   }), react_1.default.createElement(react_router_dom_1.Route, {
     path: "/settings",
     component: SettingsPage_1.default
+  }), react_1.default.createElement(react_router_dom_1.Route, {
+    path: "/profile",
+    component: ProfilePage_1.default
   }), react_1.default.createElement(Footer_1.default, null)));
 }
 
 react_dom_1.default.render(react_1.default.createElement(App, null), document.getElementById("root"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./pages/Home":"pages/Home.tsx","./pages/Login":"pages/Login.tsx","./Component/Header/Header":"Component/Header/Header.tsx","./pages/Register":"pages/Register.tsx","./Component/Footer/Footer":"Component/Footer/Footer.tsx","./pages/Article":"pages/Article.tsx","./pages/SettingsPage":"pages/SettingsPage.tsx"}],"../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./pages/Home":"pages/Home.tsx","./pages/Login":"pages/Login.tsx","./Component/Header/Header":"Component/Header/Header.tsx","./pages/Register":"pages/Register.tsx","./Component/Footer/Footer":"Component/Footer/Footer.tsx","./pages/Article":"pages/Article.tsx","./pages/SettingsPage":"pages/SettingsPage.tsx","./pages/ProfilePage":"pages/ProfilePage.tsx"}],"../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -110723,7 +111038,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60862" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63995" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

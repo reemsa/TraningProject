@@ -7,14 +7,13 @@ import ArticleCard from "../Component/Artical/ArticleCard";
 import PopularTags from "../Component/PopularTags/PopularTags";
 import useStyles from './HomeStyle'
 interface IProps{
-  user?:string
+  user?:string,
 }
 const Home:React.FC<IProps>=({user})=>{
-  const flag=false
   const classes = useStyles();
   return (
     <>
-      <BannerPage token={flag} title={"conduit"}></BannerPage>
+      <BannerPage title={"conduit"}></BannerPage>
       <Grid container spacing={3} className={classes.right}>
         <Grid item xs={6}>
           <ToolBar contentData={<ArticleCard  userName= "reem" title= "it is about good person"  articleName="reem article" date="September 14, 2016"></ArticleCard>}></ToolBar>

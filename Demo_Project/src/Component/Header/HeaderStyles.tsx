@@ -33,11 +33,17 @@ const useStyles = makeStyles(theme => ({
       fontSize:"1.25rem",
       padding:"5px"
     },
-    abled:{
+    enabled:{
       color:"black",
       textDecoration:"none",
       fontSize:"1.25rem",
-      padding:"5px" 
+      padding:"5px" ,
     },
+    button:{
+      color:"gray"
+    },
+    enabledButton:{
+      color:"black"
+    }
   }));
   export default useStyles
