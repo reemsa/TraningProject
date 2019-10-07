@@ -10,12 +10,14 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import LikeButton from "../Buttons/LikeButton";
 import useStyles from "./ArticleCardStyles";
-function ArticleCard() {
+interface IProps{
+  userName: "reem",
+  title: "it is about good person",
+  articleName:"reem article",
+  date:"September 14, 2016"
+}
+const ArticleCard:React.FC<IProps>=(props)=>{
   const classes = useStyles();
-  const userName = "reem";
-  const title = "it is about good person";
-  const articleName = "reem article";
-  const date = "September 14, 2016";
   return (
     <Card className={classes.card}>
       <CardHeader
@@ -29,16 +31,16 @@ function ArticleCard() {
             <LikeButton number={0}></LikeButton>
           </IconButton>
         }
-        title={userName}
-        subheader={date}
+        title={props.userName}
+        subheader={props.date}
       />
 
       <CardContent>
         <Typography variant="h5" color="textPrimary" component="p">
-          {articleName}
+          {props.articleName}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
-          {title}
+          {props.title}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

@@ -17,36 +17,36 @@ function PopularTags() {
           </Typography>
         </CardContent>
         <CardActions>
-          <TagButton name="butt"></TagButton>
-          <TagButton name="dragons"></TagButton>
-          <TagButton name="test"></TagButton>
+          <TagButton name="butt"/>
+          <TagButton name="dragons"/>
+          <TagButton name="test"/>
         </CardActions>
         <CardActions>
-          <TagButton name="traning"></TagButton>
-          <TagButton name="tags"></TagButton>
-          <TagButton name="as"></TagButton>
-          <TagButton name="coffee"></TagButton>
+          <TagButton name="traning"/>
+          <TagButton name="tags"/>
+          <TagButton name="as"/>
+          <TagButton name="coffee"/>
         </CardActions>
         <CardActions>
-          <TagButton name="animation"></TagButton>
-          <TagButton name="cars"></TagButton>
-          <TagButton name="flowers"></TagButton>
-          <TagButton name="baby"></TagButton>
+          <TagButton name="animation"/>
+          <TagButton name="cars"/>
+          <TagButton name="flowers"/>
+          <TagButton name="baby"/>
         </CardActions>
         <CardActions>
-          <TagButton name="money"></TagButton>
-          <TagButton name="caramel"></TagButton>
-          <TagButton name="japan"></TagButton>
-          <TagButton name="happiness"></TagButton>
+          <TagButton name="money"/>
+          <TagButton name="caramel"/>
+          <TagButton name="japan"/>
+          <TagButton name="happiness"/>
         </CardActions>
         <CardActions>
-          <TagButton name="clean"></TagButton>
-          <TagButton name="sugar"></TagButton>
-          <TagButton name="sushi"></TagButton>
-          <TagButton name="well"></TagButton>
+          <TagButton name="clean"/>
+          <TagButton name="sugar"/>
+          <TagButton name="sushi"/>
+          <TagButton name="well"/>
         </CardActions>
         <CardActions>
-          <TagButton name="cookies"></TagButton>
+          <TagButton name="cookies"/>
         </CardActions>
       </Card>
     </div>

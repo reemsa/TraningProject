@@ -5,23 +5,39 @@ const useStyles = makeStyles(theme => ({
     },
     appBar: {
       backgroundColor: "#ffffff",
-      maxWidth: "100^%",
       boxShadow: "none"
     },
     menuButton: {
       marginRight: theme.spacing(2)
     },
-    abeld: {
-      color: "0d0d0d"
-    },
-    disabeld: {
-      color: "#b2aaaa"
-    },
     title: {
       flexGrow: 1,
       color: "#5CB85C",
       fontWeight: "bolder",
-      fontFamily: "Titillium Web"
-    }
+      fontFamily: "Titillium Web",
+      textDecoration:"none"
+    },
+    createIcon:{
+      height:"20px",
+      width:"20px",
+      color:"#5CB85C"
+    },
+    media:{
+      borderRadius:"20px",
+      width:"20px",
+      height:"20px",      
+    },
+    link:{
+      color:"gray",
+      textDecoration:"none",
+      fontSize:"1.25rem",
+      padding:"5px"
+    },
+    abled:{
+      color:"black",
+      textDecoration:"none",
+      fontSize:"1.25rem",
+      padding:"5px" 
+    },
   }));
   export default useStyles

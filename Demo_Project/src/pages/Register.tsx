@@ -1,88 +1,36 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { makeStyles, Typography } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
-import Tooltip from "@material-ui/core/Tooltip";
-import Popover from "@material-ui/core/Popover";
-import { RouteChildrenProps } from "react-router";
 import axios from "axios";
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-    textAlign: "center"
-  },
-  appBar: {
-    backgroundColor: "#ffffff",
-    maxWidth: "100^%",
-    boxShadow: "none"
-  },
-  menuButton: {
-    marginRight: theme.spacing(2)
-  },
-  abeld: {
-    color: "0d0d0d"
-  },
-  disabeld: {
-    color: "#b2aaaa"
-  },
-  title: {
-    flexGrow: 1,
-    fontFamily: "Titillium Web",
-    fontSize: 50
-  },
-  subTitle: {
-    color: "#5CB85C"
-  },
-  textField: {
-    width: "400px"
-  },
-  submitButton: {
-    backgroundColor: "#5CB85C",
-    color: "white",
-    width: "100px",
-    height: "50px"
-  },
-  error: {
-    color: "red"
-  },
-  typography: {
-    padding: theme.spacing(2)
-  }
-}));
+import useStyles from './RegisterStyle'
+import ToolTip from "../Component/ToolTip/ToolTip";
 function Register() {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-  const handelsignup = (event: any) => {
+  const handelSignup = (event: React.MouseEvent<HTMLElement>) => {
     if (!email.includes("@")) {
       setAnchorEl(event.currentTarget);
-      console.log("sdah");
     }
     const body = {
       user: {
         username: username,
         email: email,
-        password: password
+        password: password as string
       }
     };
-    console.log("name=" + username);
-    console.log("email=" + email);
-    console.log("password=" + password);
-    axios
-      .post(`https://conduit.productionready.io/api/users`, body)
+    axios.post(`https://conduit.productionready.io/api/users`, body)
       .then(res => {
-        console.log("res=" + res);
-        console.log(res.data);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        window.location.href = "/";
       });
-    //callbackFromParent({flage:false,userName:"reem"});
   };
-  const handleClose = () => {
+  const handleClosePopover = () => {
     setAnchorEl(null);
   };
   return (
@@ -125,26 +73,7 @@ function Register() {
           }}
         />
       </div>
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center"
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "center"
-        }}
-      >
-        <Typography className={classes.typography}>
-          {" "}
-          <ErrorOutlineIcon /> please include an @ in the email. {email} is
-          missing @{" "}
-        </Typography>
-      </Popover>
+      <ToolTip id={id} open={open} anchorEl={anchorEl}onClose={handleClosePopover} email={email}></ToolTip>
       <div>
         <TextField
           className={classes.textField}
@@ -162,8 +91,8 @@ function Register() {
       </div>
       <br />
       <div>
-        <Button className={classes.submitButton} onClick={handelsignup}>
-          sing up
+        <Button className={classes.signUp} onClick={handelSignup}>
+          sign up
         </Button>
       </div>
     </div>

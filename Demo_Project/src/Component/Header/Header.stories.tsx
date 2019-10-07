@@ -7,13 +7,15 @@ import Header from "./Header";
 import Register from "../../pages/Register";
 import Article from "../../pages/Article";
 import Settings from "../settings/Settings";
+import Profile from '../Profile/Profile'
 storiesOf("Header", module).add("Header", () => (
   <Router>
-    <Header loginFlage={false} userName="Reem"></Header>
+    <Header></Header>
     <Route exact path="/" component={Home}></Route>
     <Route path="/login" component={Login}></Route>
     <Route path="/register" component={Register}></Route>
     <Route path="/article" component={Article}></Route>
     <Route path="/settings" component={Settings}></Route>
+    <Route path="/profile" component={Profile}></Route>
   </Router>
 ));

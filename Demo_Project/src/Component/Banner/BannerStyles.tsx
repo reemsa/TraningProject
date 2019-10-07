@@ -1,5 +1,8 @@
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(theme => ({
+    mainContainer:{
+      height: "200px" 
+    },
     banner: {
       textAlign: "center",
       left: "0",

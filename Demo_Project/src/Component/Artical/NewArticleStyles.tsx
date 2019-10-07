@@ -6,7 +6,6 @@ const useStyles = makeStyles(theme => ({
       paddingRight:"0.5rem",
       width: 500,
       textDecoration:"none",
-      //border:"1px solid rgba(0, 0, 0, 0.15)",
     },
     div:{
         padding:"0.75rem 1.5rem",

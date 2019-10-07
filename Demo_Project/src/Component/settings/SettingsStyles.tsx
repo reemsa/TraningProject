@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     logOutButton:{
         border:"1px solid rgba(1, 0, 0, 0.1)",
         borderColor:"#B85C5C",
-        color:"#B85C5C"
+        color:"#B85C5C",
     }
   }));
 export default useStyles  

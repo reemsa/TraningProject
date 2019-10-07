@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import useStyles from "./ToolBarStyles";
-export default function ToolBar({ propsdata }: { propsdata: any }) {
+interface IProps{
+  contentData:any
+}
+const ToolBar:React.FC<IProps>=({contentData})=>{
   const classes = useStyles();
   const [yourStyle, setyourStyle] = useState(classes.title);
   const [globalStyle, setglobalStyle] = useState(classes.disabledTitle);
-  const [data, setData] = useState(propsdata);
+  const [data, setData] = useState(contentData);
   const yourFeedhandelclick = () => {
     setyourStyle(classes.title);
     setglobalStyle(classes.disabledTitle);
-    setData(propsdata);
+    setData(contentData);
   };
   const globalFeedhandelclick = () => {
     setyourStyle(classes.disabledTitle);
@@ -41,3 +44,4 @@ export default function ToolBar({ propsdata }: { propsdata: any }) {
     </div>
   );
 }
+export default ToolBar

@@ -14,10 +14,13 @@ const useStyles = makeStyles(theme => ({
     container: {
       backgroundColor: "#485563"
     },
-    logo_font: {
+    logoFont: {
       fontFamily: "Source Sans Pro",
       color: "#fff",
       fontWeight: "lighter"
+    },
+    div:{
+      paddingTop:"100px"
     }
   }));
   export default useStyles
