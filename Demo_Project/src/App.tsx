@@ -9,6 +9,7 @@ import Footer from "./Component/Footer/Footer";
 import Article from './pages/Article'
 import SettingsPage from './pages/SettingsPage';
 import ProfilePage from "./pages/ProfilePage";
+import AuthorPage from './pages/AuthorPage';
 function App() {
   return (
     <div>
@@ -20,6 +21,7 @@ function App() {
         <Route path="/article" component={Article}></Route>
         <Route path="/settings" component={SettingsPage}></Route>
         <Route path="/profile" component={ProfilePage}></Route>
+        <Route path="/author/:user" component={AuthorPage}></Route>
         <Footer></Footer>
       </Router>
     </div>

@@ -1,12 +1,17 @@
 import React from 'react';
-import useStyles from './ProfileStyles'
 import ProfileBanner from '../Banner/ProfileBanner'
-import axios from 'axios'
-const Profile=()=>{
-    const classes=useStyles()
+import ProfileToolBar from '../ToolBar/ProfileToolBar';
+interface IProps{
+    image:string,
+    userName:string,
+    bio:string,
+    following?:boolean
+}
+const Profile:React.FC<IProps> = ({userName,image,bio,following})=>{
     return (
         <div>
-            <ProfileBanner></ProfileBanner>
+           <ProfileBanner image={image} userName={userName} bio={bio} following={following}></ProfileBanner>
+           <ProfileToolBar userName={userName}></ProfileToolBar>
         </div>
     )
 }

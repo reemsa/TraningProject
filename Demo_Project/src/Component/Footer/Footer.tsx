@@ -10,7 +10,7 @@ const Footer = () => {
               <div className={classes.footer}>
       <div className={classes.container}>
         <br />
-        <a
+        <a className={classes.link}
           href="https://github.com/gothinkster/angularjs-realworld-example-app"
           target="_blank"
         >

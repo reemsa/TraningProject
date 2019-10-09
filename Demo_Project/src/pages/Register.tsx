@@ -13,6 +13,7 @@ function Register() {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const open = Boolean(anchorEl);
+  const [errorMessage, setErrorMessage] = useState("");
   const id = open ? "simple-popover" : undefined;
   const handelSignup = (event: React.MouseEvent<HTMLElement>) => {
     if (!email.includes("@")) {
@@ -28,7 +29,9 @@ function Register() {
     axiosPost("users",body).then(res => {
       setCurrentUser(res.data.user)
         window.location.href = "/";
-      });
+      }).catch(function (error) {
+        setErrorMessage("email has already been taken ");
+      })
   };
   const handleClosePopover = () => {
     setAnchorEl(null);
@@ -41,6 +44,7 @@ function Register() {
           Have an acount?
         </Link>
       </div>
+      <div className={classes.error}>{errorMessage}</div>
       <div>
         <TextField
           className={classes.textField}

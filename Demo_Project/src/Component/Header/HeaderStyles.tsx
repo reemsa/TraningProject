@@ -13,37 +13,44 @@ const useStyles = makeStyles(theme => ({
     title: {
       flexGrow: 1,
       color: "#5CB85C",
-      fontWeight: "bolder",
-      fontFamily: "Titillium Web",
-      textDecoration:"none"
+      fontSize:"1.5rem",
+      fontFamily: "'Titillium Web', sans-serif",
+      textDecoration:"none",
+      paddingLeft:"75px"
     },
     createIcon:{
-      height:"20px",
-      width:"20px",
+      paddingRight:"5px",
+      height:"25px",
+      width:"25px",
       color:"#5CB85C"
     },
     media:{
       borderRadius:"20px",
-      width:"20px",
-      height:"20px",      
+      width:"25px",
+      height:"25px",      
     },
     link:{
       color:"gray",
       textDecoration:"none",
-      fontSize:"1.25rem",
-      padding:"5px"
+      fontSize:"1rem",
+      padding:"5px",
+      fontFamily:"'Source Sans Pro', sans-serif"
     },
     enabled:{
       color:"black",
       textDecoration:"none",
-      fontSize:"1.25rem",
+      fontSize:"1rem",
       padding:"5px" ,
+      fontFamily:"'Source Sans Pro', sans-serif"
     },
     button:{
       color:"gray"
     },
     enabledButton:{
       color:"black"
+    },
+    tabs:{
+      paddingRight:"120px"
     }
   }));
   export default useStyles

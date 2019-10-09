@@ -15,12 +15,18 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: "#485563"
     },
     logoFont: {
-      fontFamily: "Source Sans Pro",
       color: "#fff",
-      fontWeight: "lighter"
+      fontWeight: "lighter",
+      fontSize:"1.5rem"
     },
     div:{
       paddingTop:"100px"
+    },
+    link:{
+      textDecorationColor:"#485563",
+      '&:hover':{
+        textDecorationColor:"#fff"
+      }
     }
   }));
   export default useStyles

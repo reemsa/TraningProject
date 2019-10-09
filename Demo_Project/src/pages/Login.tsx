@@ -23,16 +23,18 @@ const Login:React.FC=()=>{
         password: password
       }
     };
-    axiosPost('users/login',body)
+    if (!email.includes("@")) {
+      setAnchorEl(event.currentTarget);
+    } else {
+      axiosPost('users/login',body)
       .then(res => {
         setUser(res.data.user)
         setCurrentUser(res.data.user)
         window.location.href = "/";
+      })
+      .catch(function (error) {
+        setErrorMessage("email or password are invalid");
       });
-    if (!email.includes("@")) {
-      setAnchorEl(event.currentTarget);
-    } else {
-      setErrorMessage("email or password are invalid");
     }
   };
   const handleClosePopover = () => {

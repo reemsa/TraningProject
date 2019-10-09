@@ -15,7 +15,7 @@ const Banner:React.FC<IProps> = ({ title}) => {
           <Typography className={classes.logo_font} variant="h3" gutterBottom>
             {title.toLowerCase()}
           </Typography>
-          <Typography className={classes.para} variant="h6" gutterBottom>
+          <Typography className={classes.para} variant="body2" gutterBottom>
             A place to share your knowledge.
           </Typography>
           <br />

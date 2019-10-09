@@ -1,29 +1,46 @@
-import React from 'react';
+import React,{useState} from 'react';
 import useStyles from './SettingsStyles';
 import { TextField, Button, Typography } from '@material-ui/core';
 import {setCurrentUser,getUser} from '../../network/user'
+import {axiosPutWithAuthentication} from '../../network/AXIOS'
 const Settings:React.FC=()=>{
     const classes=useStyles()
-    const user=getUser()
+    const [user,setUser]=useState(getUser())
     let username=""
     let email=""
-    let url=""
+    let imageURL=""
+    let readBio=""
     if(user!="null"&&user!=null){
       username=JSON.parse(user as string).username;
       email=JSON.parse(user as string).email
-      url=JSON.parse(user as string).image
+      imageURL=JSON.parse(user as string).image
+      readBio=JSON.parse(user as string).bio
     }
-    const [name, setName] = React.useState(username);
-    const [URL, setURL] = React.useState(url);
-    const [emailaddress, setEmailaddress] = React.useState(email);
-    const [password, setPassword] = React.useState("");
-    const [bio, setBio] = React.useState("");
-    let handelClose=()=>{
+    const [name, setName] =useState(username);
+    const [URL, setURL] = useState(imageURL);
+    const [emailaddress, setEmailaddress] = useState(email);
+    const [password, setPassword] = useState("");
+    const [bio, setBio] = useState(readBio);
+    const handelClose=()=>{
         setCurrentUser(null)
         window.location.href = "/";
     }
-    let handelUpdate=()=>{
-
+    const handelUpdate=()=>{
+        let body={
+            "user":{
+              "email":emailaddress||undefined,
+              "bio":bio||undefined,
+              "image":URL||undefined ,
+              "username":name||undefined,
+              "password":password||undefined
+            }
+          }
+        axiosPutWithAuthentication("user",body)      
+        .then(res => {
+            setCurrentUser(res.data.user)
+            setUser(getUser())
+            window.location.href = "/profile";
+          });
     }
     return(
         <div className={classes.container}>
@@ -31,8 +48,8 @@ const Settings:React.FC=()=>{
             <div className={classes.div}>
                 <TextField
                          id="URL"
-                         defaultValue={url==""?"":url}
-                         label={url==""?"URL of profile picture":''}
+                         defaultValue={imageURL==""?"":imageURL}
+                         label={imageURL==""?"URL of profile picture":''}
                          className={classes.textField}
                          margin="normal"
                          value={URL}
@@ -55,6 +72,7 @@ const Settings:React.FC=()=>{
                     label="Short bio about you"
                     multiline
                     rows="8"
+                    defaultValue={readBio}
                     className={classes.textField}
                     value={bio}
                     onChange={event => setBio(event.target.value)}

@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import useStyles from "./PageNumbersStyles";
-import { Button } from "@material-ui/core";
 interface PageNumberProps {
-  pageNumber?: number
+  onClick:(index:number)=>void
 }
 
-const PageNumbers:React.FC<PageNumberProps>=({pageNumber})=>{
+const PageNumbers:React.FC<PageNumberProps>=({onClick})=>{
   const [activeIndex, setActiveIndex] = useState(0);
-  const handleClick = (index:number) => setActiveIndex(index);
+  const pageNumber=50;
+  const handleClick = (index:number) => {
+    setActiveIndex(index)
+    onClick(index)
+  };
   const classes = useStyles();
   const buttons = Array(pageNumber).fill("").map((item, index) => {
     return (
@@ -23,8 +26,5 @@ const PageNumbers:React.FC<PageNumberProps>=({pageNumber})=>{
   });
 
   return <div className={classes.div}>{buttons}</div>;
-}
-PageNumbers.defaultProps = {
-  pageNumber: 50
 }
 export default PageNumbers;

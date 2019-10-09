@@ -3,17 +3,22 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import useStyles from "./ProfileBannerStyles";
 import {IoIosSettings} from 'react-icons/io';
+import AddIcon from '@material-ui/icons/Add';
 import CardMedia from '@material-ui/core/CardMedia';
 import { Button } from "reactstrap";
-const ProfileBanner = () => {
+interface IProps{
+  image:string,
+  userName:string,
+  bio:string,
+  following?:boolean
+}
+const ProfileBanner:React.FC<IProps> = ({userName,image,bio,following}) => {
   const classes = useStyles();
-  let userName=JSON.parse(localStorage.getItem("user") as string).username;
-  let image=JSON.parse(localStorage.getItem("user") as string).image;
-  if (image==null){
+  if (image==null||image==""){
       image="https://static.productionready.io/images/smiley-cyrus.jpg"
   }
   const handelEdit=()=>{
-    window.location.href = "settings";
+    window.location.href = "/settings";
   }
   return (
     <Container fixed style={{ height: "200px" }}>
@@ -32,8 +37,12 @@ const ProfileBanner = () => {
              {userName.toLowerCase()}
           </Typography>
           <br />
-          <Typography className={classes.button} variant="h6" gutterBottom>
-            <Button className={classes.editButton} onClick={handelEdit}><IoIosSettings className={classes.sttingIcon}/>Edit Profile Settings</Button>
+          <Typography className={classes.bio} variant="body2" gutterBottom>
+             {bio}
+          </Typography>
+          <br />
+          <Typography className={classes.button} variant="body2" gutterBottom>
+            <Button className={classes.editButton} onClick={handelEdit}>{following==undefined?<IoIosSettings className={classes.sttingIcon}/>:<AddIcon className={classes.sttingIcon}/>}{following==undefined?"Edit Profile Settings":following?`unfollow ${userName}`:`follow ${userName}` }</Button>
           </Typography>
         </div>
       </div>

@@ -5,7 +5,7 @@ const useStyles = makeStyles(theme => ({
       left: "0",
       right: "0",
       position: "absolute",
-      height: "200px"
+      height: "20px"
     },
     container: {
       backgroundColor: "#f3f3f3"
@@ -17,13 +17,13 @@ const useStyles = makeStyles(theme => ({
       textAlign:"center"
     },
     para: {
-      fontSize:" 1.5rem",
+      fontSize:" 1.4rem",
       fontWeight:"bold"
     },
     media:{
       borderRadius:"100px",
-      width:"100px",
-      height:"100px",
+      width:"80px",
+      height:"80px",
       marginBottom:"1rem",
       
     },
@@ -51,6 +51,9 @@ const useStyles = makeStyles(theme => ({
     sttingIcon:{
       height:"20px",
       width:"20px",
+    },
+    bio:{
+      color:"gray"
     }
   }));
   export default useStyles
