@@ -18,6 +18,13 @@ const useStyles = makeStyles(theme => ({
     read:{
       color:"gray",
       textDecoration:"none"
+    },
+    cont:{
+      display:"inline"
+    },
+    tags:{
+      float:"right",
+      padding:"20px"
     }
   }));
   export default useStyles

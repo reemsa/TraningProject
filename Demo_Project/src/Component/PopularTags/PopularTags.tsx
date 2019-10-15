@@ -6,11 +6,13 @@ import Typography from "@material-ui/core/Typography";
 import TagButton from "../Buttons/TagButton";
 import useStyles from "./PopularTagsStyles";
 import {axiosGet} from '../../network/AXIOS'
-const PopularTags:React.FC=()=>{
+interface IProps{
+  onClick:(tagButton:string)=>void
+}
+const PopularTags:React.FC<IProps>=({onClick})=>{
   const classes = useStyles();
-   const [tags,setTags]=useState([]);
-   let tagsButton:any=[]
-   useEffect(() => {
+  const [tags,setTags]=useState([]);
+  useEffect(() => {
     axiosGet("tags").then(res => {
       setTags(res.data.tags)
     })
@@ -26,35 +28,36 @@ const PopularTags:React.FC=()=>{
           </Typography>
         </CardContent>
         <CardActions>
-          <TagButton name={tags[0]}/>
-          <TagButton name={tags[1]}/>
-          <TagButton name={tags[2]}/>
-          <TagButton name={tags[3]}/>
+          <TagButton onClick={onClick} name={tags[0]}/>
+          <TagButton onClick={onClick} name={tags[1]}/>
+          <TagButton onClick={onClick} name={tags[2]}/>
+          <TagButton onClick={onClick} name={tags[3]}/>
         </CardActions>
         <CardActions>
-          <TagButton name={tags[4]}/>
-          <TagButton name={tags[5]}/>
-          <TagButton name={tags[6]}/>
-          <TagButton name={tags[7]}/>
+          <TagButton onClick={onClick} name={tags[4]}/>
+          <TagButton onClick={onClick} name={tags[5]}/>
+          <TagButton onClick={onClick} name={tags[6]}/>
+          <TagButton onClick={onClick} name={tags[7]}/>
         </CardActions>
         <CardActions>
-          <TagButton name={tags[8]}/>
-          <TagButton name={tags[9]}/>
-          <TagButton name={tags[10]}/>
-          <TagButton name={tags[11]}/>
+          <TagButton onClick={onClick} name={tags[8]}/>
+          <TagButton onClick={onClick} name={tags[9]}/>
+          <TagButton onClick={onClick} name={tags[10]}/>
+          <TagButton onClick={onClick} name={tags[11]}/>
         </CardActions>
         <CardActions>
-          <TagButton name={tags[12]}/>
-          <TagButton name={tags[13]}/>
-          <TagButton name={tags[14]}/>
-          <TagButton name={tags[15]}/>
+          <TagButton onClick={onClick} name={tags[12]}/>
+          <TagButton onClick={onClick} name={tags[13]}/>
+          <TagButton onClick={onClick} name={tags[14]}/>
+          <TagButton onClick={onClick} name={tags[15]}/>
         </CardActions>
         <CardActions>
-          <TagButton name={tags[16]}/>
-          <TagButton name={tags[17]}/>
-          <TagButton name={tags[18]}/>
-          <TagButton name={tags[19]}/>
+          <TagButton onClick={onClick} name={tags[16]}/>
+          <TagButton onClick={onClick} name={tags[17]}/>
+          <TagButton onClick={onClick} name={tags[18]}/>
+          <TagButton onClick={onClick} name={tags[19]}/>
         </CardActions>
+        <CardActions></CardActions>
       </Card>
     </div>
   );

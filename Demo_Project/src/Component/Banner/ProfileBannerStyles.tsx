@@ -40,11 +40,10 @@ const useStyles = makeStyles(theme => ({
       paddingBottom:"20px",
     },
     editButton:{
-      backgroundColor:"#f3f3f3",
-      border:"1px solid #999",
-      color:"#999",
+      backgroundColor:"#fff",
+      border:"1px solid #ccc",
+      color:"#373a3c",
       fontSize:"0.875rem",
-      lineHeight:1.25,
       padding:"0.25rem 0.5rem",
       borderRadius:"0.2rem"
     },

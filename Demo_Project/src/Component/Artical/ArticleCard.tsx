@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
@@ -10,15 +10,28 @@ import Typography from "@material-ui/core/Typography";
 import LikeButton from "../Buttons/LikeButton";
 import useStyles from "./ArticleCardStyles";
 import { Link } from "react-router-dom";
+import TagButton from "./TagButton";
+import { axiosGetWithAuthentication } from "../../network/AXIOS";
 interface IProps{
   userName:string,
   title: string,
   description:string,
   date:string,
-  image:string
+  image:string,
+  slug:string
 }
 const ArticleCard:React.FC<IProps>=(props)=>{
   const classes = useStyles();
+  let tagList:any[]=[]
+  const [tags,setTags]=useState("")
+  useEffect(()=>{
+        axiosGetWithAuthentication(`articles/${props.slug}`).then((res)=>{
+            setTags(res.data.article.tagList)
+          })
+},[props.slug])
+  for(let i=0;i<tags.length;i++){
+    tagList.push(<TagButton data={tags[i]}></TagButton>)
+}
   return (
     <Card className={classes.card}>
       <CardHeader
@@ -46,10 +59,11 @@ const ArticleCard:React.FC<IProps>=(props)=>{
         <Typography variant="body2" color="textSecondary" component="p">
           {props.description}
         </Typography>
+        <Typography className={classes.cont}><div className={classes.tags}>{tagList}</div></Typography>
       </CardContent>
       <CardActions disableSpacing>
         <Typography variant="caption" color="textSecondary">
-          <Link className={classes.read}  to="/author">Read more...</Link>
+          <Link className={classes.read}  to={`/article/${props.slug}`}>Read more...</Link>
         </Typography>
       </CardActions>
     </Card>

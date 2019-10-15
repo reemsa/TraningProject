@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import useStyles from "./ProfileToolBarStyles";
@@ -13,6 +13,11 @@ const ToolBar:React.FC<IProps>=({userName})=>{
   const [yourStyle, setyourStyle] = useState(classes.title);
   const [globalStyle, setglobalStyle] = useState(classes.disabledTitle);
   const [data, setData] = useState(<MyFeed userName={userName}/>);
+  useEffect(()=>{
+    setyourStyle(classes.title);
+    setglobalStyle(classes.disabledTitle);
+    setData(<MyFeed userName={userName}/>);
+  },[userName])
   const yourFeedhandelclick = () => {
     setyourStyle(classes.title);
     setglobalStyle(classes.disabledTitle);

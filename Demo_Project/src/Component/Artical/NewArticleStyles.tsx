@@ -19,6 +19,9 @@ const useStyles = makeStyles(theme => ({
     },
     buttonDiv:{
         paddingLeft:370
+    },
+    tagsDiv:{
+        
     }
   }));
 export default useStyles  

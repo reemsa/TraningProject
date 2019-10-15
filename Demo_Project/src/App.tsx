@@ -10,6 +10,7 @@ import Article from './pages/Article'
 import SettingsPage from './pages/SettingsPage';
 import ProfilePage from "./pages/ProfilePage";
 import AuthorPage from './pages/AuthorPage';
+import ArticlePage from './pages/ArticlePage';
 function App() {
   return (
     <div>
@@ -18,10 +19,11 @@ function App() {
         <Route exact path="/" component={Home}></Route>
         <Route path="/login" component={Login}></Route>
         <Route path="/register" component={Register}></Route>
-        <Route path="/article" component={Article}></Route>
+        <Route path="/editor/:slug" component={Article}></Route>
         <Route path="/settings" component={SettingsPage}></Route>
         <Route path="/profile" component={ProfilePage}></Route>
         <Route path="/author/:user" component={AuthorPage}></Route>
+        <Route path="/article/:slug" component={ArticlePage}></Route>
         <Footer></Footer>
       </Router>
     </div>

@@ -24,22 +24,23 @@ interface IProps{
 userName:string
 }
 const MyFeed:React.FC<IProps>=({userName})=>{
-    console.log()
     let articles:any=[]
-    let [articlesArray,setArticlesArray]=useState([])
+    const [articlesArray,setArticlesArray]=useState([])
     useEffect(() => {
-        axiosGet("articles",`author=${userName}`).then(res=>{
+        if(userName) {
+            axiosGet("articles",`author=${userName}`).then(res=>{
             setArticlesArray(res.data.articles)
         })
-      }, []);
+        }
+        
+      }, [userName]);
      let temp:IArticle[]=articlesArray
-
     if(temp[0]==undefined){
-        articles.push("loading articles")  
+        articles.push("No articles yet...")  
     }
     else{
         for(let i=0;i<temp.length;i++){
-            articles.push(<ArticleCard  userName= {temp[i].author.username} date={temp[i].createdAt} title={temp[i].title} description= {temp[i].description} image={temp[i].author.image}  />)
+            articles.push(<ArticleCard  userName= {temp[i].author.username} date={temp[i].createdAt} title={temp[i].title} description= {temp[i].description} image={temp[i].author.image} slug={temp[i].slug}  />)
         }
     }
     return <div>{articles}</div>

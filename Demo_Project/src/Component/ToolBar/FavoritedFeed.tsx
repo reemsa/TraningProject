@@ -26,22 +26,30 @@ interface IProps{
 const FavoritedFeed:React.FC<IProps>=({userName})=>{
     let articles:any=[]
     let [articlesArray,setArticlesArray]=useState([])
+    let temp:IArticle[]=articlesArray
     useEffect(() => {
-        axiosGet("articles",`favorited=${userName}`).then(res=>{
-            setArticlesArray(res.data.articles)
-            console.log(res.data.articles)
+        if(userName) {
+            axiosGet("articles",`favorited=${userName}`).then(res=>{
+                if(res.data.articles.length==0){
+                    articles.push("No articles are here... yet.") 
+                }
+                setArticlesArray(res.data.articles)
+                temp=articlesArray
         })
-      }, []);
-      let temp:IArticle[]=articlesArray
-    if(temp.length==0){
-        articles.push(" no favorite article") 
+        }
+      }, [userName]);
+
+ 
+     if(temp[0]==undefined&&articles.length==0){
+        articles.push("No articles are here... yet.")  
     }
-    else if(temp[0]==undefined){
-        articles.push("loading articles")  
+    
+    else if(temp.length==0&&temp[0]!=undefined){
+        articles.push("No articles are here... yet.") 
     }
     else{
         for(let i=0;i<temp.length;i++){
-            articles.push(<ArticleCard  userName= {temp[i].author.username} date={temp[i].createdAt} title={temp[i].title} description= {temp[i].description} image={temp[i].author.image}  />)
+            articles.push(<ArticleCard  userName= {temp[i].author.username} date={temp[i].createdAt} title={temp[i].title} description= {temp[i].description} image={temp[i].author.image} slug={temp[i].slug} />)
         }
     }
     return <div>{articles}</div>

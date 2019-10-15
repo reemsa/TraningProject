@@ -36,7 +36,7 @@ const GlobalFeed:React.FC=()=>{
     }
     else{
         for(let i=0;i<10;i++){
-            articles.push(<ArticleCard  userName= {temp[i].author.username} date={temp[i].createdAt} title={temp[i].title} description= {temp[i].description} image={temp[i].author.image}  />)
+            articles.push(<ArticleCard  slug={temp[i].slug} userName= {temp[i].author.username} date={temp[i].createdAt} title={temp[i].title} description= {temp[i].description} image={temp[i].author.image}  />)
         }
     }
     const onclickHandler=(index:number)=>{
@@ -45,7 +45,7 @@ const GlobalFeed:React.FC=()=>{
             temp=articlesArray
         })
         for(let i=0;i<10;i++){
-            articles.push(<ArticleCard  userName= {temp[i].author.username} date={temp[i].createdAt} title={temp[i].title} description= {temp[i].description} image={temp[i].author.image}  />)
+            articles.push(<ArticleCard  slug={temp[i].slug} userName= {temp[i].author.username} date={temp[i].createdAt} title={temp[i].title} description= {temp[i].description} image={temp[i].author.image}  />)
         } 
     }
     return(

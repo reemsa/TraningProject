@@ -67,7 +67,7 @@ const Header:React.FC=()=>{
             <Link onClick={handler}  id={"home"}  className={style=='home'? classes.enabled:classes.link} to="/">
               Home
             </Link>
-            <Link onClick={handler}  id={"newArticle"} className={style=='newArticle'? classes.enabled:classes.link} to="/article">
+            <Link onClick={handler}  id={"newArticle"} className={style=='newArticle'? classes.enabled:classes.link} to={`/editor/${null}`}>
                 <Icon path={mdiSquareEditOutline} size={0.75} horizontal vertical color={style=='newArticle'? "black":"gray"}/>New Article
             </Link>
             <Link onClick={handler}  id={"settings"}  className={style=='settings'? classes.enabled:classes.link} to="/settings">

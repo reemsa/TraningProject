@@ -1,8 +1,8 @@
 import React,{ useState, useEffect } from 'react';
 import Profile from '../Component/Profile/Profile'
 import { RouteComponentProps } from 'react-router-dom';
-import {axiosGetWithAuthentication} from '../network/AXIOS'
-import ProfileBanner from '../Component/Banner/ProfileBanner';
+import {axiosGetWithAuthentication, axiosGet} from '../network/AXIOS'
+import { getUser } from '../network/user';
 interface IProfile{
     username:string,
     bio:string,
@@ -10,14 +10,21 @@ interface IProfile{
     image:string
 }
 const AuthorPage:React.FC<RouteComponentProps <{user: string}>>=props=>{
-     const user=props.match.params.user
-     const temp:IProfile={username:"hi",bio:"",image:"",following:false}
+    const user=props.match.params.user
+    const temp:IProfile={username:user,bio:"",image:"",following:false}
     const [userInfo,setUserInfo]=useState(temp)
     useEffect(()=>{
-    axiosGetWithAuthentication(`profiles/${user}`).then(res=>{
-        setUserInfo(res.data.profile)
-    })
-    },[])
+        if(getUser()==undefined||getUser()=="null"){
+            axiosGet(`profiles/${user}`).then(res=>{
+                setUserInfo(res.data.profile)
+            })
+        }
+        else{
+            axiosGetWithAuthentication(`profiles/${user}`).then(res=>{
+                setUserInfo(res.data.profile)
+            })
+        }
+    },[user])
 
     if(userInfo==undefined){
        setUserInfo({username:"",bio:"",image:"",following:false})

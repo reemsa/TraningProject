@@ -1,8 +1,10 @@
 import React from 'react';
 import NewArticle from '../Component/Artical/NewArticle';
-const Article=()=>{
+import { RouteComponentProps } from 'react-router-dom';
+const Article:React.FC<RouteComponentProps <{slug: string}>>=props=>{
+    const slug=props.match.params.slug
     return(
-        <NewArticle></NewArticle>
+        <NewArticle slug={slug}></NewArticle>
     )
 }
 export default Article;
