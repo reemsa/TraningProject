@@ -1,15 +1,13 @@
 import React from "react";
-import Banner from '../Component/Banner/Banner'
-import {getUser} from '../network/user'
+import Banner from "../Component/Banner/Banner";
+import {  isUserLoggedIn } from "../network/userUtilte";
 interface IProps {
   title: string;
+  subTitle:string
 }
-const BannerPage:React.FC<IProps> = ({ title}) => {
-  let user=getUser();
-  if (user==null||user=="null") {
-    return (
-      <Banner title={title}></Banner>
-    );
+const BannerPage: React.FC<IProps> = ({ title,subTitle }) => {
+  if (!isUserLoggedIn()) {
+    return <Banner title={title} subTitle={subTitle}></Banner>;
   }
   return null;
 };

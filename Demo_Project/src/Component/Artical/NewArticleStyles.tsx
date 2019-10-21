@@ -1,27 +1,34 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(theme => ({
-    textField: {
-      paddingTop:"0.5rem",
-      paddingLeft:"1rem",
-      paddingRight:"0.5rem",
-      width: 500,
-      textDecoration:"none",
-    },
-    div:{
-        padding:"0.75rem 1.5rem",
-    },
-    container:{
-        paddingLeft:500
-    },
-    button:{
-        backgroundColor:"#5CB85C",
-        color:"#fff",
-    },
-    buttonDiv:{
-        paddingLeft:370
-    },
-    tagsDiv:{
-        
+  textField: {
+    marginTop: "0.5rem",
+    marginLeft: "1rem",
+    marginRight: "0.5rem",
+    width: "100%",
+    maxWidth:500,
+    textDecoration: "none",
+  },
+  container: {
+    paddingTop:20,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  button: {
+    backgroundColor: "#5CB85C",
+    color: "#fff",
+    textTransform:"none",
+    fontSize:"1.25rem",
+    "&:hover":{
+      backgroundColor: "#008a00", 
     }
-  }));
-export default useStyles  
+  },
+  buttonDiv: {
+  
+  },
+  tagsDiv: {
+    paddingTop:1,
+    paddingBottom:5
+  }
+}));
+export default useStyles;

@@ -1,114 +1,115 @@
-import React,{useState} from 'react';
-import useStyles from './SettingsStyles';
-import { TextField, Button, Typography } from '@material-ui/core';
-import {setCurrentUser,getUser} from '../../network/user'
-import {axiosPutWithAuthentication} from '../../network/AXIOS'
-const Settings:React.FC=()=>{
-    const classes=useStyles()
-    const [user,setUser]=useState(getUser())
-    let username=""
-    let email=""
-    let imageURL=""
-    let readBio=""
-    if(user!="null"&&user!=null){
-      username=JSON.parse(user as string).username;
-      email=JSON.parse(user as string).email
-      imageURL=JSON.parse(user as string).image
-      readBio=JSON.parse(user as string).bio
-    }
-    const [name, setName] =useState(username);
-    const [URL, setURL] = useState(imageURL);
-    const [emailaddress, setEmailaddress] = useState(email);
-    const [password, setPassword] = useState("");
-    const [bio, setBio] = useState(readBio);
-    const handelClose=()=>{
-        setCurrentUser(null)
-        window.location.href = "/";
-    }
-    const handelUpdate=()=>{
-        let body={
-            "user":{
-              "email":emailaddress||undefined,
-              "bio":bio||undefined,
-              "image":URL||undefined ,
-              "username":name||undefined,
-              "password":password||undefined
-            }
-          }
-        axiosPutWithAuthentication("user",body)      
-        .then(res => {
-            setCurrentUser(res.data.user)
-            setUser(getUser())
-            window.location.href = "/profile";
-          });
-    }
-    return(
-        <div className={classes.container}>
-            <Typography className={classes.text}>Your Settings</Typography>
-            <div className={classes.div}>
-                <TextField
-                         id="URL"
-                         defaultValue={imageURL==""?"":imageURL}
-                         label={imageURL==""?"URL of profile picture":''}
-                         className={classes.textField}
-                         margin="normal"
-                         value={URL}
-                         onChange={event => setURL(event.target.value)}
-                />
-            </div>
-            <div className={classes.div}>
-                <TextField
-                        id="USERNAME"
-                        defaultValue={username}
-                        className={classes.textField}
-                        margin="normal"
-                        value={name}
-                        onChange={event => setName(event.target.value)}
-                />
-            </div>
-            <div className={classes.div}>
-                <TextField
-                    id="BIO"
-                    label="Short bio about you"
-                    multiline
-                    rows="8"
-                    defaultValue={readBio}
-                    className={classes.textField}
-                    value={bio}
-                    onChange={event => setBio(event.target.value)}
-                />
-            </div>
-            <div className={classes.div}>
-                <TextField
-                    id="EMAIL"
-                    defaultValue={email}
-                    className={classes.textField}
-                    margin="normal"
-                    value={emailaddress}
-                    onChange={event => setEmailaddress(event.target.value)}
-                />
-            </div>
-            <div className={classes.div}>
-                <TextField
-                    id="PASSWORD"
-                    label="New password"
-                    defaultValue={email}
-                    className={classes.textField}
-                    value={password}
-                    onChange={event => setPassword(event.target.value)}
-                />
-            </div>
-            <div className={classes.div}>
-                <div className={classes.buttonDiv}>
-                    <Button className={classes.button} onClick={handelUpdate}>Update Settings</Button>
-                </div>
-            </div>
-            <div className={classes.div}>
-                <div className={classes.logOutDiv}>
-                    <Button className={classes.logOutButton} onClick={handelClose}>or click here to logout</Button>
-                </div>
-            </div>
-        </div>
-    )
+import React, { useState, useEffect } from "react";
+import useStyles from "./SettingsStyles";
+import { TextField, Button, Typography, Grid } from "@material-ui/core";
+interface SettingsProps{
+  imageURL:string,
+  userName:string,
+  bio:string,
+  email:string,
+  handelUpdate:(password:string,userName:string,userEmail:string,userBio:string,userImage:string)=>void,
+  handelClose:()=>void,
+  errorMessage:string
 }
-export default Settings
+const Settings: React.FC<SettingsProps>= ({imageURL,userName,bio,email,handelUpdate,handelClose,errorMessage}) => {
+  const classes = useStyles();
+  const [username, setUsername] = useState(userName);
+  const [userURL, setUserURL] = useState(imageURL);
+  const [userEmail, setUserEmail] = useState(email);
+  const [userPassword, setUserPassword] = useState("");
+  const [userBio, setUserBio] = useState(bio);
+  useEffect(()=>{
+    setUsername(userName);
+    setUserURL(imageURL);
+    setUserEmail(email);
+    setUserBio(bio);
+  },[imageURL,userName,bio,email])
+  const handelURLChange=(event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
+    setUserURL(event.target.value)
+  }
+  const handelNameChange=(event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
+    setUsername(event.target.value)
+  }
+  const handelBioChange=(event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
+    setUserBio(event.target.value)
+  }
+  const handelEmailChange=(event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
+    setUserEmail(event.target.value)
+  }
+  const handelPasswordChange=(event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
+    setUserPassword(event.target.value)
+  }
+  return (
+    <>
+    <Grid container spacing={3}>
+      <Grid item xs={1}/>
+      <Grid item xs={10}>
+      <div className={classes.container}>
+      <Typography className={classes.title}>Your Settings</Typography>
+      <Typography>{errorMessage}</Typography>
+        <TextField
+         variant="outlined"
+          id="URL"
+          defaultValue={imageURL == "" ? "" : imageURL}
+          label={imageURL == "" ? "URL of profile picture" : ""}
+          className={classes.textField}
+          margin="normal"
+          value={userURL}
+          onChange={handelURLChange}
+        />
+        <TextField
+         variant="outlined"
+          id="USERNAME"
+          defaultValue={userName}
+          className={classes.textField}
+          margin="normal"
+          value={username}
+          onChange={handelNameChange}
+        />
+        <TextField
+         variant="outlined"
+          id="BIO"
+          label="Short bio about you"
+          multiline
+          rows="8"
+          defaultValue={bio}
+          className={classes.textField}
+          value={userBio}
+          onChange={handelBioChange}
+        />
+        <TextField
+         variant="outlined"
+          id="EMAIL"
+          defaultValue={email}
+          className={classes.textField}
+          margin="normal"
+          value={userEmail}
+          onChange={handelEmailChange}
+        />
+        <TextField
+         variant="outlined"
+          id="PASSWORD"
+          label="New password"
+          className={classes.textField}
+          value={userPassword}
+          onChange={handelPasswordChange}
+        />
+      
+        <div className={classes.settingButtonDiv}>
+          <Button className={classes.settingButton} onClick={()=>handelUpdate(userPassword,username,userEmail,userBio,userURL)}>
+            Update Settings
+          </Button>
+        </div>
+        <div className={classes.lineDiv}/>
+        <div className={classes.logOutDiv}>
+          <Button className={classes.logOutButton} onClick={()=>handelClose()}>
+            Or click here to logout
+          </Button>
+        </div>
+          </div>
+      </Grid>
+      <Grid item xs={1}/>
+    </Grid>
+    </>
+  );
+}
+export default Settings;

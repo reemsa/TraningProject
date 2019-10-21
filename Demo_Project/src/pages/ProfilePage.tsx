@@ -1,11 +1,21 @@
-import React from 'react';
-import {getUser} from '../network/user'
-import Profile from '../Component/Profile/Profile';
-const ProfilePage:React.FC=()=>{
-  let user=getUser()
-  let userName=JSON.parse(user as string).username;
-  let image=JSON.parse(user as string).image;
-  let bio=JSON.parse(user as string).bio;
-    return <Profile image={image} userName={userName} bio={bio}></Profile>
-}
+import React, { useState, useEffect } from "react";
+import {isUserLoggedIn,getUserName,getUserImage,getUserBio } from "../network/userUtilte";
+import Profile from "../Component/Profile/Profile";
+const ProfilePage: React.FC = () => {
+  const [userName,setUserName]=useState(getUserName())
+  const [userImage,setUserImage]=useState(getUserImage())
+  const [userBio,setUserBio]=useState(getUserBio())
+  useEffect(()=>{
+    setUserBio(getUserBio())
+    setUserImage(getUserImage())
+    setUserName(getUserName())
+  },[userName,userImage,userBio])
+  if(!isUserLoggedIn()){
+    window.location.href="/"
+  }
+  else{
+    return <Profile image={userImage} userName={userName} bio={userBio}></Profile>;
+  }
+  return null
+};
 export default ProfilePage;

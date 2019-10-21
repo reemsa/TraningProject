@@ -1,82 +1,65 @@
-import React, { useState, useEffect } from "react";
+import { withStyles, WithStyles } from "@material-ui/core";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import useStyles from "./ToolBarStyles";
-import GlobalFeed from "./GlobalFeed";
-import YourFeed from "./YourFeed";
-import { getUser } from "../../network/user";
-import TagFeed from "./TagFeed";
-interface IProps{
-  tagName:string
+import cx from "classnames";
+import React, { useEffect, useState } from "react";
+import styles from "./ToolBarStyles";
+
+interface ToolbarProps {
+  tagName: string;
+  logedInFlag:boolean,
+  data:JSX.Element,
+  styleFlage:number,
+  handleYourFeed:()=>void,
+  handelGlobalFeed:()=>void,
+  handelTagFeed:()=>void,
 }
-const ToolBar:React.FC<IProps>=({tagName})=>{
-  const classes = useStyles();
-  let defaultStyle=classes.disabledTitle
-  let x=<YourFeed/>;
-  if((getUser()=="null"||getUser()==null)){
-     x=<GlobalFeed/>;
-     defaultStyle=classes.title
-  }
-  const [yourStyle, setyourStyle] = useState(classes.title);
-  const [globalStyle, setglobalStyle] = useState(defaultStyle);
-  const [tagStyle, setTagStyle] = useState(classes.disabledTitle);
-  const [data, setData] = useState(x);
-  useEffect(()=>{
-      if(tagName!=""&&tagName!=null){
-        setyourStyle(classes.disabledTitle);
-        setglobalStyle(classes.disabledTitle);
-        setTagStyle(classes.title);
-        setData(<TagFeed tagName={tagName}/>);
-      }
-  },[tagName])
-  const yourFeedhandelclick = () => {
-    setyourStyle(classes.title);
-    setglobalStyle(classes.disabledTitle);
-    setTagStyle(classes.disabledTitle);
-    setData(<YourFeed/>);
-  };
-  const globalFeedhandelclick = () => {
-    setyourStyle(classes.disabledTitle);
-    setglobalStyle(classes.title);
-    setTagStyle(classes.disabledTitle);
-    setData(<GlobalFeed/>);
-  };
-  const tagFeedhandelclick = () => {
-    setyourStyle(classes.disabledTitle);
-    setglobalStyle(classes.disabledTitle);
-    setTagStyle(classes.title);
-    setData(<TagFeed tagName={tagName}/>);
-  };
+
+const MyToolbar: React.FC<ToolbarProps & WithStyles<typeof styles>> = ({ tagName, logedInFlag,data,styleFlage,handleYourFeed,handelGlobalFeed,handelTagFeed,classes }) => {
+  useEffect(() => {
+  }, [tagName]);
   return (
     <div>
       <div>
         <Toolbar className={classes.toolBar}>
-          {(getUser()=="null"||getUser()==null)?null:<Typography
-            variant="body2"
-            className={yourStyle}
-            onClick={yourFeedhandelclick}
-          >
-            Your feed
-          </Typography>}
+          {!logedInFlag ? null : (
+            <Typography
+              variant="body2"
+              className={cx(classes.disabledTitle, {
+                [classes.title]: styleFlage==1
+              })}
+              onClick={handleYourFeed}
+            >
+              Your feed
+            </Typography>
+          )}
 
           <Typography
             variant="body2"
-            className={globalStyle}
-            onClick={globalFeedhandelclick}
+            className={cx(classes.disabledTitle, {
+              [classes.title]: styleFlage===2
+            })}
+            onClick={handelGlobalFeed}
           >
             Global feed
           </Typography>
-          {(tagName==""||tagName==null)?null:<Typography
-            variant="body2"
-            className={tagStyle}
-            onClick={tagFeedhandelclick}
-          >
-           #{tagName}
-          </Typography>}
+          {tagName == "" || tagName == null ? null : (
+            <Typography
+              variant="body2"
+              className={cx(classes.disabledTitle, {
+                [classes.title]: styleFlage===3
+              })}
+              onClick={handelTagFeed}
+            >
+              #{tagName}
+            </Typography>
+          )}
         </Toolbar>
       </div>
       <div className={classes.content}>{data}</div>
     </div>
   );
-}
-export default ToolBar
+};
+
+const styler = withStyles(styles);
+export default styler(MyToolbar);

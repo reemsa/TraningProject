@@ -1,32 +1,39 @@
-import React, { useState } from "react";
-import BannerPage from './Bannnerpage'
 import Grid from "@material-ui/core/Grid";
-import ToolBar from "../Component/ToolBar/ToolBar";
+import React, { useState } from "react";
 import PopularTags from "../Component/PopularTags/PopularTags";
-import useStyles from './HomeStyle'
-interface IProps{
-  user?:string,
+import MyToolbar from "../Component/ToolBar/ToolBar";
+import BannerPage from "./Bannnerpage";
+import useStyles from "./HomeStyle";
+import {isUserLoggedIn} from '../network/userUtilte'
+import ToolbarPage from './ToolbarPage'
 
-}
-const Home:React.FC<IProps>=({user})=>{
+const Home: React.FC = () => {
   const classes = useStyles();
-  const [tagName,setTagName]=useState("")
-  const tagButtonHandler=(tagButton:string)=>{
-    setTagName(tagButton)
+  const [tagName, setTagName] = useState("");
+  let logedInFlag:boolean=false
+  if(isUserLoggedIn()){
+    logedInFlag=true
   }
+  const tagButtonHandler = (tagButton: string) => {
+    setTagName(tagButton);
+  };
+  
   return (
     <>
-      <BannerPage title={"conduit"}></BannerPage>
-      <Grid container spacing={3} className={classes.right}>
-        <Grid item xs={6}>
-          <ToolBar tagName={tagName}></ToolBar>
+      <BannerPage title={"conduit"} subTitle={"A place to share your knowledge."}></BannerPage>
+      <div className={classes.root}>
+        <Grid container spacing={5}>
+          <Grid item xs={1}/>
+          <Grid item xs={6}>
+            <ToolbarPage tagName={tagName} logedInFlag={logedInFlag}/>
+          </Grid>
+          <Grid item xs>
+            <PopularTags onClick={tagButtonHandler}/>
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <PopularTags onClick={tagButtonHandler}></PopularTags>
-        </Grid>
-      </Grid>
-      </>
+      </div>
+    </>
   );
-}
+};
 
 export default Home;

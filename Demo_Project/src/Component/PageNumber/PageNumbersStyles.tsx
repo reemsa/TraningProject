@@ -8,7 +8,7 @@ const useStyles = makeStyles(() => ({
     float: "left",
     padding: "0.5rem 0.75rem",
     marginLeft: "-1px",
-    textDecoration: "none",
+    textDecoration: "none"
   },
   click: {
     color: "#fff",
@@ -25,6 +25,6 @@ const useStyles = makeStyles(() => ({
     paddingTop: 20,
     paddingLeft: 20,
     position: "relative"
-  },
+  }
 }));
-export default useStyles
+export default useStyles;

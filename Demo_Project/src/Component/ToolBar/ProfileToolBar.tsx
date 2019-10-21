@@ -1,32 +1,29 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import useStyles from "./ProfileToolBarStyles";
-import Paper from '@material-ui/core/Paper';
-import MyFeed from './MyFeed';
-import FavoritedFeed from './FavoritedFeed'
-interface IProps{
-    userName:string
+import Paper from "@material-ui/core/Paper";
+import MyFeed from "./MyFeed";
+import FavoritedFeed from "./FavoritedFeed";
+import cx from "classnames";
+interface ToolBarProps {
+  userName: string;
 }
-const ToolBar:React.FC<IProps>=({userName})=>{
+const ToolBar: React.FC<ToolBarProps> = ({ userName }) => {
   const classes = useStyles();
-  const [yourStyle, setyourStyle] = useState(classes.title);
-  const [globalStyle, setglobalStyle] = useState(classes.disabledTitle);
-  const [data, setData] = useState(<MyFeed userName={userName}/>);
-  useEffect(()=>{
-    setyourStyle(classes.title);
-    setglobalStyle(classes.disabledTitle);
-    setData(<MyFeed userName={userName}/>);
-  },[userName])
+  const [styleFlage,setStyleFlage]=useState(1)
+  const [data, setData] = useState(<MyFeed userName={userName} />);
+  useEffect(() => {
+    setStyleFlage(1)
+    setData(<MyFeed userName={userName} />);
+  }, [userName]);
   const yourFeedhandelclick = () => {
-    setyourStyle(classes.title);
-    setglobalStyle(classes.disabledTitle);
-    setData(<MyFeed userName={userName}/>);
+    setStyleFlage(1)
+    setData(<MyFeed userName={userName} />);
   };
   const globalFeedhandelclick = () => {
-    setyourStyle(classes.disabledTitle);
-    setglobalStyle(classes.title);
-    setData(<FavoritedFeed userName={userName}/>);
+    setStyleFlage(2)
+    setData(<FavoritedFeed userName={userName} />);
   };
   return (
     <div className={classes.div}>
@@ -34,23 +31,26 @@ const ToolBar:React.FC<IProps>=({userName})=>{
         <Toolbar className={classes.toolBar}>
           <Typography
             variant="body2"
-            className={yourStyle}
+            className={cx(classes.disabledTitle, {
+              [classes.title]: styleFlage==1
+            })}
             onClick={yourFeedhandelclick}
           >
             My Articles
           </Typography>
           <Typography
             variant="body2"
-            className={globalStyle}
+            className={cx(classes.disabledTitle, {
+              [classes.title]: styleFlage==2
+            })}
             onClick={globalFeedhandelclick}
           >
             Favorited Articles
           </Typography>
         </Toolbar>
         <div className={classes.content}>{data}</div>
-        </Paper>
-      
+      </Paper>
     </div>
   );
-}
-export default ToolBar
+};
+export default ToolBar;

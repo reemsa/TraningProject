@@ -1,93 +1,142 @@
-import React, { useState, MouseEventHandler } from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import useStyles from "./HeaderStyles";
-import CardMedia from '@material-ui/core/CardMedia';
-import { Button } from "@material-ui/core";
-import Icon from '@mdi/react'
-import { mdiSquareEditOutline,mdiSettings   } from '@mdi/js';
-import { getUser } from "../../network/user";
-const Header:React.FC=()=>{
-  const [style,setStyle]=useState("home")
-  const user=getUser();
-  let userName=""
-  let image="https://static.productionready.io/images/smiley-cyrus.jpg"
-  if(user!="null"&&user!=null){
-    userName=JSON.parse(user as string).username;
-    if(JSON.parse(user as string).image!=null){
-    image=JSON.parse(user as string).image;
+import CardMedia from "@material-ui/core/CardMedia";
+import Button from "@material-ui/core/Button";
+import Grid  from "@material-ui/core/Grid";
+import {isUserLoggedIn,getUserName ,getUserImage } from "../../network/userUtilte";
+import IconButton from "@material-ui/core/IconButton";
+import SettingsIcon from '@material-ui/icons/Settings';
+import LaunchIcon from '@material-ui/icons/Launch';
+const Header: React.FC = () => {
+  const [style, setStyle] = useState("home");
+  const [userName, setUserName] = useState("");
+  const [image, setImage] = useState(
+    "https://static.productionready.io/images/smiley-cyrus.jpg"
+  );
+  useEffect(() => {
+    console.log(style)
+    if (isUserLoggedIn()) {
+      setUserName(getUserName());
+      if ( getUserImage()!= null) {
+        setImage(getUserImage());
+      }
     }
+    if (image == "") {
+      setImage("https://static.productionready.io/images/smiley-cyrus.jpg");
+    }
+  }, [style]);
+  const homeHandler = (event: any) => {
+    setStyle("home");
   }
-  if(image==""){
-    image="https://static.productionready.io/images/smiley-cyrus.jpg"
+  const newArticleHandler = (event: any) => {
+    setStyle("newArticle");
   }
-  const handler=(event:any)=>setStyle(event.target.id);
+  const settingsHandler = (event: any) => {
+    setStyle("settings");
+  }
+  const profileHandler = (event: any) => {
+    setStyle("profile");
+  }
   const classes = useStyles();
-  //loged in succsecfully
-  if (user=="null"||user==null) {
-    console.log("uers="+user)
     return (
       <div className={classes.root}>
-        <AppBar className={classes.appBar} position="static">
+        <Grid container spacing={3}>
+          <Grid item xs={1}/>
+          <Grid item xs={9}>
+          <AppBar className={classes.appBar} position="static">
           <Toolbar>
+            
             <Typography variant="h5" className={classes.title}>
-              <Link className={classes.title} to="/">
+              <Link onClick={homeHandler}className={classes.title} to="/">
                 conduit
               </Link>
             </Typography>
             <Typography variant="h5" className={classes.tabs}>
-            <Link onClick={handler} id={"home"} className={style=='home'? classes.enabled:classes.link} to="/">
+              <Link
+                onClick={homeHandler}
+                id={"home"}
+                className={style == "home" ? classes.enabled : classes.link}
+                to="/"
+              >
                 Home
-            </Link>
-            <Link onClick={handler} id={'signIn'} className={style=='signIn'? classes.enabled:classes.link} to="/login">
-                Sing in
-            </Link>
-            <Link onClick={handler}  id={'signUp'} className={style=='signUp'? classes.enabled:classes.link} to="/register">
-                Sing up
-            </Link>
-            </Typography>
-          </Toolbar>
-        </AppBar>
-      </div>
-    );
-  }
-  //wihout log in
-  else {
-    return (
-      <div className={classes.root}>
-        <AppBar className={classes.appBar} position="static">
-          <Toolbar>
-            <Typography variant="h5" className={classes.title}>
-              <Link  className={classes.title} to="/">conduit
               </Link>
-            </Typography>
-            <Typography variant="h5" className={classes.tabs}>
-            <Link onClick={handler}  id={"home"}  className={style=='home'? classes.enabled:classes.link} to="/">
-              Home
-            </Link>
-            <Link onClick={handler}  id={"newArticle"} className={style=='newArticle'? classes.enabled:classes.link} to={`/editor/${null}`}>
-                <Icon path={mdiSquareEditOutline} size={0.75} horizontal vertical color={style=='newArticle'? "black":"gray"}/>New Article
-            </Link>
-            <Link onClick={handler}  id={"settings"}  className={style=='settings'? classes.enabled:classes.link} to="/settings">
-            <Icon path={mdiSettings  } size={0.8} horizontal vertical color={style=='settings'? "black":"gray"}/>Settings
-            </Link>
-            <Link onClick={handler}  id={"profile"} className={style=="profile"? classes.enabled:classes.link} to="/profile">
-              <Button onClick={handler}  id={"profile"} className={style=="profile"? classes.enabledButton:classes.button}>
-                <CardMedia
-                      className={classes.media}
-                      image={image}
-                />
-                {userName }
-              </Button>
-            </Link>
+              {isUserLoggedIn()?
+                  <Link
+                  onClick={newArticleHandler}
+                  id={"newArticle"}
+                  className={
+                    style == "newArticle" ? classes.enabled : classes.link
+                  }
+                  to={`/editor/${null}`}
+                >
+                  <IconButton size="small" edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                    <LaunchIcon fontSize="small" color={style == "newArticle" ? "inherit" : "disabled"}/>
+                    <Typography  className={style == "newArticle" ? classes.enabled : classes.link} >New Article</Typography>
+                   </IconButton>
+                </Link>
+                :
+                <Link
+                onClick={newArticleHandler}
+                id={"signIn"}
+                className={style == "newArticle" ? classes.enabled : classes.link}
+                to="/login"
+                >
+                 Sing in
+                </Link>
+                }
+                {isUserLoggedIn()?
+                  <Link
+                  onClick={settingsHandler}
+                  id={"settings"}
+                  className={style == "settings" ? classes.enabled : classes.link}
+                  to="/settings"
+                  >
+                    <IconButton size="small" edge="start"color="inherit" aria-label="menu">
+                      <SettingsIcon fontSize="small" color={style == "settings" ? "inherit" : "disabled"}/>
+                      <Typography  className={style == "settings" ? classes.enabled : classes.link} >Settings</Typography>
+                    </IconButton>                
+                  </Link>
+                :
+                <Link
+                onClick={settingsHandler}
+                id={"signUp"}
+                className={style == "settings" ? classes.enabled : classes.link}
+                to="/register"
+              >
+                Sign up
+              </Link>
+                }
+                {isUserLoggedIn()?
+                  <Link
+                  onClick={profileHandler}
+                  id={"profile"}
+                  className={style == "profile" ? classes.enabled : classes.link}
+                  to="/profile"
+                  >
+                  <Button
+                    onClick={profileHandler}
+                    id={"profile"}
+                    className={
+                      style == "profile" ? classes.enabledButton : classes.button
+                    }
+                  >
+                    <CardMedia className={classes.media} image={image} />
+                    <span className={style=="profile"?classes.userNameOn:classes.userName}>{userName}</span>
+                  </Button>
+                  </Link>
+                  :null}
             </Typography>
           </Toolbar>
         </AppBar>
+          </Grid>
+          <Grid item xs/>
+        </Grid>
       </div>
     );
-  }
-}
+};
 
 export default Header;

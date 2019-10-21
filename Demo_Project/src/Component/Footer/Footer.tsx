@@ -6,23 +6,23 @@ const Footer = () => {
   const classes = useStyles();
   return (
     <div>
-              <div className={classes.div}></div>
-              <div className={classes.footer}>
-      <div className={classes.container}>
-        <br />
-        <a className={classes.link}
-          href="https://github.com/gothinkster/angularjs-realworld-example-app"
-          target="_blank"
-        >
-          <Typography className={classes.logoFont} variant="h6" gutterBottom>
-            <IoLogoGithub></IoLogoGithub> Fork on GitHub
-          </Typography>
-        </a>
-        <br />
+      <div className={classes.div}></div>
+      <div className={classes.footer}>
+        <div className={classes.container}>
+          <br />
+          <a
+            className={classes.link}
+            href="https://github.com/gothinkster/angularjs-realworld-example-app"
+            target="_blank"
+          >
+            <Typography className={classes.logoFont} variant="h6" gutterBottom>
+              <IoLogoGithub></IoLogoGithub> Fork on GitHub
+            </Typography>
+          </a>
+          <br />
+        </div>
       </div>
     </div>
-    </div>
-
   );
 };
 

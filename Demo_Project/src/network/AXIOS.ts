@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getToken } from './user';
+import { getToken } from './userUtilte';
 const URL = 'https://conduit.productionready.io/api';
 export const axiosPost = (endPoint: string, body: {}) => {
 	return axios.post(`${URL}/${endPoint}`, body);
