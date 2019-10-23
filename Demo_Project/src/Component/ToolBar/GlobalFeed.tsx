@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import ArticleCard from "../Artical/ArticleCard";
 import { axiosGet } from "../../network/AXIOS";
 import PageNumbers from "../PageNumber/PageNumbers";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 //todo edit content
 interface IAuthor {
   bio: string;
@@ -24,18 +26,40 @@ interface IArticle {
 const GlobalFeed: React.FC = () => {
   const articles: any = [];
   const [articlesArray, setArticlesArray] = useState([]);
-  const [pageNumber,setPageNumber]=useState(50)
+  const [pageNumber,setPageNumber]=useState(1)
+  const [progressFlage,setProgressFlage]=useState(false)
+  const [progress, setProgress] = React.useState(0);
+  useEffect(() => {
+    function tick() {
+      setProgress(oldProgress => (oldProgress >= 100 ? 0 : oldProgress + 1));
+    }
+    const timer = setInterval(tick, 20);
+    if(progressFlage===true){
+      clearInterval(timer);
+    }
+  }, [progressFlage]);
   useEffect(() => {
     axiosGet("articles", "limit=10").then(res => {
       setArticlesArray(res.data.articles);
-      setPageNumber(res.data.articlesCount)
+      setPageNumber(res.data.articlesCount);
+      setProgressFlage(true)
     });
   }, []);
   let temp: IArticle[] = articlesArray;
 
-  if (temp[0] == undefined) {
-    articles.push("loading articles");
-  } else {
+  if (temp[0] == undefined&&progressFlage==false) {
+    articles.push("loading articles.....");
+    articles.push(    <CircularProgress
+    variant="determinate"
+    value={progress}
+    color="secondary"
+  />)
+
+  }
+  else if(temp[0] == undefined&&progressFlage==true){
+    articles.push("No articles are here... yet.");
+  }
+   else {
     for (let i = 0; i < 10; i++) {
       articles.push(
         <ArticleCard
@@ -52,13 +76,14 @@ const GlobalFeed: React.FC = () => {
   const onclickHandler = (index: number) => {
     axiosGet("articles", `limit=10&offset=${index * 10}`).then(res => {
       setArticlesArray(res.data.articles);
+      setProgressFlage(true)
       temp = articlesArray;
     });
    };
   return (
     <div>
       <div>{articles}</div>
-      <PageNumbers onClick={onclickHandler} pageNumber={pageNumber<10?1:Math.ceil((pageNumber/10))}></PageNumbers>
+      <PageNumbers onClick={onclickHandler} pageNumber={pageNumber<10?0:Math.ceil((pageNumber/10))}></PageNumbers>
     </div>
   );
 };

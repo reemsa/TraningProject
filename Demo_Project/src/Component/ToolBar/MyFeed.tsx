@@ -27,9 +27,11 @@ interface MyFeedProps {
 const MyFeed: React.FC<MyFeedProps> = ({ userName }) => {
   const articles: any = [];
   const [articlesArray, setArticlesArray] = useState([]);
-  const [pageNumber,setPageNumber]=useState(10)
+  const [pageNumber,setPageNumber]=useState(1)
+  const [progressFlage,setProgressFlage]=useState(false)
   const onclickHandler = (index: number) => {
     axiosGet("articles", `author=${userName}&limit=10&offset=${index * 10}`).then(res => {
+      setProgressFlage(true)
       setArticlesArray(res.data.articles);
       temp = articlesArray;
     });
@@ -37,6 +39,7 @@ const MyFeed: React.FC<MyFeedProps> = ({ userName }) => {
   useEffect(() => {
     if (userName) {
       axiosGet("articles", `author=${userName}`).then(res => {
+        setProgressFlage(true)
         setArticlesArray(res.data.articles);
         setPageNumber(res.data.articlesCount)
         
@@ -44,9 +47,12 @@ const MyFeed: React.FC<MyFeedProps> = ({ userName }) => {
     }
   }, [userName]);
   let temp: IArticle[] = articlesArray;
-  if (temp[0] == undefined) {
-    articles.push("No articles yet...");
-  } else {
+  if (temp[0] == undefined&&progressFlage===false) {
+    articles.push("loading articles.....");
+  }
+  else if(temp[0] == undefined&&progressFlage===true){
+    articles.push("No articles are here... yet.");
+  }else {
     for (let i = 0; i < temp.length; i++) {
       articles.push(
         <ArticleCard
@@ -63,7 +69,7 @@ const MyFeed: React.FC<MyFeedProps> = ({ userName }) => {
   return (
     <div>
       <div>{articles}</div>
-      <PageNumbers onClick={onclickHandler} pageNumber={pageNumber<10?1:Math.ceil((pageNumber/10))}></PageNumbers> 
+      <PageNumbers onClick={onclickHandler} pageNumber={pageNumber<10?0:Math.ceil((pageNumber/10))}></PageNumbers> 
   </div>
 
     );

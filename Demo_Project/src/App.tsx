@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Footer from "./Component/Footer/Footer";
@@ -11,11 +11,21 @@ import Login from "./pages/Login";
 import ProfilePage from "./pages/ProfilePage";
 import Register from "./pages/Register";
 import SettingsPage from "./pages/SettingsPage";
-import Grid from "@material-ui/core/Grid";
-
-function App() {
+import { getUserInfo } from "./network/userUtilte";
+import UserContext from './UserContext'
+interface IUser{
+  userName: string;
+  userImage: string;
+  userBio: string;
+  userEmail: string;
+  flag:boolean;
+}
+interface AppProps{
+  user:IUser
+}
+const App:React.FC<AppProps>=({user})=> {
   return (
-    <div>
+    <UserContext.Provider value={user}>
       <Router>
         <Header />
         <Route exact path="/" component={Home}/>
@@ -28,7 +38,7 @@ function App() {
         <Route path="/article/:slug" component={ArticlePage}/>
         <Footer />
       </Router>
-    </div>
+    </UserContext.Provider>
   );
 }
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App user={getUserInfo()}/>, document.getElementById("root"));

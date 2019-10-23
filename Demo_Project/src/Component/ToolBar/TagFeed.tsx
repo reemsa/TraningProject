@@ -27,17 +27,21 @@ interface IArticle {
 const TagFeed: React.FC<IProps> = ({ tagName }) => {
   let articles: any = [];
   const [articlesArray, setArticlesArray] = useState([]);
-  const [pageNumber,setPageNumber]=useState(50)
+  const [pageNumber,setPageNumber]=useState(1)
+  const [progressFlage,setProgressFlage]=useState(false)
   useEffect(() => {
     axiosGet("articles", `limit=10&tag=${tagName}`).then(res => {
+      setProgressFlage(true)
       setPageNumber(res.data.articlesCount)
       setArticlesArray(res.data.articles);
     });
   }, [tagName]);
   let temp: IArticle[] = articlesArray;
-
-  if (temp[0] == undefined) {
-    articles.push("loading articles");
+  if (temp[0] == undefined&&progressFlage===false) {
+    articles.push("loading articles.....");
+  }
+  else if(temp[0] == undefined&&progressFlage===true){
+    articles.push("No articles are here... yet.");
   } else {
     for (let i = 0; i < 10; i++) {
       articles.push(
@@ -55,6 +59,7 @@ const TagFeed: React.FC<IProps> = ({ tagName }) => {
   const onclickHandler = (index: number) => {
     axiosGet("articles", `limit=10&offset=${index * 10}&tag=${tagName}`).then(
       res => {
+        setProgressFlage(true)
         setArticlesArray(res.data.articles);
         temp = articlesArray;
       }
@@ -75,7 +80,7 @@ const TagFeed: React.FC<IProps> = ({ tagName }) => {
   return (
     <div>
       <div>{articles}</div>
-      <PageNumbers onClick={onclickHandler} pageNumber={pageNumber<10?1:Math.ceil((pageNumber/10))}></PageNumbers>
+      <PageNumbers onClick={onclickHandler} pageNumber={pageNumber<10?0:Math.ceil((pageNumber/10))}></PageNumbers>
     </div>
   );
 };

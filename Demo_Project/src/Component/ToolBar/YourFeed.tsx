@@ -25,16 +25,19 @@ interface IArticle {
 const YourFeed: React.FC = () => {
   const articles: any = [];
   const [articlesArray, setArticlesArray] = useState([]);
-  const [pageNumber,setPageNumber]=useState(10)
+  const [pageNumber,setPageNumber]=useState(1)
+  const [progressFlage,setProgressFlage]=useState(false)
   useEffect(() => {
     if(isUserLoggedIn()){
       axiosGetWithAuthentication("articles/feed", "limit=10").then(res => {
+        setProgressFlage(true)
         setArticlesArray(res.data.articles);
         setPageNumber(res.data.articlesCount)
       });
     }
     else{
       axiosGet("articles/feed", "limit=10").then(res => {
+        setProgressFlage(true)
         setArticlesArray(res.data.articles);
         setPageNumber(res.data.articlesCount)
       });
@@ -44,6 +47,7 @@ const YourFeed: React.FC = () => {
   const onclickHandler = (index: number) => {
     if(isUserLoggedIn()){
       axiosGetWithAuthentication("articles/feed", `limit=10&offset=${index * 10}`).then(res => {
+        setProgressFlage(true)
         temp = res.data.articles;
         console.log(res.data.articles)
         setArticlesArray(res.data.articles)      
@@ -51,6 +55,7 @@ const YourFeed: React.FC = () => {
     }
     else{
       axiosGet("articles/feed", `limit=10&offset=${index * 10}`).then(res => {
+        setProgressFlage(true)
         temp = res.data.articles;
         console.log(res.data.articles)
         setArticlesArray(res.data.articles)      
@@ -59,9 +64,12 @@ const YourFeed: React.FC = () => {
 
   };
   let temp: IArticle[] = articlesArray;
-  if (temp[0] == undefined) {
-    articles.push("loading articles");
-  } else {
+  if (temp[0] == undefined&&progressFlage===false) {
+    articles.push("loading articles.....");
+  }
+  else if(temp[0] == undefined&&progressFlage===true){
+    articles.push("No articles are here... yet.");
+  }else {
     for (let i = 0; i < 10; i++) {
       if(temp[i]!=undefined){
         articles.push(
@@ -80,7 +88,7 @@ const YourFeed: React.FC = () => {
   return(
     <div>
       <div>{articles}</div>
-      <PageNumbers onClick={onclickHandler} pageNumber={pageNumber<10?1:Math.ceil((pageNumber/10))}></PageNumbers> 
+      <PageNumbers onClick={onclickHandler} pageNumber={pageNumber<10?0:Math.ceil((pageNumber/10))}></PageNumbers> 
     </div>
      );
 };

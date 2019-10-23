@@ -1,6 +1,26 @@
 export const getUser = () => {
 	return sessionStorage.getItem('user');
 };
+export const getUserInfo=()=>{
+	if(sessionStorage.getItem('user')=="null"||sessionStorage.getItem('user')==null){
+		return {
+			flag:false,
+			userName:"",
+			userImage:"https://static.productionready.io/images/smiley-cyrus.jpg",
+			userBio:"",
+			userEmail:"",
+		}
+	}
+	else{
+		return{
+			userName:JSON.parse(sessionStorage.getItem('user') as string).username,
+			userImage:JSON.parse(sessionStorage.getItem('user') as string).image,
+			userBio:JSON.parse(sessionStorage.getItem('user') as string).bio,
+			userEmail:JSON.parse(sessionStorage.getItem('user') as string).email,
+			flag:true
+		}
+	}
+}
 export const getUserName = () => {
 	return JSON.parse(sessionStorage.getItem('user') as string).username;
 };

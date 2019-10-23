@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -7,28 +7,23 @@ import useStyles from "./HeaderStyles";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Grid  from "@material-ui/core/Grid";
-import {isUserLoggedIn,getUserName ,getUserImage } from "../../network/userUtilte";
 import IconButton from "@material-ui/core/IconButton";
 import SettingsIcon from '@material-ui/icons/Settings';
 import LaunchIcon from '@material-ui/icons/Launch';
+import UserContext from '../../UserContext'
 const Header: React.FC = () => {
+  const user=useContext(UserContext)
   const [style, setStyle] = useState("home");
-  const [userName, setUserName] = useState("");
-  const [image, setImage] = useState(
-    "https://static.productionready.io/images/smiley-cyrus.jpg"
-  );
+  const [userName, setUserName] = useState(user.userName);
+  const [image, setImage] = useState(user.userImage);
   useEffect(() => {
-    console.log(style)
-    if (isUserLoggedIn()) {
-      setUserName(getUserName());
-      if ( getUserImage()!= null) {
-        setImage(getUserImage());
+    if (user.flag) {
+      setUserName(user.userName);
+      if (user.userImage == "") {
+        setImage("https://static.productionready.io/images/smiley-cyrus.jpg");
       }
     }
-    if (image == "") {
-      setImage("https://static.productionready.io/images/smiley-cyrus.jpg");
-    }
-  }, [style]);
+  }, [style,user]);
   const homeHandler = (event: any) => {
     setStyle("home");
   }
@@ -64,7 +59,7 @@ const Header: React.FC = () => {
               >
                 Home
               </Link>
-              {isUserLoggedIn()?
+              {user.flag?
                   <Link
                   onClick={newArticleHandler}
                   id={"newArticle"}
@@ -88,7 +83,7 @@ const Header: React.FC = () => {
                  Sing in
                 </Link>
                 }
-                {isUserLoggedIn()?
+                {user.flag?
                   <Link
                   onClick={settingsHandler}
                   id={"settings"}
@@ -110,7 +105,7 @@ const Header: React.FC = () => {
                 Sign up
               </Link>
                 }
-                {isUserLoggedIn()?
+                {user.flag?
                   <Link
                   onClick={profileHandler}
                   id={"profile"}
