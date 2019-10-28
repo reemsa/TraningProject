@@ -13,7 +13,8 @@ import { Link } from "react-router-dom";
 import TagButton from "./ArticleTagButton";
 import { axiosGetWithAuthentication,axiosGet } from "../../network/AXIOS";
 import Moment from "react-moment";
-import { isUserLoggedIn } from "../../network/userUtilte";
+import { AppState } from "../../store/Store";
+import { connect } from "react-redux";
 interface ArticleCardProps {
   userName: string;
   title: string;
@@ -22,12 +23,16 @@ interface ArticleCardProps {
   image: string;
   slug: string;
 }
-const ArticleCard: React.FC<ArticleCardProps> = props => {
+interface ConnectedArticleCardProps
+{
+  flag:boolean
+}
+const ArticleCard: React.FC<ArticleCardProps&ConnectedArticleCardProps> = (props,{flag}) => {
   const classes = useStyles();
   const [tags, setTags] = useState<string[]>([]);
   let tagList:  JSX.Element[] = [];
   useEffect(() => {
-    if(isUserLoggedIn()){
+    if(flag){
       axiosGetWithAuthentication(`articles/${props.slug}`).then(res => {
         setTags(res.data.article.tagList);
       });
@@ -64,10 +69,14 @@ const ArticleCard: React.FC<ArticleCardProps> = props => {
 
       <CardContent>
         <Typography variant="h5" color="textPrimary" component="p">
-          {props.title}
+          <Link className={classes.titleLink} to={`/article/${props.slug}`}  >
+            {props.title}
+          </Link>
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
-          {props.description}
+          <Link className={classes.read} to={`/article/${props.slug}`}>
+            {props.description}
+          </Link>
         </Typography>
         <Typography className={classes.cont}>
           <div className={classes.tags}>{tagList}</div>
@@ -83,4 +92,7 @@ const ArticleCard: React.FC<ArticleCardProps> = props => {
     </Card>
   );
 };
-export default ArticleCard;
+const mapStateToProps = (state:AppState) => ({
+  flag:state.logInReducer.flag
+})
+export default connect(mapStateToProps)(ArticleCard)

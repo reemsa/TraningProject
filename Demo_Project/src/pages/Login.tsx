@@ -1,9 +1,22 @@
 import React, { useState } from "react";
-import {Redirect, RouteComponentProps } from "react-router-dom"
-import { setCurrentUser } from "../network/userUtilte";
+import {Redirect} from "react-router-dom"
+import { setCurrentUser ,getUserInfo} from "../network/userUtilte";
 import { axiosPost } from "../network/AXIOS";
 import LoginForm from "../Component/LoginForm/LoginForm";
-const Login: React.FC<RouteComponentProps> = (props) => {
+import { connect } from 'react-redux'
+import { logInAction } from "../actions/LogInAction"
+interface IUser{
+  userName: string;
+  userImage: string;
+  userBio: string;
+  userEmail: string;
+  flag:boolean;
+}
+interface ConnectedLoginProps
+{
+  acttion1: any
+}
+const Login: React.FC<ConnectedLoginProps> = ({acttion1}) => {
   const [anchorEl, setAnchorEl] = React.useState();
   const [formErrors, setFormErrors] = useState("");
   const [flage, setFlage] = useState(false);
@@ -14,7 +27,8 @@ const Login: React.FC<RouteComponentProps> = (props) => {
     }
     return true
   }
-  const handelLogin = (email:string,password:string) => {
+  const handelLogin = (email: string, password: string) =>
+  {
     const body = {
       user: {
         email: email,
@@ -28,7 +42,8 @@ const Login: React.FC<RouteComponentProps> = (props) => {
       axiosPost("users/login", body)
         .then(res => {
           setCurrentUser(res.data.user);
-            window.location.href = "/";
+          acttion1(getUserInfo());
+         window.location.href = "/";
         })
         .catch(error => {
           setFormErrors("email or password are invalid");
@@ -40,9 +55,18 @@ const Login: React.FC<RouteComponentProps> = (props) => {
   };
 
   if (!flage) {
-    return <LoginForm handelLogin={handelLogin} handleClosePopover={handleClosePopover} open={open} formErrors={formErrors} anchorEl={anchorEl}></LoginForm>
+    return <LoginForm handelLogin={handelLogin} handleClosePopover={handleClosePopover} open={open} formErrors={formErrors} anchorEl={anchorEl}/>
   } else {
     return <Redirect to="/" />;
   }
 };
-export default Login;
+const mapActionsToProps = (dispatch:any) =>
+{
+  return {
+    acttion1: (user:IUser) => dispatch(logInAction(user))
+  }
+}
+export default connect(
+  null,
+  mapActionsToProps
+)(Login)

@@ -4,7 +4,6 @@ import { axiosGet } from "../../network/AXIOS";
 import PageNumbers from "../PageNumber/PageNumbers";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-//todo edit content
 interface IAuthor {
   bio: string;
   following: boolean;

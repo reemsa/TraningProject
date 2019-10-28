@@ -1,17 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Settings from "../Component/settings/Settings";
-import { getUserImage ,getUserName,getUserBio,getUserEmail, setCurrentUser,userLogOut} from "../network/userUtilte";
+import { setCurrentUser,userLogOut, getUserInfo} from "../network/userUtilte";
 import { axiosPutWithAuthentication } from "../network/AXIOS";
 import { Redirect } from "react-router-dom";
-const SettingsPage = () => {
-  const [userName,setUserName]=useState(getUserName())
-  const [userImage,setUserImage]=useState(getUserImage())
-  const [userBio,setUserBio]=useState(getUserBio())
-  const [userEmail,setUserEmail]=useState(getUserEmail())
+import { connect } from "react-redux";
+import { AppState } from "../store/Store";
+import { logInAction } from "../actions/LogInAction";
+interface ConnectedSettingsProps
+{
+    user: {
+    userName: string,
+    userBio: string,
+    userEmail: string,
+    userImage: string,
+    flag:boolean
+  },
+  acttion1: any
+  
+}
+interface IUser{
+  userName: string;
+  userImage: string;
+  userBio: string;
+  userEmail: string;
+  flag:boolean;
+}
+const SettingsPage:React.FC<ConnectedSettingsProps>= ({user,acttion1}) => {
   const [flage,setFlage]=useState(false)
-  const [errorMessage,setErrorMessage]=useState("")
+  const [errorMessage, setErrorMessage] = useState("")
   const handelUpdate = (password:string,name:string,email:string,bio:string,image:string) => {
-    let body = {
+    const body = {
       user: {
         email: email || undefined,
         bio: bio || undefined,
@@ -21,13 +39,11 @@ const SettingsPage = () => {
       }
     };
     axiosPutWithAuthentication("user", body)
-    .then(res => {
-      setUserName(res.data.user.username);
-      setUserImage(res.data.user.image);
-      setUserEmail(res.data.user.email);
-      setUserBio(res.data.user.bio);
-      setCurrentUser(res.data.user)
-      setFlage(true)
+      .then(res =>
+      {
+        setCurrentUser(res.data.user)
+        acttion1(getUserInfo())
+        setFlage(true)
     })
     .catch(error=>{
       console.log(error.response.data.errors)
@@ -39,11 +55,27 @@ const SettingsPage = () => {
     userLogOut()
     window.location.href = "/";
   };
-  if(flage){
-    return <Redirect to= "/profile"/>
+  if (flage)
+  {
+     return <Redirect to= "/profile"/>
   }
   return (
-       <Settings imageURL={userImage} userName={userName} bio={userBio} email={userEmail} handelUpdate={handelUpdate} handelClose={handelClose} errorMessage={errorMessage}></Settings>
+       <Settings handelUpdate={handelUpdate} handelClose={handelClose} errorMessage={errorMessage}></Settings>
   );
 };
-export default SettingsPage;
+const mapStateToProps = (state: AppState) => ({ 
+  user: {
+    userName: state.logInReducer.userName,
+    userBio: state.logInReducer.userBio,
+    userEmail: state.logInReducer.userEmail,
+    userImage: state.logInReducer.userImage,
+    flag:state.logInReducer.flag
+  }
+})
+const mapActionsToProps = (dispatch:any) =>
+{
+  return {
+    acttion1: (user:IUser) => dispatch(logInAction(user))
+  }
+}
+export default connect(mapStateToProps,mapActionsToProps)(SettingsPage)

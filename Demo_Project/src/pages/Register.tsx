@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { axiosPost } from "../network/AXIOS";
-import { setCurrentUser } from "../network/userUtilte";
+import { setCurrentUser, getUserInfo } from "../network/userUtilte";
 import RegisterForm from "../Component/RegisterForm/RegisterForm";
+import { logInAction } from "../actions/LogInAction";
+import { connect } from "react-redux";
 
 interface RegistrationFormErrors {
   username?: string; 
@@ -36,6 +38,7 @@ const Register:React.FC=() =>{
     axiosPost("users", body)
       .then(res => {
         setCurrentUser(res.data.user);
+        logInAction(getUserInfo())
         window.location.href = "/";
       })
       .catch(res => {
@@ -46,4 +49,7 @@ const Register:React.FC=() =>{
     <RegisterForm handelSignup={handelSignup} handleClosePopover={handleClosePopover} open={open} anchorEl={anchorEl} formErrors={formErrors}></RegisterForm>
   )
 }
-export default Register;
+export default connect(
+  null,
+  {logInAction}
+)(Register)

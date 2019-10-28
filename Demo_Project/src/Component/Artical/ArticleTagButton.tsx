@@ -1,6 +1,5 @@
 import React from "react";
 import useStyles from "./ArticleTagButtonStyle";
-import Button from "@material-ui/core/Button";
 interface TagButtonProps {
   data: string;
 }

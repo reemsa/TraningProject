@@ -3,10 +3,11 @@ import Toolbar from "@material-ui/core/Toolbar";
 import useStyles from "./CommentStyle";
 import Paper from "@material-ui/core/Paper";
 import NewComment from "./NewComment";
-import {getUserName, isUserLoggedIn } from "../../network/userUtilte";
 import { Link } from "react-router-dom";
 import { axiosGetWithAuthentication, axiosGet } from "../../network/AXIOS";
 import CommentCard from "./CommentCard";
+import { AppState } from "../../store/Store";
+import { connect } from "react-redux";
 interface CommentProps {
   slug: string;
 }
@@ -22,12 +23,17 @@ interface IComment {
   body: string;
   author: IAuthor;
 }
-const Comment: React.FC<CommentProps> = ({ slug }) => {
+interface ConnectedCommentProps
+{
+  flag: boolean;
+  userName:string
+}
+const Comment: React.FC<CommentProps&ConnectedCommentProps> = ({ slug ,flag,userName}) => {
   const classes = useStyles();
   const [comments, setComments] = useState([]);
   const commentsList: any = [];
   useEffect(() => {
-    if (!isUserLoggedIn()) {
+    if (!flag) {
       axiosGet(`articles/${slug}/comments`).then(res => {
         setComments(res.data.comments);
       });
@@ -39,7 +45,7 @@ const Comment: React.FC<CommentProps> = ({ slug }) => {
   }, [slug, comments]);
   let temp: IComment[] = comments;
   for (let i = 0; i < temp.length; i++) {
-    if (temp[i].author.username == getUserName()) {
+    if (temp[i].author.username == userName) {
       commentsList.push(
         <div className={classes.div}>
           <CommentCard
@@ -73,7 +79,7 @@ const Comment: React.FC<CommentProps> = ({ slug }) => {
     <Paper className={classes.paper}>
       <Toolbar className={classes.toolBar}></Toolbar>
       <div className={classes.div}>
-        {!isUserLoggedIn()? (
+        {!flag? (
           <div className={classes.linkDiv}>
             <Link className={classes.link} to="/login">
               Sing in
@@ -91,5 +97,9 @@ const Comment: React.FC<CommentProps> = ({ slug }) => {
       <div className={classes.commentsList}>{commentsList}</div>
     </Paper>
   );
-};
-export default Comment;
+}
+const mapStateToProps = (state: AppState) => ({
+  flag: state.logInReducer.flag,
+  userName:state.logInReducer.userName
+})
+export default connect(mapStateToProps)(Comment)

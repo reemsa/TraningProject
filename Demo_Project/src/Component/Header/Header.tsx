@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -10,20 +10,36 @@ import Grid  from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import SettingsIcon from '@material-ui/icons/Settings';
 import LaunchIcon from '@material-ui/icons/Launch';
-import UserContext from '../../UserContext'
-const Header: React.FC = () => {
-  const user=useContext(UserContext)
+import { connect } from "react-redux";
+import { AppState } from "../../store/Store";
+interface IUser{
+  userName: string;
+  userImage: string;
+  userBio: string;
+  userEmail: string;
+  flag:boolean;
+}
+interface ConnectedHeaderProps
+{
+  user: IUser;
+}
+const Header: React.FC<ConnectedHeaderProps>= ({user}) => {
   const [style, setStyle] = useState("home");
   const [userName, setUserName] = useState(user.userName);
   const [image, setImage] = useState(user.userImage);
-  useEffect(() => {
+  useEffect(() =>
+  {
     if (user.flag) {
       setUserName(user.userName);
       if (user.userImage == "") {
         setImage("https://static.productionready.io/images/smiley-cyrus.jpg");
       }
+      else
+      {
+        setImage(user.userImage);
+      }
     }
-  }, [style,user]);
+  }, [user]);
   const homeHandler = (event: any) => {
     setStyle("home");
   }
@@ -133,5 +149,14 @@ const Header: React.FC = () => {
       </div>
     );
 };
+const mapStateToProps = (state: AppState) => ({ 
+  user: {
+    userName: state.logInReducer.userName,
+    userBio: state.logInReducer.userBio,
+    userEmail: state.logInReducer.userEmail,
+    userImage: state.logInReducer.userImage,
+    flag:state.logInReducer.flag
+  }
+})
 
-export default Header;
+export default connect(mapStateToProps)(Header)

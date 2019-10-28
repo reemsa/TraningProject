@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ArticleCard from "../Artical/ArticleCard";
 import { axiosGet } from "../../network/AXIOS";
 import PageNumbers from "../PageNumber/PageNumbers";
-//todo edit content
+
 interface IProps {
   tagName: string;
 }
@@ -24,7 +24,8 @@ interface IArticle {
   body: string;
   author: IAuthor;
 }
-const TagFeed: React.FC<IProps> = ({ tagName }) => {
+const TagFeed: React.FC<IProps> = ({ tagName }) =>
+{
   let articles: any = [];
   const [articlesArray, setArticlesArray] = useState([]);
   const [pageNumber,setPageNumber]=useState(1)

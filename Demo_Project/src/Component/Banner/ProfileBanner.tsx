@@ -10,19 +10,25 @@ import {
   axiosPostWithAuthentication,
   axiosDeleteWithAuthentication
 } from "../../network/AXIOS";
-import { isUserLoggedIn } from "../../network/userUtilte";
 import IconButton from "@material-ui/core/IconButton";
+import { AppState } from "../../store/Store";
+import { connect } from "react-redux";
 interface ProfileBannerProps {
   image: string;
   userName: string;
   bio: string;
   following?: boolean;
 }
-const ProfileBanner: React.FC<ProfileBannerProps> = ({
+interface ConnectedProfileBannerProps
+{
+  flag:boolean
+}
+const ProfileBanner: React.FC<ProfileBannerProps&ConnectedProfileBannerProps> = ({
   userName,
   image,
   bio,
-  following
+  following,
+  flag
 }) => {
   const classes = useStyles();
   const [followingFlage, setFollowingFlage] = useState<boolean|undefined>(following);
@@ -36,7 +42,7 @@ const ProfileBanner: React.FC<ProfileBannerProps> = ({
     window.location.href = "/settings";
   };
   const handelFollow = () => {
-    if (!isUserLoggedIn()) {
+    if (!flag) {
       window.location.href = "/register";
     } else {
       axiosPostWithAuthentication(`profiles/${userName}/follow`, {}).then(
@@ -47,7 +53,7 @@ const ProfileBanner: React.FC<ProfileBannerProps> = ({
     }
   };
   const handelUnFollow = () => {
-    if (!isUserLoggedIn()) {
+    if (!flag) {
       window.location.href = "/register";
     } else {
       axiosDeleteWithAuthentication(`profiles/${userName}/follow`).then(res => {
@@ -102,5 +108,7 @@ const ProfileBanner: React.FC<ProfileBannerProps> = ({
     </Container>
   );
 };
-
-export default ProfileBanner;
+const mapStateToProps = (state: AppState) => ({
+  flag:state.logInReducer.flag
+})
+export default connect(mapStateToProps)(ProfileBanner)

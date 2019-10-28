@@ -3,13 +3,18 @@ import React, { useEffect, useState } from "react";
 import GlobalFeed from "../Component/ToolBar/GlobalFeed";
 import TagFeed from "../Component/ToolBar/TagFeed";
 import YourFeed from "../Component/ToolBar/YourFeed";
+import { connect } from 'react-redux';
+import { AppState } from '../store/Store';
 
 interface ToolbarProps {
   tagName: string;
-  logedInFlag:boolean,
+}
+interface ConnectedToolbarPage
+{
+  logedInFlag:boolean
 }
 
-const ToolbarPage: React.FC<ToolbarProps> = ({ tagName, logedInFlag }) => {
+const ToolbarPage: React.FC<ToolbarProps&ConnectedToolbarPage> = ({ tagName, logedInFlag }) => {
   const [tagValue, setTagValue] = useState(tagName);
   let defaultFlag=2
   const [flag,setFlag]=useState(defaultFlag)
@@ -49,4 +54,8 @@ return(
     <MyToolBar tagName={tagValue} logedInFlag={logedInFlag} data={data} styleFlage={flag} handleYourFeed={yourFeedhandelclick} handelGlobalFeed={globalFeedhandelclick} handelTagFeed={tagFeedhandelclick}/>
 )
 };
-export default ToolbarPage;
+const mapStateToProps = (state:AppState) =>
+({
+  logedInFlag:state.logInReducer.flag
+})
+export default connect(mapStateToProps)(ToolbarPage)

@@ -1,5 +1,4 @@
-import React, { useState,useEffect } from "react";
-import ReactDOM from "react-dom";
+import React, {useEffect } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Footer from "./Component/Footer/Footer";
 import Header from "./Component/Header/Header";
@@ -12,7 +11,9 @@ import ProfilePage from "./pages/ProfilePage";
 import Register from "./pages/Register";
 import SettingsPage from "./pages/SettingsPage";
 import { getUserInfo } from "./network/userUtilte";
-import UserContext from './UserContext'
+import {  connect } from "react-redux";
+import {logInAction} from "../src/actions/LogInAction"
+
 interface IUser{
   userName: string;
   userImage: string;
@@ -20,14 +21,22 @@ interface IUser{
   userEmail: string;
   flag:boolean;
 }
-interface AppProps{
-  user:IUser
+interface ConnectedAppProps
+{
+  acttion1: any
 }
-const App:React.FC<AppProps>=({user})=> {
+interface AppProps{
+}
+
+const App: React.FC<AppProps & ConnectedAppProps>= ({ acttion1}) =>
+{
+  useEffect(() =>
+  {
+    acttion1(getUserInfo());
+  },[])
   return (
-    <UserContext.Provider value={user}>
       <Router>
-        <Header />
+      <Header />
         <Route exact path="/" component={Home}/>
         <Route exact path="/register" component={Register}/>
         <Route path="/login" component={Login}/>
@@ -38,7 +47,14 @@ const App:React.FC<AppProps>=({user})=> {
         <Route path="/article/:slug" component={ArticlePage}/>
         <Footer />
       </Router>
-    </UserContext.Provider>
   );
 }
-ReactDOM.render(<App user={getUserInfo()}/>, document.getElementById("root"));
+
+const mapActionsToProps = (dispatch:any) =>
+{
+  return {
+    acttion1: (user:IUser) => dispatch(logInAction(user))
+  }
+}
+
+export default connect(null,mapActionsToProps)(App)

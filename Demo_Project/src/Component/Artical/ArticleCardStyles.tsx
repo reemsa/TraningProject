@@ -20,6 +20,10 @@ const useStyles = makeStyles(theme => ({
     color: "gray",
     textDecoration: "none"
   },
+    titleLink: {
+    color: "black",
+    textDecoration: "none"
+  },
   cont: {
     display: "inline"
   },

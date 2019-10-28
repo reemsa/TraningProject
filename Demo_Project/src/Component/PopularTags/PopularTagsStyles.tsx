@@ -4,6 +4,7 @@ const useStyles = makeStyles(themes => ({
     maxWidth: "300px",
     paddingLeft: "15px",
     paddingRight: "15px",
+    paddingBottom:"15px",
     position: "relative",
     backgroundColor: "#f3f3f3",
   },

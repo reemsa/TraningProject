@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import {isUserLoggedIn } from "../../network/userUtilte";
 import useStyles from "./ArticleBodyStyle";
 import {
   axiosGetWithAuthentication,
@@ -7,16 +6,29 @@ import {
 } from "../../network/AXIOS";
 import Comment from "../Comment/Comment";
 import TagButton from "./ArticleTagButton";
+import { AppState } from "../../store/Store";
+import { connect } from "react-redux";
+interface IUser{
+  userName: string;
+  userImage: string;
+  userBio: string;
+  userEmail: string;
+  flag:boolean;
+}
 interface ArticleBodyProps {
   slug: string;
 }
-const ArticleBody: React.FC<ArticleBodyProps> = ({ slug }) => {
+interface ConnectedArticleBodyProps
+{
+  flag: boolean
+}
+const ArticleBody: React.FC<ArticleBodyProps&ConnectedArticleBodyProps> = ({ slug,flag }) => {
   const classes = useStyles();
   const [body, setBody] = useState("");
   const [tags, setTags] = useState("");
   let tagList: any[] = [];
   useEffect(() => {
-    if (!isUserLoggedIn()) {
+    if (!flag) {
       axiosGet(`articles/${slug}`).then(res => {
         setBody(res.data.article.body);
         setTags(res.data.article.tagList);
@@ -39,4 +51,7 @@ const ArticleBody: React.FC<ArticleBodyProps> = ({ slug }) => {
     </div>
   );
 };
-export default ArticleBody;
+const mapStateToProps = (state: AppState) => ({ 
+  flag:state.logInReducer.flag
+})
+export default connect(mapStateToProps)(ArticleBody)

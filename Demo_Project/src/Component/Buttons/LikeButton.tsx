@@ -8,16 +8,21 @@ import {
   axiosDeleteWithAuthentication,
   axiosGet
 } from "../../network/AXIOS";
-import {isUserLoggedIn } from "../../network/userUtilte";
+import { connect } from "react-redux";
+import { AppState } from "../../store/Store";
 interface LikeButtonProps {
   slug: string;
 }
-const LikeButton: React.FC<LikeButtonProps> = ({ slug }) => {
+interface ConnectedLikeButtonProps
+{
+  flag:boolean
+}
+const LikeButton: React.FC<LikeButtonProps&ConnectedLikeButtonProps> = ({ slug,flag }) => {
   const classes = useStyles();
   const [likeCount, setLikeCount] = useState(0);
   const [favorited, setFavorited] = useState(false);
   const likeHandler = (slug: string) => {
-    if (!isUserLoggedIn()) {
+    if (!flag) {
       window.location.href = "/register";
     } else {
       if (favorited == false) {
@@ -36,7 +41,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({ slug }) => {
     }
   };
   useEffect(() => {
-    if (!isUserLoggedIn()) {
+    if (!flag) {
       axiosGet(`articles/${slug}`).then(res => {
         setLikeCount(res.data.article.favoritesCount);
         setFavorited(res.data.article.favorited);
@@ -62,4 +67,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({ slug }) => {
     </div>
   );
 };
-export default LikeButton;
+const mapStateToProps = (state:AppState) => ({
+  flag:state.logInReducer.flag
+})
+export default connect(mapStateToProps)(LikeButton)

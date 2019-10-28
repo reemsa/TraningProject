@@ -4,15 +4,19 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { getUser, getUserImage } from "../../network/userUtilte";
 import { axiosPostWithAuthentication } from "../../network/AXIOS";
+import { AppState } from "../../store/Store";
+import { connect } from "react-redux";
 interface NewCommentProps {
   slug: string;
 }
-
-const NewComment: React.FC<NewCommentProps> = ({ slug }) => {
+interface ConnectedNewCommentProps
+{
+  imageURL:string
+}
+const NewComment: React.FC<NewCommentProps&ConnectedNewCommentProps> = ({ slug,imageURL }) => {
   const classes = useStyles();
-  const image = getUserImage();
+  const image = imageURL;
   const [textValue, setTextValue] = useState();
   const postHandler = () => {
     const body = {
@@ -48,4 +52,8 @@ const NewComment: React.FC<NewCommentProps> = ({ slug }) => {
     </Card>
   );
 };
-export default NewComment;
+const mapStateToProps = (state:AppState) => ({
+  imageURL:state.logInReducer.userImage
+})
+export default connect(mapStateToProps)(NewComment)
+//export default NewComment;

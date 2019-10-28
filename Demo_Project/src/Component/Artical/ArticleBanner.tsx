@@ -17,11 +17,18 @@ import Moment from "react-moment";
 import { Button, IconButton } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import { getUser } from "../../network/userUtilte";
 import { Link } from "react-router-dom";
-import {getUserName,isUserLoggedIn} from '../../network/userUtilte'
+import { AppState } from "../../store/Store";
+import { connect } from "react-redux";
 interface ArticleBannerProps {
   slug: string;
+}
+interface IUser{
+  userName: string;
+  userImage: string;
+  userBio: string;
+  userEmail: string;
+  flag:boolean;
 }
 interface IAuthor {
   username: string;
@@ -41,7 +48,11 @@ interface IArticle {
   updatedAt: string;
   tagList: [];
 }
-const ArticleBanner: React.FC<ArticleBannerProps> = ({ slug }) => {
+interface ConnectedArticleBannerProps
+{
+  user:IUser
+}
+const ArticleBanner: React.FC<ArticleBannerProps&ConnectedArticleBannerProps> = ({ slug ,user}) => {
   const classes = useStyles();
   const inital: IArticle = {
     body: "",
@@ -62,7 +73,7 @@ const ArticleBanner: React.FC<ArticleBannerProps> = ({ slug }) => {
   const [favoriteFlage, setFavoriteFlage] = useState<boolean>(article.favorited);
   const [favoriteCount, setFavoriteCount] = useState<number>(article.favoritesCount);
   useEffect(() => {
-    if (!isUserLoggedIn()) {
+    if (!user.flag) {
       axiosGet(`articles/${slug}`).then(res => {
         setArticle(res.data.article);
         setFavoriteFlage(res.data.article.favorited);
@@ -79,7 +90,7 @@ const ArticleBanner: React.FC<ArticleBannerProps> = ({ slug }) => {
     }
   }, [slug]);
   const handelFollow = () => {
-    if (!isUserLoggedIn()) {
+    if (!user.flag) {
       window.location.href = "/register";
     } else {
       axiosPostWithAuthentication(
@@ -91,7 +102,7 @@ const ArticleBanner: React.FC<ArticleBannerProps> = ({ slug }) => {
     }
   };
   const handelUnFollow = () => {
-    if (!isUserLoggedIn()) {
+    if (!user.flag) {
       window.location.href = "/register";
     } else {
       axiosDeleteWithAuthentication(
@@ -102,7 +113,7 @@ const ArticleBanner: React.FC<ArticleBannerProps> = ({ slug }) => {
     }
   };
   const handelFavorite = () => {
-    if (!isUserLoggedIn()) {
+    if (!user.flag) {
       window.location.href = "/register";
     } 
     else {
@@ -153,7 +164,7 @@ const ArticleBanner: React.FC<ArticleBannerProps> = ({ slug }) => {
                 action: classes.action
               }}
               action={
-                article.author.username != getUserName() ? (
+                article.author.username !== user.userName ? (
                   <div>
                     <Button
                       className={classes.followButton}
@@ -215,5 +226,14 @@ const ArticleBanner: React.FC<ArticleBannerProps> = ({ slug }) => {
     </Container>
   );
 };
+const mapStateToProps = (state: AppState) => ({ 
+  user: {
+    userName: state.logInReducer.userName,
+    userBio: state.logInReducer.userBio,
+    userEmail: state.logInReducer.userEmail,
+    userImage: state.logInReducer.userImage,
+    flag:state.logInReducer.flag
+  }
+})
+export default connect(mapStateToProps)(ArticleBanner)
 
-export default ArticleBanner;

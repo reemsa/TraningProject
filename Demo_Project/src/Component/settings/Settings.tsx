@@ -1,28 +1,38 @@
 import React, { useState, useEffect } from "react";
 import useStyles from "./SettingsStyles";
 import { TextField, Button, Typography, Grid } from "@material-ui/core";
+import { AppState } from "../../store/Store";
+import { logInAction } from "../../actions/LogInAction";
+import { connect } from "react-redux";
 interface SettingsProps{
-  imageURL:string,
-  userName:string,
-  bio:string,
-  email:string,
   handelUpdate:(password:string,userName:string,userEmail:string,userBio:string,userImage:string)=>void,
   handelClose:()=>void,
   errorMessage:string
 }
-const Settings: React.FC<SettingsProps>= ({imageURL,userName,bio,email,handelUpdate,handelClose,errorMessage}) => {
+interface ConnectedSettingsProps
+{
+    user: {
+    userName: string,
+    userBio: string,
+    userEmail: string,
+    userImage: string,
+    flag:boolean
+  }
+  
+}
+const Settings: React.FC<SettingsProps&ConnectedSettingsProps>= ({handelUpdate,handelClose,errorMessage,user}) => {
   const classes = useStyles();
-  const [username, setUsername] = useState(userName);
-  const [userURL, setUserURL] = useState(imageURL);
-  const [userEmail, setUserEmail] = useState(email);
+  const [username, setUsername] = useState(user.userName);
+  const [userURL, setUserURL] = useState(user.userImage);
+  const [userEmail, setUserEmail] = useState(user.userEmail);
   const [userPassword, setUserPassword] = useState("");
-  const [userBio, setUserBio] = useState(bio);
+  const [userBio, setUserBio] = useState(user.userBio);
   useEffect(()=>{
-    setUsername(userName);
-    setUserURL(imageURL);
-    setUserEmail(email);
-    setUserBio(bio);
-  },[imageURL,userName,bio,email])
+    setUsername(user.userName);
+    setUserURL(user.userImage);
+    setUserEmail(user.userEmail);
+    setUserBio(user.userBio);
+  },[user])
   const handelURLChange=(event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
     setUserURL(event.target.value)
   }
@@ -49,8 +59,8 @@ const Settings: React.FC<SettingsProps>= ({imageURL,userName,bio,email,handelUpd
         <TextField
          variant="outlined"
           id="URL"
-          defaultValue={imageURL == "" ? "" : imageURL}
-          label={imageURL == "" ? "URL of profile picture" : ""}
+          defaultValue={user.userImage == "" ? "" : user.userImage}
+          label={user.userImage == "" ? "URL of profile picture" : ""}
           className={classes.textField}
           margin="normal"
           value={userURL}
@@ -59,7 +69,7 @@ const Settings: React.FC<SettingsProps>= ({imageURL,userName,bio,email,handelUpd
         <TextField
          variant="outlined"
           id="USERNAME"
-          defaultValue={userName}
+          defaultValue={user.userName}
           className={classes.textField}
           margin="normal"
           value={username}
@@ -71,7 +81,7 @@ const Settings: React.FC<SettingsProps>= ({imageURL,userName,bio,email,handelUpd
           label="Short bio about you"
           multiline
           rows="8"
-          defaultValue={bio}
+          defaultValue={user.userBio}
           className={classes.textField}
           value={userBio}
           onChange={handelBioChange}
@@ -79,7 +89,7 @@ const Settings: React.FC<SettingsProps>= ({imageURL,userName,bio,email,handelUpd
         <TextField
          variant="outlined"
           id="EMAIL"
-          defaultValue={email}
+          defaultValue={user.userEmail}
           className={classes.textField}
           margin="normal"
           value={userEmail}
@@ -112,4 +122,14 @@ const Settings: React.FC<SettingsProps>= ({imageURL,userName,bio,email,handelUpd
     </>
   );
 }
-export default Settings;
+const mapStateToProps = (state: AppState) => ({ 
+  user: {
+    userName: state.logInReducer.userName,
+    userBio: state.logInReducer.userBio,
+    userEmail: state.logInReducer.userEmail,
+    userImage: state.logInReducer.userImage,
+    flag:state.logInReducer.flag
+  }
+})
+export default connect(mapStateToProps,{logInAction})(Settings)
+

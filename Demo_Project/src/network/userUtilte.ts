@@ -13,10 +13,10 @@ export const getUserInfo=()=>{
 	}
 	else{
 		return{
-			userName:JSON.parse(sessionStorage.getItem('user') as string).username,
-			userImage:JSON.parse(sessionStorage.getItem('user') as string).image,
-			userBio:JSON.parse(sessionStorage.getItem('user') as string).bio,
-			userEmail:JSON.parse(sessionStorage.getItem('user') as string).email,
+			userName:JSON.parse(sessionStorage.getItem('user') as string).username as string,
+			userImage: JSON.parse(sessionStorage.getItem('user') as string).image as string,
+			userBio: JSON.parse(sessionStorage.getItem('user') as string).bio as string,
+			userEmail: JSON.parse(sessionStorage.getItem('user') as string).email as string,
 			flag:true
 		}
 	}
