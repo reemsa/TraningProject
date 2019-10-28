@@ -25,6 +25,8 @@ const logInReducer = (state = intialState, action: LogInActioTypes): State =>
 {
   switch (action.type) {
     case LOG_IN:
+      console.log("inside ")
+      console.log(action.payLoad)
       return action.payLoad
     default:
       return state

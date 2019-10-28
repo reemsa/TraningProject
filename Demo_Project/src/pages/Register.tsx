@@ -10,8 +10,18 @@ interface RegistrationFormErrors {
   email?: string; 
   password?: string; 
 }
-
-const Register:React.FC=() =>{
+interface IUser{
+  userName: string;
+  userImage: string;
+  userBio: string;
+  userEmail: string;
+  flag:boolean;
+}
+interface ConnectedSignUpProps
+{
+  acttion1: any
+}
+const Register:React.FC<ConnectedSignUpProps>=({acttion1}) =>{
   const [formErrors, setFormErrors] = useState<RegistrationFormErrors>({});
   const [anchorEl, setAnchorEl] = React.useState();
   const open = Boolean(anchorEl);
@@ -35,10 +45,11 @@ const Register:React.FC=() =>{
         password: password as string
       }
     };
+    //this will replace by redux saga
     axiosPost("users", body)
       .then(res => {
         setCurrentUser(res.data.user);
-        logInAction(getUserInfo())
+        acttion1(getUserInfo());
         window.location.href = "/";
       })
       .catch(res => {
@@ -49,7 +60,13 @@ const Register:React.FC=() =>{
     <RegisterForm handelSignup={handelSignup} handleClosePopover={handleClosePopover} open={open} anchorEl={anchorEl} formErrors={formErrors}></RegisterForm>
   )
 }
+const mapActionsToProps = (dispatch:any) =>
+{
+  return {
+    acttion1: (user:IUser) => dispatch(logInAction(user))
+  }
+}
 export default connect(
   null,
-  {logInAction}
+  mapActionsToProps
 )(Register)

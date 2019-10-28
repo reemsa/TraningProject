@@ -13,6 +13,7 @@ import SettingsPage from "./pages/SettingsPage";
 import { getUserInfo } from "./network/userUtilte";
 import {  connect } from "react-redux";
 import {logInAction} from "../src/actions/LogInAction"
+import { AppState } from "./store/Store";
 
 interface IUser{
   userName: string;
@@ -23,7 +24,7 @@ interface IUser{
 }
 interface ConnectedAppProps
 {
-  acttion1: any
+  acttion1: any,
 }
 interface AppProps{
 }
@@ -56,5 +57,4 @@ const mapActionsToProps = (dispatch:any) =>
     acttion1: (user:IUser) => dispatch(logInAction(user))
   }
 }
-
 export default connect(null,mapActionsToProps)(App)

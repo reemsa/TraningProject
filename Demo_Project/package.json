@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/runtime": "^7.6.3",
     "@material-ui/core": "^4.4.3",
     "@material-ui/icons": "^4.4.3",
     "@mdi/js": "^4.4.95",
@@ -42,10 +43,13 @@
     "reactstrap": "^8.0.1",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
+    "redux-saga": "^1.1.1",
     "typescript": "^3.6.3"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
+    "@babel/plugin-transform-regenerator": "^7.4.5",
+    "@babel/plugin-transform-runtime": "^7.6.2",
     "@storybook/addon-info": "^5.2.1",
     "@storybook/react": "^5.2.1",
     "@types/react-alert": "^5.2.0",
@@ -53,7 +57,13 @@
     "@types/reactstrap": "^8.0.4",
     "@types/storybook__react": "^4.0.2",
     "awesome-typescript-loader": "^5.2.1",
+    "babel-core": "^6.26.3",
     "babel-loader": "^8.0.6",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "react-docgen-typescript-loader": "^3.2.1",
     "redux-devtools": "^3.5.0"
   }
